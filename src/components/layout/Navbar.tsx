@@ -60,10 +60,7 @@ export function Navbar(): React.ReactElement {
               ))}
             </nav>
 
-            {/* Auth + Prenumeration (Desktop) */}
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 space-x-3">
-              {/* Theme toggle should appear before auth actions so the logout button is the far-right item */}
-
               <ModeToggle />
 
               {!isAuthenticated ? (
