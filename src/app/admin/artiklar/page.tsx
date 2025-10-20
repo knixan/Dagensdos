@@ -3,25 +3,30 @@ import type { Category } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { requireAdmin } from '@/lib/server-auth';
-import DeleteButton from '../artiklar/ta-bort/delete-button';
+import SearchForm from "@/components/Forms/SearchForm";
+import { requireAdmin } from "@/lib/server-auth";
+import DeleteButton from "../artiklar/ta-bort/delete-button";
 
 // Next 15: searchParams is async in Server Components. Accept as Promise and await it.
-export default async function AdminArtiklarPage({ searchParams }: { searchParams?: Promise<{ q?: string }> }) {
+export default async function AdminArtiklarPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ q?: string }>;
+}) {
   await requireAdmin();
 
   const params = await searchParams;
   const q = params?.q ?? "";
   const where = q
     ? {
-        OR: [
-          { headline: { contains: q } },
-          { summary: { contains: q } },
-        ],
+        OR: [{ headline: { contains: q } }, { summary: { contains: q } }],
       }
     : undefined;
 
-  const articles = await prisma.article.findMany({ where, include: { category: true } });
+  const articles = await prisma.article.findMany({
+    where,
+    include: { category: true },
+  });
   return (
     <>
       <Navbar />
@@ -29,12 +34,15 @@ export default async function AdminArtiklarPage({ searchParams }: { searchParams
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-bold mb-6">Admin: Artiklar</h1>
           <div className="flex gap-4 mb-6 items-center">
-            <form method="get" className="flex gap-2">
-              <input defaultValue={q} name="q" placeholder="Sök artiklar..." className="border rounded px-2 py-1" />
-              <button type="submit" className="px-3 py-1 bg-gray-200 rounded">Sök</button>
-            </form>
+            <SearchForm
+              defaultValue={q}
+              placeholder="Sök artiklar..."
+              className="flex gap-2"
+            />
             <div className="ml-auto flex gap-2">
-              <LinkButton href="/admin/artiklar/skapa" variant="primary">Skapa</LinkButton>
+              <LinkButton href="/admin/artiklar/skapa" variant="primary">
+                Skapa
+              </LinkButton>
             </div>
           </div>
           <ul className="space-y-4">
@@ -49,7 +57,12 @@ export default async function AdminArtiklarPage({ searchParams }: { searchParams
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <LinkButton href={`/admin/artiklar/redigera/${a.id}`} variant="primary">Redigera</LinkButton>
+                  <LinkButton
+                    href={`/admin/artiklar/redigera/${a.id}`}
+                    variant="primary"
+                  >
+                    Redigera
+                  </LinkButton>
                   <DeleteButton id={a.id} />
                 </div>
               </li>

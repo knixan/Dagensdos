@@ -2,13 +2,23 @@ import { prisma } from "@/lib/prisma";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import LinkButton from "@/components/Buttons/LinkButton";
+import SearchForm from "@/components/Forms/SearchForm";
 import type { Article, Category } from "@/generated/prisma";
 import { requireAdmin } from "@/lib/server-auth";
 
-export default async function AdminRedigeraArtikelPage({ searchParams }: { searchParams?: { q?: string } }) {
+export default async function AdminRedigeraArtikelPage({
+  searchParams,
+}: {
+  searchParams?: { q?: string };
+}) {
   await requireAdmin();
   const q = searchParams?.q ?? "";
-  const articles = await prisma.article.findMany({ where: q ? { OR: [{ headline: { contains: q } }, { summary: { contains: q } }] } : undefined, include: { category: true } });
+  const articles = await prisma.article.findMany({
+    where: q
+      ? { OR: [{ headline: { contains: q } }, { summary: { contains: q } }] }
+      : undefined,
+    include: { category: true },
+  });
   return (
     <>
       <Navbar />
@@ -16,10 +26,11 @@ export default async function AdminRedigeraArtikelPage({ searchParams }: { searc
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-bold mb-6">Redigera artikel</h1>
           <div className="mb-4">
-            <form method="get" className="flex gap-2">
-              <input defaultValue={q} name="q" placeholder="Sök artiklar..." className="border rounded px-2 py-1" />
-              <button type="submit" className="px-3 py-1 bg-gray-200 rounded">Sök</button>
-            </form>
+            <SearchForm
+              defaultValue={q}
+              placeholder="Sök artiklar..."
+              className="flex gap-2"
+            />
           </div>
           <ul className="space-y-4">
             {articles.map((a) => (
@@ -27,13 +38,22 @@ export default async function AdminRedigeraArtikelPage({ searchParams }: { searc
                 <div>
                   <div className="font-semibold">{a.headline}</div>
                   <div className="text-sm text-muted-foreground">
-                    {Array.isArray((a as Article & { category: Category[] }).category)
-                      ? ((a as Article & { category: Category[] }).category).map((c) => c.name).join(", ")
+                    {Array.isArray(
+                      (a as Article & { category: Category[] }).category
+                    )
+                      ? (a as Article & { category: Category[] }).category
+                          .map((c) => c.name)
+                          .join(", ")
                       : ""}
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <LinkButton href={`/admin/artiklar/redigera/${a.id}`} variant="primary">Redigera</LinkButton>
+                  <LinkButton
+                    href={`/admin/artiklar/redigera/${a.id}`}
+                    variant="primary"
+                  >
+                    Redigera
+                  </LinkButton>
                 </div>
               </li>
             ))}

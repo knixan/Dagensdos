@@ -1,0 +1,120 @@
+
+# Filträd för projektet (förenklad och strukturerad)
+
+Detta dokument visar en tydlig översikt över projektets mapp- och filstruktur med korta förklaringar (på svenska).
+
+news-gamma/
+
+├─ prisma/
+│  └─ schema.prisma
+│     (Prisma-schema: datamodeller, databaskonfiguration - t.ex. `provider = "postgresql"` och `DATABASE_URL`).
+│
+├─ public/
+│  ├─ favicon.ico
+│  └─ (statisk publik data: bilder, manifest, etc. levereras direkt av Next.js)
+│
+├─ src/
+│  ├─ app/
+│  │  ├─ actions/
+│  │  │  ├─ cookieConsent.ts
+│  │  │  └─ weather.ts
+│  │  │  (Server- eller klientactions som utför logik utanför komponentrendering)
+│  │  ├─ admin/
+│  │  │  ├─ artiklar/
+│  │  │  │  ├─ skapa/ (sidor för att skapa artiklar)
+│  │  │  │  ├─ redigera/ (sidor för att redigera artiklar)
+│  │  │  │  ├─ ta-bort/ (sidor/aktioner för att ta bort artiklar)
+│  │  │  │  └─ AdminArticleSearch.tsx
+│  │  │  ├─ kategorier/
+│  │  │  │  ├─ skapa/
+│  │  │  │  ├─ redigera/
+│  │  │  │  └─ page.tsx
+│  │  │  ├─ admin.tsx (del-komponent eller wrapper)
+│  │  │  ├─ page.client.tsx (client-only entry för admin)
+│  │  │  └─ page.tsx (admin-root)
+│  │  ├─ api/
+│  │  │  ├─ admin/ (API för admin-åtgärder)
+│  │  │  ├─ auth/ (Better Auth route catch-all)
+│  │  │  ├─ user/ (user-relaterade API-endpoints)
+│  │  │  └─ weather/
+│  │  ├─ artiklar/
+│  │  │  └─ [slug]/page.tsx (dynamisk artikelvy)
+│  │  ├─ category/
+│  │  │  ├─ [categoryId]/edit/form.tsx
+│  │  │  └─ create/form.tsx
+│  │  ├─ integritet-cookies/page.tsx
+│  │  ├─ kassa/
+│  │  │  ├─ page.tsx
+│  │  │  └─ success/page.tsx
+│  │  ├─ kontakta-oss/page.tsx
+│  │  ├─ logga-in/page.tsx
+│  │  ├─ registrera/page.tsx
+│  │  ├─ mina-sidor/page.tsx
+│  │  ├─ om-oss/page.tsx
+│  │  ├─ prenumeration/page.tsx
+│  │  ├─ prenumerationsvillkor/page.tsx
+│  │  ├─ types/weather-types.ts
+│  │  ├─ vader/page.tsx
+│  │  ├─ globals.css
++│  │  └─ layout.tsx
+│  │
+│  ├─ components/
+│  │  ├─ articles/
+│  │  │  ├─ ArticleCard.tsx
+│  │  │  ├─ ArticleHero.tsx
+│  │  │  └─ Section.tsx
+│  │  ├─ Buttons/
+│  │  │  ├─ back-button.tsx
+│  │  │  ├─ delete-button.tsx
+│  │  │  ├─ LinkButton.tsx
++│  │  │  └─ toggle-theme-button.tsx
+│  │  ├─ Forms/
+│  │  │  ├─ ContactForm.tsx
+│  │  │  ├─ SettingsForm.tsx
+│  │  │  ├─ SignInAndProfile.tsx
+│  │  │  └─ SignUpForm.tsx
+│  │  ├─ layout/
+│  │  │  ├─ aside.tsx
+│  │  │  ├─ Footer.tsx
+│  │  │  ├─ main.tsx
+│  │  │  └─ Navbar.tsx
+│  │  ├─ subscription/
+│  │  │  └─ SubscriptionManager.tsx
+│  │  └─ ui/
+│  │     ├─ button.tsx
+│  │     ├─ card.tsx
+│  │     ├─ drawer.tsx
+│  │     ├─ dropdown-menu.tsx
+│  │     ├─ form.tsx
+│  │     ├─ input.tsx
+│  │     ├─ label.tsx
+│  │     └─ separator.tsx
+│  │
+│  ├─ generated/
+│  │  └─ prisma/ (genererad Prisma Client och runtime)
+│  │
+│  ├─ lib/
+│  │  ├─ articles.ts (serverhelpers för artiklar)
+│  │  ├─ auth-client.ts (Better Auth client för UI)
+│  │  ├─ auth.ts (Better Auth serverkonfiguration)
+│  │  ├─ prisma.ts (Prisma-client singleton)
+│  │  ├─ server-auth.ts (serverhjälpare för sessions och behörighet)
+│  │  ├─ utils.ts (diverse hjälpfunktioner)
+│  │  └─ zod-schemas.ts (valideringsschema)
+│  │
+│  └─ types/
+│     └─ shims-externals.d.ts
+│
+├─ LLMS/
+│  ├─ better-auth-llms.txt (anteckningar/LLM-promptmaterial)
+│  └─ nextjs-llms.txt
+│
+├─ TEXTDOKUMENT-FÖRKLARINGAR/
+│  ├─ filträd.txt (detta dokument)
+│  └─ better-auth.txt (dokumentation om auth-implementation)
+│
+└─ README.md
+
+-- Slut på trädet --
+
+

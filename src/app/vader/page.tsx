@@ -4,6 +4,7 @@ import WeatherComment from "../../components/weather-comments";
 import ClientGeoWeather from "../../components/weather-client";
 import { Navbar } from "../../components/layout/Navbar";
 import { Footer } from "../../components/layout/Footer";
+import SearchForm from "@/components/Forms/SearchForm";
 import { Location, Series } from "../types/weather-types";
 
 // Helper function for wind direction
@@ -29,10 +30,22 @@ function getThunderRiskLevel(probability: number): {
 } {
   // Return Tailwind/shadcn utility classes instead of hard-coded hex colors
   if (probability < 20)
-    return { text: "Låg", textClass: "text-destructive/90 text-green-600", bgClass: "bg-destructive/10" };
+    return {
+      text: "Låg",
+      textClass: "text-destructive/90 text-green-600",
+      bgClass: "bg-destructive/10",
+    };
   if (probability < 50)
-    return { text: "Medel", textClass: "text-secondary-foreground text-amber-600", bgClass: "bg-secondary/10" };
-  return { text: "Hög", textClass: "text-destructive", bgClass: "bg-destructive/10" };
+    return {
+      text: "Medel",
+      textClass: "text-secondary-foreground text-amber-600",
+      bgClass: "bg-secondary/10",
+    };
+  return {
+    text: "Hög",
+    textClass: "text-destructive",
+    bgClass: "bg-destructive/10",
+  };
 }
 
 // New: map weather summary text to an emoji
@@ -224,86 +237,104 @@ export default async function Page({
 
   // 10-dagarslista (exklusive idag) med post närmast kl 12
   // getNextDaysMidday starts from today, so request 11 days and drop the first
-  const tenDayMidday = weather ? getNextDaysMidday(weather.timeseries, 11).slice(1) : [];
+  const tenDayMidday = weather
+    ? getNextDaysMidday(weather.timeseries, 11).slice(1)
+    : [];
 
   return (
     <div>
       <Navbar />
-      <div className="bg-background text-foreground" style={{
-      padding: "0",
-      boxSizing: "border-box",
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-      flex: 1,
-    }}>
-      {/* Header Section */}
-      <header className="bg-primary shadow-md" style={{ padding: "32px 24px" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }} className="text-center">
-          <div className="flex flex-col items-center justify-center gap-4 mb-2">
-            <div style={{ position: "relative", width: 120, height: 120 }}>
-              <Image
-                src="/images/vaderskuggan.png"
-                alt="vaderskuggan"
-                fill
-                style={{ objectFit: "contain" }}
-                sizes="(max-width: 600px) 80px, 120px"
-              />
+      <div
+        className="bg-background text-foreground"
+        style={{
+          padding: "0",
+          boxSizing: "border-box",
+          fontFamily:
+            "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          flex: 1,
+        }}
+      >
+        {/* Header Section */}
+        <header
+          className="bg-primary shadow-md"
+          style={{ padding: "32px 24px" }}
+        >
+          <div
+            style={{ maxWidth: "1200px", margin: "0 auto" }}
+            className="text-center"
+          >
+            <div className="flex flex-col items-center justify-center gap-4 mb-2">
+              <div style={{ position: "relative", width: 120, height: 120 }}>
+                <Image
+                  src="/images/vaderskuggan.png"
+                  alt="vaderskuggan"
+                  fill
+                  style={{ objectFit: "contain" }}
+                  sizes="(max-width: 600px) 80px, 120px"
+                />
+              </div>
+
+              <h1
+                className="text-primary-foreground"
+                style={{
+                  margin: "0",
+                  fontSize: "32px",
+                  fontWeight: "700",
+                  letterSpacing: "-0.5px",
+                }}
+              >
+                Väderskuggan
+              </h1>
             </div>
 
-            <h1 className="text-primary-foreground" style={{
-                margin: "0",
-                fontSize: "32px",
-                fontWeight: "700",
-                letterSpacing: "-0.5px",
-              }}>
-              Väderskuggan
-            </h1>
-          </div>
-
-          <div className="text-primary-foreground text-center" style={{ margin: "0 0 24px 0", lineHeight: 1.15 }}>
             <div
-              style={{
-                fontSize: "18px",
-                fontWeight: 700,
-                marginBottom: 4,
-                letterSpacing: "-0.3px",
-              }}
+              className="text-primary-foreground text-center"
+              style={{ margin: "0 0 24px 0", lineHeight: 1.15 }}
             >
-              Molnigt med en chans till sol och eftertanke
+              <div
+                style={{
+                  fontSize: "18px",
+                  fontWeight: 700,
+                  marginBottom: 4,
+                  letterSpacing: "-0.3px",
+                }}
+              >
+                Molnigt med en chans till sol och eftertanke
+              </div>
+              <div style={{ fontSize: "14px", opacity: 0.9 }}>
+                Din dagliga dos av meteorologisk besvikelse.
+              </div>
             </div>
-            <div style={{ fontSize: "14px", opacity: 0.9 }}>
-              Din dagliga dos av meteorologisk besvikelse.
-            </div>
-          </div>
 
-          <form method="get" className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <input
-              name="location"
-              defaultValue={location}
+            <SearchForm
+              paramName="location"
               placeholder="Sök efter stad eller plats..."
-              aria-label="location"
-              className="w-full sm:flex-1 p-3 rounded-md border-2 border-transparent bg-card text-card-foreground outline-none text-base"
-              style={{ padding: "14px 18px", maxWidth: 640 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-3"
             />
-            <button type="submit" className="rounded-md font-semibold bg-secondary text-secondary-foreground px-8 py-3 shadow-sm">
-              Sök
-            </button>
-          </form>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }}>
-        {!location ? (
-          <ClientGeoWeather />
-        ) : !weather ? (
-          <div className="text-center bg-card rounded-md border-2 border-secondary" style={{ padding: "64px 24px" }}>
-            <div style={{ fontSize: "48px", marginBottom: "16px" }}>❌</div>
-            <p className="text-foreground" style={{ opacity: 0.7, fontSize: "18px", margin: 0 }}>
-              {`Kunde inte hämta väderdata för “${location}”`}
-            </p>
           </div>
-        ) : (
-          <section>
+        </header>
+
+        {/* Main Content */}
+        <main
+          style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }}
+        >
+          {!location ? (
+            <ClientGeoWeather />
+          ) : !weather ? (
+            <div
+              className="text-center bg-card rounded-md border-2 border-secondary"
+              style={{ padding: "64px 24px" }}
+            >
+              <div style={{ fontSize: "48px", marginBottom: "16px" }}>❌</div>
+              <p
+                className="text-foreground"
+                style={{ opacity: 0.7, fontSize: "18px", margin: 0 }}
+              >
+                {`Kunde inte hämta väderdata för “${location}”`}
+              </p>
+            </div>
+          ) : (
+            <section>
               {/* Insert: compact current weather card */}
               {weather.timeseries[0] && (
                 <div className="current-card flex items-center gap-4 mb-5 p-3 bg-card rounded-lg border border-border shadow-sm">
@@ -312,25 +343,46 @@ export default async function Page({
                   </div>
 
                   <div className="temp-col flex flex-col">
-                    <div style={{ fontSize: 24, fontWeight: 700, marginBottom: 4 }} className="text-primary">
+                    <div
+                      style={{ fontSize: 24, fontWeight: 700, marginBottom: 4 }}
+                      className="text-primary"
+                    >
                       {weather.timeseries[0].temp}°C
                     </div>
-                    <div style={{ fontSize: 14, opacity: 0.8 }} className="text-foreground">
+                    <div
+                      style={{ fontSize: 14, opacity: 0.8 }}
+                      className="text-foreground"
+                    >
                       {translateSummary(weather.timeseries[0].summary)}
                     </div>
-                    <div style={{ fontSize: 13, opacity: 0.8, marginTop: 6 }} className="text-foreground">
+                    <div
+                      style={{ fontSize: 13, opacity: 0.8, marginTop: 6 }}
+                      className="text-foreground"
+                    >
                       {formatDateShort(weather.timeseries[0].validTime)}
                     </div>
-                    <div style={{ fontSize: 12, opacity: 0.7 }} className="text-foreground">
+                    <div
+                      style={{ fontSize: 12, opacity: 0.7 }}
+                      className="text-foreground"
+                    >
                       {formatTime(weather.timeseries[0].validTime)}
                     </div>
                   </div>
 
-                  <div className="temp-right" style={{ marginLeft: "auto", textAlign: "right" }}>
-                    <div style={{ fontSize: 12, opacity: 0.7 }} className="text-foreground">
+                  <div
+                    className="temp-right"
+                    style={{ marginLeft: "auto", textAlign: "right" }}
+                  >
+                    <div
+                      style={{ fontSize: 12, opacity: 0.7 }}
+                      className="text-foreground"
+                    >
                       Känns som
                     </div>
-                    <div style={{ fontSize: 14, fontWeight: 600 }} className="text-foreground">
+                    <div
+                      style={{ fontSize: 14, fontWeight: 600 }}
+                      className="text-foreground"
+                    >
                       {typeof weather.timeseries[0].temp === "number"
                         ? `${weather.timeseries[0].temp}°C`
                         : "—"}
@@ -345,206 +397,420 @@ export default async function Page({
 
               {/* Current Weather Summary */}
               {weather.timeseries[0] && (
-                <div className="pt-6 grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", borderTop: "1px solid var(--border)" }}>
+                <div
+                  className="pt-6 grid gap-4"
+                  style={{
+                    gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+                    borderTop: "1px solid var(--border)",
+                  }}
+                >
                   <div>
-                    <div style={{ fontSize: "12px", opacity: 0.6, marginBottom: "4px" }} className="text-foreground">
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        opacity: 0.6,
+                        marginBottom: "4px",
+                      }}
+                      className="text-foreground"
+                    >
                       Luftfuktighet
                     </div>
-                    <div style={{ fontSize: "20px", fontWeight: "600" }} className="text-primary">
+                    <div
+                      style={{ fontSize: "20px", fontWeight: "600" }}
+                      className="text-primary"
+                    >
                       💧 {weather.timeseries[0].humidity}%
                     </div>
                   </div>
                   <div>
-                    <div style={{ fontSize: "12px", opacity: 0.6, marginBottom: "4px" }} className="text-foreground">
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        opacity: 0.6,
+                        marginBottom: "4px",
+                      }}
+                      className="text-foreground"
+                    >
                       Lufttryck
                     </div>
-                    <div style={{ fontSize: "20px", fontWeight: "600" }} className="text-primary">
+                    <div
+                      style={{ fontSize: "20px", fontWeight: "600" }}
+                      className="text-primary"
+                    >
                       🌡️ {weather.timeseries[0].airPressure} hPa
                     </div>
                   </div>
                   <div>
-                    <div style={{ fontSize: "12px", opacity: 0.6, marginBottom: "4px" }} className="text-foreground">
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        opacity: 0.6,
+                        marginBottom: "4px",
+                      }}
+                      className="text-foreground"
+                    >
                       Sikt
                     </div>
-                    <div style={{ fontSize: "20px", fontWeight: "600" }} className="text-primary">
-                      👁️ {(weather.timeseries[0].visibility / 1000).toFixed(1)} km
+                    <div
+                      style={{ fontSize: "20px", fontWeight: "600" }}
+                      className="text-primary"
+                    >
+                      👁️ {(weather.timeseries[0].visibility / 1000).toFixed(1)}{" "}
+                      km
                     </div>
                   </div>
                   <div>
-                    <div style={{ fontSize: "12px", opacity: 0.6, marginBottom: "4px" }} className="text-foreground">
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        opacity: 0.6,
+                        marginBottom: "4px",
+                      }}
+                      className="text-foreground"
+                    >
                       Molntäcke
                     </div>
-                    <div style={{ fontSize: "20px", fontWeight: "600" }} className="text-primary">
-                      {getCloudCoverIcon(weather.timeseries[0].cloudCover)} {weather.timeseries[0].cloudCover}%
+                    <div
+                      style={{ fontSize: "20px", fontWeight: "600" }}
+                      className="text-primary"
+                    >
+                      {getCloudCoverIcon(weather.timeseries[0].cloudCover)}{" "}
+                      {weather.timeseries[0].cloudCover}%
                     </div>
                   </div>
                 </div>
-
               )}
 
-            {/* Weather Cards Grid */}
-            <div style={{ display: "grid", gap: "16px", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" }}>
-              {weather.timeseries.slice(0, 6).map((s, i) => (
-                <div
-                  key={i}
-                  style={{ position: "relative", overflow: "hidden" }}
-                  className="bg-card rounded-md p-5 border border-border shadow-md"
-                >
-                  {/* Decorative accent */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-secondary" />
-
-                  <div style={{ fontSize: "13px", opacity: 0.6, marginBottom: "12px", fontWeight: "500" }} className="text-foreground">
-                    {formatDateTimeShort(s.validTime)}
-                  </div>
-
+              {/* Weather Cards Grid */}
+              <div
+                style={{
+                  display: "grid",
+                  gap: "16px",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+                }}
+              >
+                {weather.timeseries.slice(0, 6).map((s, i) => (
                   <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "flex-start",
-                      marginBottom: "16px",
-                    }}
+                    key={i}
+                    style={{ position: "relative", overflow: "hidden" }}
+                    className="bg-card rounded-md p-5 border border-border shadow-md"
                   >
-                    <div style={{ fontSize: "42px", fontWeight: "700", lineHeight: 1 }} className="text-primary">
-                      {s.temp}°C
-                    </div>
-                    <div className="bg-secondary" style={{ padding: "8px 12px", borderRadius: "6px", fontSize: "13px", fontWeight: "600" }} aria-hidden="false" title={translateSummary(s.summary)}>
-                      <span role="img" aria-label={translateSummary(s.summary)}>
-                        {getWeatherEmoji(s.summary)}
-                      </span>
-                    </div>
-                  </div>
+                    {/* Decorative accent */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-secondary" />
 
-                  {/* Wind and Precipitation */}
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", paddingBottom: "12px", marginBottom: "12px", borderBottom: "1px solid var(--border)" }}>
-                    <div>
-                      <div style={{ fontSize: "12px", opacity: 0.6, marginBottom: "4px" }} className="text-foreground">
-                        Vind
-                      </div>
-                      <div style={{ fontSize: "15px", fontWeight: "600" }} className="text-foreground">
-                        {s.windSpeed} m/s {getWindDirection(s.windDirection)}
-                      </div>
-                      <div style={{ fontSize: "12px", opacity: 0.6 }} className="text-foreground">
-                        Vindbyar: {s.windGust} m/s
-                      </div>
+                    <div
+                      style={{
+                        fontSize: "13px",
+                        opacity: 0.6,
+                        marginBottom: "12px",
+                        fontWeight: "500",
+                      }}
+                      className="text-foreground"
+                    >
+                      {formatDateTimeShort(s.validTime)}
                     </div>
-                    <div>
-                      <div style={{ fontSize: "12px", opacity: 0.6, marginBottom: "4px" }} className="text-foreground">
-                        Nederbörd
-                      </div>
-                      <div style={{ fontSize: "15px", fontWeight: "600" }} className="text-foreground">
-                        {s.precipitationMean} mm
-                      </div>
-                      <div style={{ fontSize: "12px", opacity: 0.6 }} className="text-foreground">
-                        {s.precipitationCategory}
-                      </div>
-                    </div>
-                  </div>
 
-                  {/* Additional Details */}
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: "8px",
-                      fontSize: "13px",
-                    }}
-                  >
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ opacity: 0.6 }} className="text-foreground">Luftfuktighet:</span>
-                      <span style={{ fontWeight: "600" }} className="text-foreground">{s.humidity}%</span>
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ opacity: 0.6 }} className="text-foreground">Molntäcke:</span>
-                      <span style={{ fontWeight: "600" }} className="text-foreground">{s.cloudCover}%</span>
-                    </div>
-                    {s.thunderProbability > 0 && (
-                      <div className={`${getThunderRiskLevel(s.thunderProbability).bgClass} p-2 rounded-md flex justify-between items-center`} style={{ gridColumn: "1 / -1" }}>
-                        <span style={{ opacity: 0.8 }} className="text-foreground">⚡ Åskerisk:</span>
-                        <span className={`${getThunderRiskLevel(s.thunderProbability).textClass} font-semibold`}>
-                          {getThunderRiskLevel(s.thunderProbability).text} ({s.thunderProbability}%)
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "flex-start",
+                        marginBottom: "16px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "42px",
+                          fontWeight: "700",
+                          lineHeight: 1,
+                        }}
+                        className="text-primary"
+                      >
+                        {s.temp}°C
+                      </div>
+                      <div
+                        className="bg-secondary"
+                        style={{
+                          padding: "8px 12px",
+                          borderRadius: "6px",
+                          fontSize: "13px",
+                          fontWeight: "600",
+                        }}
+                        aria-hidden="false"
+                        title={translateSummary(s.summary)}
+                      >
+                        <span
+                          role="img"
+                          aria-label={translateSummary(s.summary)}
+                        >
+                          {getWeatherEmoji(s.summary)}
                         </span>
                       </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+                    </div>
 
-            {/* Ny: 10-dagarsprognos - temperatur vid kl. 12 + kommentar */}
-            {tenDayMidday.length > 0 && (
-              <div style={{ marginTop: 20 }}>
-                <h3 style={{ margin: "0 0 12px 0", fontSize: 20, fontWeight: 700 }} className="text-primary">
-                  10-dagarsprognos — temperatur vid kl. 12
-                </h3>
-
-                {/* Lista: designad på samma sätt som morgonrapporten */}
-                <div
-                  style={{
-                    marginTop: 8,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 12,
-                  }}
-                >
-                  {tenDayMidday.map((s: Series, idx: number) => {
-                    return (
-                      <div key={idx} className="bg-card rounded-md p-4 border border-border shadow-sm" style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                    {/* Wind and Precipitation */}
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr",
+                        gap: "12px",
+                        paddingBottom: "12px",
+                        marginBottom: "12px",
+                        borderBottom: "1px solid var(--border)",
+                      }}
+                    >
+                      <div>
                         <div
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: 4,
+                            fontSize: "12px",
+                            opacity: 0.6,
+                            marginBottom: "4px",
                           }}
+                          className="text-foreground"
                         >
-                          <div style={{ fontSize: 13, opacity: 0.8 }} className="text-foreground">{formatDateShort(s.validTime)}</div>
-                          <div style={{ fontSize: 12, opacity: 0.7 }} className="text-foreground">{formatTime(s.validTime)}</div>
+                          Vind
                         </div>
-
-                        <div style={{ fontSize: 48, lineHeight: 1 }}>
-                          {getWeatherEmoji(s.summary)}
-                        </div>
-
                         <div
-                          style={{ display: "flex", flexDirection: "column" }}
+                          style={{ fontSize: "15px", fontWeight: "600" }}
+                          className="text-foreground"
                         >
-                          <div style={{ fontSize: 24, fontWeight: 700, marginBottom: 4 }} className="text-primary">
-                            {typeof s.temp === "number" ? `${s.temp}°C` : "—"}
-                          </div>
-                          <div style={{ fontSize: 14, opacity: 0.85 }} className="text-foreground">
-                            {translateSummary(s.summary)}
-                          </div>
+                          {s.windSpeed} m/s {getWindDirection(s.windDirection)}
                         </div>
-
                         <div
-                          style={{
-                            marginLeft: "auto",
-                            textAlign: "right",
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: 6,
-                          }}
+                          style={{ fontSize: "12px", opacity: 0.6 }}
+                          className="text-foreground"
                         >
-                          <div style={{ fontSize: 12, opacity: 0.7 }} className="text-foreground">Känns som</div>
-                          <div style={{ fontSize: 14, fontWeight: 600 }} className="text-foreground">{typeof s.temp === "number" ? `${s.temp}°C` : "—"}</div>
-                          <div style={{ fontSize: 13, opacity: 0.85 }} className="text-foreground">Nederbörd: <strong>{s.precipitationMean ?? "—"} mm</strong></div>
-                          <div>
-                            <WeatherComment temp={s.temp} summary={translateSummary(s.summary)} />
-                          </div>
+                          Vindbyar: {s.windGust} m/s
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
+                      <div>
+                        <div
+                          style={{
+                            fontSize: "12px",
+                            opacity: 0.6,
+                            marginBottom: "4px",
+                          }}
+                          className="text-foreground"
+                        >
+                          Nederbörd
+                        </div>
+                        <div
+                          style={{ fontSize: "15px", fontWeight: "600" }}
+                          className="text-foreground"
+                        >
+                          {s.precipitationMean} mm
+                        </div>
+                        <div
+                          style={{ fontSize: "12px", opacity: 0.6 }}
+                          className="text-foreground"
+                        >
+                          {s.precipitationCategory}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Additional Details */}
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr",
+                        gap: "8px",
+                        fontSize: "13px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <span
+                          style={{ opacity: 0.6 }}
+                          className="text-foreground"
+                        >
+                          Luftfuktighet:
+                        </span>
+                        <span
+                          style={{ fontWeight: "600" }}
+                          className="text-foreground"
+                        >
+                          {s.humidity}%
+                        </span>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <span
+                          style={{ opacity: 0.6 }}
+                          className="text-foreground"
+                        >
+                          Molntäcke:
+                        </span>
+                        <span
+                          style={{ fontWeight: "600" }}
+                          className="text-foreground"
+                        >
+                          {s.cloudCover}%
+                        </span>
+                      </div>
+                      {s.thunderProbability > 0 && (
+                        <div
+                          className={`${
+                            getThunderRiskLevel(s.thunderProbability).bgClass
+                          } p-2 rounded-md flex justify-between items-center`}
+                          style={{ gridColumn: "1 / -1" }}
+                        >
+                          <span
+                            style={{ opacity: 0.8 }}
+                            className="text-foreground"
+                          >
+                            ⚡ Åskerisk:
+                          </span>
+                          <span
+                            className={`${
+                              getThunderRiskLevel(s.thunderProbability)
+                                .textClass
+                            } font-semibold`}
+                          >
+                            {getThunderRiskLevel(s.thunderProbability).text} (
+                            {s.thunderProbability}%)
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
-            )}
-          </section>
-        )}
-      </main>
-      <Footer />
+
+              {/* Ny: 10-dagarsprognos - temperatur vid kl. 12 + kommentar */}
+              {tenDayMidday.length > 0 && (
+                <div style={{ marginTop: 20 }}>
+                  <h3
+                    style={{
+                      margin: "0 0 12px 0",
+                      fontSize: 20,
+                      fontWeight: 700,
+                    }}
+                    className="text-primary"
+                  >
+                    10-dagarsprognos — temperatur vid kl. 12
+                  </h3>
+
+                  {/* Lista: designad på samma sätt som morgonrapporten */}
+                  <div
+                    style={{
+                      marginTop: 8,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 12,
+                    }}
+                  >
+                    {tenDayMidday.map((s: Series, idx: number) => {
+                      return (
+                        <div
+                          key={idx}
+                          className="bg-card rounded-md p-4 border border-border shadow-sm"
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 16,
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: 4,
+                            }}
+                          >
+                            <div
+                              style={{ fontSize: 13, opacity: 0.8 }}
+                              className="text-foreground"
+                            >
+                              {formatDateShort(s.validTime)}
+                            </div>
+                            <div
+                              style={{ fontSize: 12, opacity: 0.7 }}
+                              className="text-foreground"
+                            >
+                              {formatTime(s.validTime)}
+                            </div>
+                          </div>
+
+                          <div style={{ fontSize: 48, lineHeight: 1 }}>
+                            {getWeatherEmoji(s.summary)}
+                          </div>
+
+                          <div
+                            style={{ display: "flex", flexDirection: "column" }}
+                          >
+                            <div
+                              style={{
+                                fontSize: 24,
+                                fontWeight: 700,
+                                marginBottom: 4,
+                              }}
+                              className="text-primary"
+                            >
+                              {typeof s.temp === "number" ? `${s.temp}°C` : "—"}
+                            </div>
+                            <div
+                              style={{ fontSize: 14, opacity: 0.85 }}
+                              className="text-foreground"
+                            >
+                              {translateSummary(s.summary)}
+                            </div>
+                          </div>
+
+                          <div
+                            style={{
+                              marginLeft: "auto",
+                              textAlign: "right",
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: 6,
+                            }}
+                          >
+                            <div
+                              style={{ fontSize: 12, opacity: 0.7 }}
+                              className="text-foreground"
+                            >
+                              Känns som
+                            </div>
+                            <div
+                              style={{ fontSize: 14, fontWeight: 600 }}
+                              className="text-foreground"
+                            >
+                              {typeof s.temp === "number" ? `${s.temp}°C` : "—"}
+                            </div>
+                            <div
+                              style={{ fontSize: 13, opacity: 0.85 }}
+                              className="text-foreground"
+                            >
+                              Nederbörd:{" "}
+                              <strong>{s.precipitationMean ?? "—"} mm</strong>
+                            </div>
+                            <div>
+                              <WeatherComment
+                                temp={s.temp}
+                                summary={translateSummary(s.summary)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </section>
+          )}
+        </main>
+        <Footer />
+      </div>
     </div>
-  </div>
   );
-
-    }
-
+}

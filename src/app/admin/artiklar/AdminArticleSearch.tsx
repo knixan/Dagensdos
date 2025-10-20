@@ -1,29 +1,48 @@
-"use client"
+"use client";
 
-import { useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-export default function AdminArticleSearch({ onSearch }: { onSearch: (q: string) => void }) {
+export default function AdminArticleSearch({
+  onSearch,
+}: {
+  onSearch: (q: string) => void;
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [q, setQ] = useState(searchParams.get("q") ?? "");
+  const { register, handleSubmit, setValue } = useForm<{ q: string }>({
+    defaultValues: { q: searchParams.get("q") ?? "" },
+  });
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    router.replace(`/admin/artiklar?q=${encodeURIComponent(q)}`);
+  useEffect(() => {
+    setValue("q", searchParams.get("q") ?? "");
+  }, [searchParams, setValue]);
+
+  function onSubmit(values: { q: string }) {
+    const q = values.q ?? "";
+    const params = new URLSearchParams(
+      Array.from(searchParams?.entries() ?? [])
+    );
+    if (q) params.set("q", q);
+    else params.delete("q");
+    const qs = params.toString();
+    router.replace(qs ? `/admin/artiklar?${qs}` : "/admin/artiklar");
     onSearch(q);
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
-      <input
-        value={q}
-        onChange={e => setQ(e.target.value)}
-        name="q"
-        placeholder="Sök artiklar..."
+    <form onSubmit={handleSubmit(onSubmit)} className="flex gap-2">
+      <Input
+        {...register("q")}
         className="border rounded px-2 py-1"
+        placeholder="Sök artiklar..."
       />
-      <button type="submit" className="px-3 py-1 bg-gray-200 rounded">Sök</button>
+      <Button type="submit" className="px-3 py-1">
+        Sök
+      </Button>
     </form>
   );
 }

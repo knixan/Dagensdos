@@ -1,3 +1,31 @@
+Filer i projektet som innehåller Better Auth-referenser
+
+package.json
+Pekar på beroendet "better-auth": "^1.3.27".
+package-lock.json
+Låsfilen med detaljer om installerade better-auth-paket och underpaket.
+auth.ts
+Importerar och konfigurerar Better Auth: import { betterAuth } from "better-auth";
+Använder prismaAdapter och admin-plugin; innehåller callbacks för e-post/länkar osv.
+auth-client.ts
+Skapar Better Auth React-client: import { createAuthClient } from "better-auth/react";
+route.ts
+Next.js catch-all-route som exponerar Better Auth endpoints via toNextJsHandler / toNextJsHandler-liknande import: import { toNextJsHandler } from "better-auth/next-js";
+SignUpForm.tsx
+Innehåller kommentarer och debug-utskrifter som nämner Better Auth och hanterar svar/validering.
+README.md
+Dokumentation som beskriver att autentisering hanteras av Better Auth och pekar på auth.ts och route.ts.
+better-auth.txt
+Förklaringsfil som beskriver hur Better Auth används i projektet.
+filträd.md
+Dokumentation som nämner Better Auth-route och auth-konfiguration.
+LLMS/* (stora textfiler)
+Flera stora LLM-/dokumentfiler innehåller guider/exempel och referenser till Better Auth (t.ex. prisma-llms.txt, nextjs-llms.txt, better-auth-llms.txt).
+.next/ och genererade byggfiler / node_modules-inspektion
+Flera filer under .next refererar till packade better-auth-artifakter (detta är byggoutput som visar paketets interna moduler). Du kan ignorera dessa för källkod, de visar bara att paketen bundlats vid bygg.
+
+
+
 # Förklaring av Better Auth i Projektet
 
 Better Auth är ett modernt autentiseringsbibliotek för Next.js som förenklar hantering av användarautentisering. Det delar upp autentiseringen i server-side (backend) och client-side (frontend), med en API-route som brygga mellan dem.
