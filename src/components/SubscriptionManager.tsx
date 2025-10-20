@@ -9,7 +9,9 @@ export default function SubscriptionManager(): React.ReactElement {
 
   return (
     <div className="bg-card p-6 rounded-lg shadow border border-border">
-      <h2 className="text-lg font-semibold">Prenumeration</h2>
+      <h2 className="text-lg font-semibold">
+        Prenumeration HÅRDKODAD FRONTEND
+      </h2>
       <p className="text-sm text-muted-foreground">
         {email
           ? `Hantera din prenumeration (${email}).`
@@ -20,7 +22,7 @@ export default function SubscriptionManager(): React.ReactElement {
           type="button"
           className="inline-flex items-center px-3 py-1.5 rounded-md bg-primary text-primary-foreground"
           onClick={() => {
-          // Placeholder för prenumerationshanteringslogik
+            // Placeholder för prenumerationshanteringslogik
             window.alert("Öppna prenumerationsinställningar");
           }}
         >
