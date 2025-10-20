@@ -30,7 +30,7 @@ Exempel som redan finns i repo (byt lösenord i praktiken):
 
 ```
 DATABASE_URL="postgresql://postgres:password@localhost:5432/news-gamma"
-BETTER_AUTH_SECRET="1Rl3uIlNjwFA0WbNt48gMGDfMU9LSLHk"
+BETTER_AUTH_SECRET="SUPERHEMLIGKOD"
 ```
 
 Förklaring:
