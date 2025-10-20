@@ -163,9 +163,7 @@ export function Navbar(): React.ReactElement {
 
                     <div className="pt-2 border-t border-muted-foreground/20 flex flex-col gap-2">
                       <div className="pt-2">
-                        <ClientOnly>
-                          <ModeToggle />
-                        </ClientOnly>
+                        <ModeToggle />
                       </div>
                       {!isAuthenticated ? (
                         <>
