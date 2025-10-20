@@ -95,4 +95,3 @@ npm start
 
 ---
 
-Behöver du att jag även kör migrationerna för dig (jag kan lägga in en PR med migrationsfiler) eller skapar en enkel health-check route för auth? Säg vilken av delarna du vill ha hjälp med så fortsätter jag.
