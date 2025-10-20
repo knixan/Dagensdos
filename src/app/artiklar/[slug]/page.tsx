@@ -1,17 +1,19 @@
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { getArticleBySlug, Article } from '@/lib/articles';
-import { notFound } from 'next/navigation';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
-import { Aside } from '@/components/layout/aside';
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { getArticleBySlug, Article } from "@/lib/articles";
+import { notFound } from "next/navigation";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { Aside } from "@/components/layout/aside/aside";
 
 type Props = {
   params: { slug: string };
 };
 
-export default async function ArticlePage({ params }: Props): Promise<React.ReactElement> {
+export default async function ArticlePage({
+  params,
+}: Props): Promise<React.ReactElement> {
   const { slug } = await params;
   const article: Article | null = getArticleBySlug(slug);
 
@@ -32,12 +34,21 @@ export default async function ArticlePage({ params }: Props): Promise<React.Reac
                   ← Tillbaka
                 </Link>
 
-                <h1 className="mt-4 text-3xl font-extrabold">{article!.title}</h1>
-                <p className="text-sm text-muted-foreground mb-6">{article!.date} • {article!.category}</p>
+                <h1 className="mt-4 text-3xl font-extrabold">
+                  {article!.title}
+                </h1>
+                <p className="text-sm text-muted-foreground mb-6">
+                  {article!.date} • {article!.category}
+                </p>
 
                 {article!.image && (
                   <div className="relative w-full h-64 mb-6 rounded-lg overflow-hidden">
-                    <Image src={article!.image} alt={article!.title} fill className="object-cover" />
+                    <Image
+                      src={article!.image}
+                      alt={article!.title}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
                 )}
 
