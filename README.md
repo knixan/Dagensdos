@@ -24,7 +24,6 @@ Skapa en `.env` i projektets rot (lägg inte upp den i git). Minimikonfiguration
 ```
 DATABASE_URL="postgresql://<dbuser>:<password>@<host>:<port>/<database>"
 BETTER_AUTH_SECRET="en-lång-slumpmässig-och-hemlig-sträng"
-NODE_ENV=development
 ```
 
 Exempel som redan finns i repo (byt lösenord i praktiken):
