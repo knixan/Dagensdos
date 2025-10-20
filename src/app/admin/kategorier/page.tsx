@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from '@/lib/server-auth';
+import { requireAdmin } from "@/lib/server-auth";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Link from "next/link";
@@ -23,8 +23,17 @@ export default async function AdminKategorierPage() {
           <h1 className="text-2xl font-bold mb-6">Admin: Kategorier</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 items-start">
             <div className="flex gap-2">
-              <input name="q" placeholder="Sök kategorier..." className="border rounded px-2 py-1" />
-              <button type="submit" className="px-3 py-1 bg-gray-200 rounded">Sök</button>
+              <input
+                name="q"
+                placeholder="Sök kategorier..."
+                className="border-input rounded px-2 py-1"
+              />
+              <button
+                type="submit"
+                className="px-3 py-1 bg-secondary text-secondary-foreground rounded"
+              >
+                Sök
+              </button>
             </div>
             <div>
               {/* Inline create form */}
@@ -39,7 +48,12 @@ export default async function AdminKategorierPage() {
                   <div className="font-semibold">{c.name}</div>
                 </div>
                 <div className="flex gap-2">
-                  <Link href={`/admin/kategorier/redigera/${c.id}`} className="text-blue-600">Redigera</Link>
+                  <Link
+                    href={`/admin/kategorier/redigera/${c.id}`}
+                    className="text-primary"
+                  >
+                    Redigera
+                  </Link>
                   {/* Inline client delete button that calls the admin delete API */}
                   <DeleteButton id={c.id} />
                 </div>
