@@ -13,7 +13,7 @@ export const auth = betterAuth({
   }),
   user: {
     changeEmail: { enabled: true },
-    update: { enabled: true },
+    // Removed invalid 'update' option
   },
   emailAndPassword: {
     enabled: true,

@@ -41,52 +41,22 @@ export default function SignUpForm({ onSuccess }: { onSuccess?: () => void }) {
       password: values.password,
     });
 
-    // Debug: log full response from Better Auth so we can see validation details
-    console.log("[SignUp] response:", res);
     if (res.error) {
-      // Better-auth may return an Error-like object whose properties are non-enumerable.
-      // Log non-enumerable properties and a dir view so we can see message/stack.
-      try {
-        console.error("SignUp error (dir):");
-        console.dir(res.error);
-        console.error("SignUp error keys:", Object.getOwnPropertyNames(res.error));
-        try {
-          // Try to stringify known properties
-          const ser = JSON.stringify(res.error, Object.getOwnPropertyNames(res.error));
-          console.error("SignUp error (serialized):", ser);
-        } catch (serErr) {
-          console.error("SignUp error: couldn't serialize error", serErr);
-        }
-      } catch (logErr) {
-        console.error("SignUp error: logging failure", logErr);
-        console.error(res.error);
-      }
-      // If the error object is empty ({}), do a raw fetch to capture the HTTP status and body
-      if (Object.keys(res.error).length === 0) {
-        try {
-          const raw = await fetch('/api/auth/sign-up/email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: values.name, email: values.email, password: values.password }),
-          });
-
-          const text = await raw.text();
-          let parsed;
-          try { parsed = JSON.parse(text); } catch { parsed = text; }
-
-          console.error('[SignUp][raw fetch] status:', raw.status, 'body:', parsed);
-          toast.error(`Registration failed (status ${raw.status}). Se konsol för detaljer.`);
-        } catch (fetchErr) {
-          console.error('[SignUp][raw fetch] error:', fetchErr);
-          toast.error('Kunde inte nå auth-endpoint för felsökning.');
-        }
-      } else {
-        toast.error(res.error?.message || "Kunde inte skapa konto");
-      }
+      // Log detailed error information
+      console.error("[SignUp] Full response:", res);
+      console.error("[SignUp] Error object:", res.error);
+      console.error("[SignUp] Error code:", res.error.code);
+      console.error("[SignUp] Error message:", res.error.message);
+      console.error("[SignUp] Error status:", res.error.status);
+      console.error("[SignUp] Error statusText:", res.error.statusText);
+      
+      // Show user-friendly error message
+      const errorMessage = res.error?.message || res.error?.statusText || "Kunde inte skapa konto. Kontrollera att e-postadressen inte redan används.";
+      toast.error(errorMessage);
     } else {
+      console.log("[SignUp] Success:", res.data);
       onSuccess?.();
       toast.success("Konto skapat");
-      // After successful registration, navigate user to the login page
       router.push('/logga-in');
     }
   }

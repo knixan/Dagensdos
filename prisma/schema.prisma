@@ -58,7 +58,7 @@ model User {
   id              String   @id @default(cuid())
   email           String   @unique
   name            String?
-  role            Role     @default(USER)
+  role            Role     @default(user)
   image           String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -159,10 +159,10 @@ model Verification {
 }
 
 enum Role {
-  ADMIN
-  EDITOR
-  SUBSCRIBER
-  USER
+  admin
+  editor
+  subscriber
+  user
 }
 
 

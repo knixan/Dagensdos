@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 type Props = {
   id: string;
@@ -28,12 +29,13 @@ export default function RoleSelect({ id, initialRole }: Props) {
       if (!res.ok) {
         const text = await res.text();
         setRole(prev);
-        // Basic feedback; you can replace with your toast system
-        alert("Kunde inte uppdatera roll: " + text);
+        toast.error("Kunde inte uppdatera roll: " + text);
+      } else {
+        toast.success(`Rollen uppdaterad till ${newRole}`);
       }
     } catch {
       setRole(prev);
-      alert("Nätverksfel vid uppdatering av roll");
+      toast.error("Nätverksfel vid uppdatering av roll");
     } finally {
       setLoading(false);
     }
