@@ -58,8 +58,7 @@ model User {
   id              String   @id @default(cuid())
   email           String   @unique
   name            String?
-  // firstname/lastname/phone/street/city/zip removed — profile fields are not persisted in DB
-  role            String?
+  role            Role     @default(USER)
   image           String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -157,6 +156,13 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  SUBSCRIBER
+  USER
 }
 
 
