@@ -9,9 +9,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email required" }, { status: 400 });
     }
 
-    // Use the correct method name from Better-Auth
-    await auth.email.resendVerification({ email });
-    // or try: await auth.emailVerification.resend({ email });
+    // Korrekt metod för Better Auth
+    await auth.api.sendVerificationEmail({
+      body: { email },
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {
