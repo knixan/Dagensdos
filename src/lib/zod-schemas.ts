@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Role as PrismaRole } from "@prisma/client";
 
 // --- Article Schemas ---
 export const createArticleSchema = z.object({
@@ -86,13 +87,17 @@ export type UpdateSubscriptionInput = z.infer<typeof updateSubscriptionSchema>;
 export const deleteSubscriptionSchema = z.object({ id: z.string().min(1) });
 export type DeleteSubscriptionInput = z.infer<typeof deleteSubscriptionSchema>;
 
+// Prisma-aligned role schema + typ
+export const roleSchema = z.nativeEnum(PrismaRole);
+export type Role = z.infer<typeof roleSchema>;
+
 // --- Användare (admin view) ---
 export const adminUserSchema = z.object({
   id: z.string(),
   name: z.string().optional(),
   email: z.string().email().optional(),
-  emailVerified: z.string().nullable().optional(), // ISO date or null
-  role: z.string().nullable().optional(),
+  emailVerified: z.string().nullable().optional(),
+  role: roleSchema.nullable().optional(), // <-- använder Prisma-enum här
   image: z.string().nullable().optional(),
 });
 export type AdminUser = z.infer<typeof adminUserSchema>;

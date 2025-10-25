@@ -60,7 +60,8 @@ model User {
   id              String   @id @default(cuid())
   email           String   @unique
   name            String?
-  role            Role     @default(user)
+  // firstname/lastname/phone/street/city/zip removed — profile fields are not persisted in DB
+  role            String?
   image           String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
