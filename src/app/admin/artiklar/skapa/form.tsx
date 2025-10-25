@@ -41,7 +41,7 @@ export default function CreateArticleForm({ categories }: { categories: { id: st
             toast.success(`Artikel skapad: ${res.headline}`)
             form.reset();
             setImagePreview("");
-            // Navigate to admin articles list after creation
+            // navigera till artiklar admin-sidan
             router.push('/admin/artiklar');
         } catch (err) {
             const msg = err instanceof Error ? err.message : String(err)
@@ -74,7 +74,10 @@ export default function CreateArticleForm({ categories }: { categories: { id: st
                         <FormItem>
                             <FormLabel>Samanfattning</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <textarea
+                                    {...field}
+                                    className="w-full resize-y overflow-auto rounded border p-2 min-h-[4rem] max-h-[20rem]"
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -87,7 +90,10 @@ export default function CreateArticleForm({ categories }: { categories: { id: st
                         <FormItem>
                             <FormLabel>Innehåll</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <textarea
+                                    {...field}
+                                    className="w-full resize-y overflow-auto rounded border p-2 min-h-[8rem] max-h-[36rem]"
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
