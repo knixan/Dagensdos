@@ -4,7 +4,7 @@ import React from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import SignUpForm from "@/components/Forms/SignUpForm";
-import { Aside } from "@/components/layout/aside/aside";
+import Aside from "@/components/layout/aside/aside";
 
 export default function RegisterPage() {
   // RegisterForm handles its own form state

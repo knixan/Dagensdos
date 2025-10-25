@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Aside } from "@/components/layout/aside/aside";
+import Aside from "@/components/layout/aside/aside";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 
