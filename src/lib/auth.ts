@@ -37,7 +37,7 @@ export const auth = betterAuth({
     // autoSignInAfterVerification: true,
   },
   plugins: [admin()],
- //Lägg till enkel felrapportering för att underlätta felsökning under utveckling
+ //Felrapportering för att underlätta felsökning under utveckling
   onError: async (ctx: BetterAuthErrorContext) => {
     console.error("[BetterAuth] Error occurred:");
     console.error("  Path:", ctx.path);
@@ -51,5 +51,5 @@ export const auth = betterAuth({
 type BetterAuthErrorContext = {
   path: string;
   error: Error;
-  // Lägg till fler fält om du vet vilka som finns
+ 
 };
