@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation"; // Ta bort useSearchParams eftersom vi inte behöver det längre
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Aside } from "@/components/layout/aside/aside";
+import Aside from "@/components/layout/aside/aside";
 import CheckoutForm from "@/components/Forms/CheckoutForm";
 import { useSession } from "@/lib/auth-client";
 

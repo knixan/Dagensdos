@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Aside } from "@/components/layout/aside/aside";
+import Aside from "@/components/layout/aside/aside";
 import { Button } from "@/components/ui/button";
 
 export default function SuccessPage(): React.ReactElement {
