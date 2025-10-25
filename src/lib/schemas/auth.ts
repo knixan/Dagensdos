@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+
+//beter--- Auth Schemas --- för zod validation för auth forms ---
+
+// SignUp Schema
 export const SignUpSchema = z
   .object({
     name: z.string().min(2, { message: "Namn måste vara minst 2 tecken" }).max(50),
@@ -11,22 +15,22 @@ export const SignUpSchema = z
     message: "Lösenorden matchar inte",
     path: ["confirmPass"],
   });
-
+// Typ för SignUp input
 export type SignUpInput = z.infer<typeof SignUpSchema>;
-
+// SignIn Schema
 export const SignInSchema = z.object({
   email: z.string().email({ message: "Ogiltig e-postadress" }).max(100),
   password: z.string().min(8, { message: "Lösenordet måste vara minst 8 tecken" }).max(100),
 });
-
+// Typ för SignIn input
 export type SignInInput = z.infer<typeof SignInSchema>;
-
+// Password Reset Request Schema
 export const PasswordResetRequestSchema = z.object({
   email: z.string().email({ message: "Ogiltig e-postadress" }).max(100),
 });
-
+// Typ för Password Reset Request input
 export type PasswordResetRequestInput = z.infer<typeof PasswordResetRequestSchema>;
-
+// Password Reset Schema
 export const PasswordResetSchema = z
   .object({
     token: z.string().min(1),
@@ -37,7 +41,7 @@ export const PasswordResetSchema = z
     message: "Lösenorden matchar inte",
     path: ["confirmNewPassword"],
   });
-
+// Typ för Password Reset input
 export type PasswordResetInput = z.infer<typeof PasswordResetSchema>;
 
 const schemas = {
