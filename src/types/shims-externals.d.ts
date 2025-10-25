@@ -1,3 +1,12 @@
+//kolla om man kan göra det här på ett annat sätt 
+// vaul för drawer komponentet från shadcn 
+// vaul är ett populärt React-bibliotek för att skapa drawer-komponenter med:
+
+//  Touch/swipe-gester för att öppna/stänga
+//  Snap-points (dra till olika höjder)
+//  Accessibility (ARIA-attribut)
+// Smooth animations
+
 declare module "vaul" {
   import * as React from "react";
 
