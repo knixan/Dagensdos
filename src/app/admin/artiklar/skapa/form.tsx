@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
     Form,
     FormControl,
@@ -16,8 +16,12 @@ import { ArticleCreateSchema, ArticleCreateValues } from "./schema";
 import { createArticle } from "./actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function CreateArticleForm({ categories }: { categories: { id: string; name: string }[] }) {
+    const [uploading, setUploading] = useState(false);
+    const [imagePreview, setImagePreview] = useState<string>("");
+    
     const form = useForm<ArticleCreateValues>({
         resolver: zodResolver(ArticleCreateSchema),
         defaultValues: {
@@ -36,6 +40,7 @@ export default function CreateArticleForm({ categories }: { categories: { id: st
             const res = await createArticle(values) as { id: string; headline: string };
             toast.success(`Artikel skapad: ${res.headline}`)
             form.reset();
+            setImagePreview("");
             // Navigate to admin articles list after creation
             router.push('/admin/artiklar');
         } catch (err) {
@@ -54,7 +59,7 @@ export default function CreateArticleForm({ categories }: { categories: { id: st
                     name="headline"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Headline</FormLabel>
+                            <FormLabel>Rubrik</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -67,7 +72,7 @@ export default function CreateArticleForm({ categories }: { categories: { id: st
                     name="summary"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Summary</FormLabel>
+                            <FormLabel>Samanfattning</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -80,7 +85,7 @@ export default function CreateArticleForm({ categories }: { categories: { id: st
                     name="content"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Content</FormLabel>
+                            <FormLabel>Innehåll</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -93,9 +98,59 @@ export default function CreateArticleForm({ categories }: { categories: { id: st
                     name="image_url"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Image URL</FormLabel>
+                            <FormLabel>Bild</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <div className="space-y-2">
+                                    <Input
+                                        type="file"
+                                        accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                                        onChange={async (e) => {
+                                            const file = e.target.files?.[0];
+                                            if (!file) return;
+
+                                            setUploading(true);
+                                            try {
+                                                const formData = new FormData();
+                                                formData.append("file", file);
+
+                                                const response = await fetch("/api/upload/article-image", {
+                                                    method: "POST",
+                                                    body: formData,
+                                                });
+
+                                                if (!response.ok) {
+                                                    const error = await response.json();
+                                                    throw new Error(error.error || "Upload failed");
+                                                }
+
+                                                const data = await response.json();
+                                                field.onChange(data.url);
+                                                setImagePreview(data.url);
+                                                toast.success("Bild uppladdad!");
+                                            } catch (err) {
+                                                const msg = err instanceof Error ? err.message : "Kunde inte ladda upp bild";
+                                                toast.error(msg);
+                                            } finally {
+                                                setUploading(false);
+                                            }
+                                        }}
+                                        disabled={uploading}
+                                    />
+                                    {uploading && <p className="text-sm text-muted-foreground">Laddar upp...</p>}
+                                    {imagePreview && (
+                                        <div className="relative w-full h-48 rounded border">
+                                            <Image
+                                                src={imagePreview}
+                                                alt="Preview"
+                                                fill
+                                                className="object-cover rounded"
+                                            />
+                                        </div>
+                                    )}
+                                    {field.value && !imagePreview && (
+                                        <p className="text-sm text-muted-foreground">Bild: {field.value}</p>
+                                    )}
+                                </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
