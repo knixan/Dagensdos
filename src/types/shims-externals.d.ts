@@ -1,7 +1,8 @@
-//kolla om man kan göra det här på ett annat sätt 
+//kolla upp så jag kan ta bort dne här filen utan att förstöra drawer elle om man kan göra det här på ett annat sätt 
 // vaul för drawer komponentet från shadcn 
 // vaul är ett populärt React-bibliotek för att skapa drawer-komponenter med:
-
+// https://ui.shadcn.com/docs/components/drawer 
+//
 //  Touch/swipe-gester för att öppna/stänga
 //  Snap-points (dra till olika höjder)
 //  Accessibility (ARIA-attribut)
