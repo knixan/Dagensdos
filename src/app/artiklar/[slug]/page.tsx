@@ -1,11 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getArticleBySlug, Article } from "@/lib/articles";
+import type { Article } from "@/lib/articles";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Aside } from "@/components/layout/aside/aside";
+import Aside from "@/components/layout/aside/aside";
+import { prisma } from "@/lib/prisma";
 
 type Props = {
   params: { slug: string };
@@ -15,11 +16,42 @@ export default async function ArticlePage({
   params,
 }: Props): Promise<React.ReactElement> {
   const { slug } = await params;
-  const article: Article | null = getArticleBySlug(slug);
+  
+  // Extract the ID from the slug (last part after final dash)
+  const idMatch = slug.match(/-([a-z0-9]+)$/);
+  const articleId = idMatch ? idMatch[1] : null;
 
-  if (!article) {
+  if (!articleId) {
     notFound();
   }
+
+  // Find article by ID prefix (since we only store first 6 chars in slug)
+  const dbArticle = await prisma.article.findFirst({
+    where: {
+      id: {
+        startsWith: articleId,
+      },
+    },
+    include: { category: true },
+  });
+
+  if (!dbArticle) {
+    notFound();
+  }
+
+  // Map to local Article type
+  const article: Article = {
+    id: String(dbArticle.id),
+    slug: slug,
+    title: dbArticle.headline ?? "",
+    excerpt: dbArticle.summary ?? "",
+    content: dbArticle.content ?? "",
+    category: dbArticle.category.map((c) => c.name).join(", "),
+    image: dbArticle.image_url && (dbArticle.image_url.startsWith('http') || dbArticle.image_url.startsWith('/'))
+      ? dbArticle.image_url
+      : undefined,
+    date: dbArticle.createdAt ? new Date(dbArticle.createdAt).toISOString().slice(0, 10) : undefined,
+  };
 
   return (
     <>
@@ -42,12 +74,13 @@ export default async function ArticlePage({
                 </p>
 
                 {article!.image && (
-                  <div className="relative w-full h-64 mb-6 rounded-lg overflow-hidden">
+                  <div className="w-full mb-6 rounded-lg bg-gray-900 flex justify-center">
                     <Image
                       src={article!.image}
                       alt={article!.title}
-                      fill
-                      className="object-cover"
+                      width={800}
+                      height={500}
+                      className="object-center"
                     />
                   </div>
                 )}

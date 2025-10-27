@@ -5,13 +5,6 @@ import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import {
   Drawer,
   DrawerTrigger,
   DrawerContent,
@@ -20,7 +13,7 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { User, LogIn, LogOut } from "lucide-react";
+import { User, LogIn } from "lucide-react";
 import { authClient, useSession } from "@/lib/auth-client";
 import { toast } from "sonner";
 
@@ -68,7 +61,7 @@ export default function SignInAndProfile() {
       toast.error(error.message || "Kunde inte logga in");
     } else {
       toast.success("Inloggning lyckades");
-  router.push("/mina-sidor");
+      router.push("/mina-sidor");
     }
   }
 
@@ -93,30 +86,13 @@ export default function SignInAndProfile() {
     );
   }
 
+  // Enkelt: navigera direkt till Mina sidor
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 transition transform hover:scale-110">
-          <User className="h-4 w-4" />
-          Mina sidor
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem asChild>
-          <Link href="/mina-sidor">Mina sidor</Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Button
-            variant="ghost"
-            className="w-full justify-start px-2 py-0 flex items-center gap-2"
-            onClick={() => authClient.signOut()}
-          >
-            <LogOut className="h-4 w-4" />
-            Logga ut
-          </Button>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button asChild className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 transition transform hover:scale-110">
+      <Link href="/mina-sidor" className="flex items-center gap-2">
+        <User className="h-4 w-4" />
+        Mina sidor
+      </Link>
+    </Button>
   );
 }

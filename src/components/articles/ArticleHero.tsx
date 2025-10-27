@@ -18,7 +18,7 @@ export function ArticleHero({ article, className = "" }: Props) {
       )}
     >
       <h2 className="text-2xl font-bold text-foreground mb-4 border-b border-border pb-2">
-        Senaste HÅRDKODAT TA BORT DENNA TEXT NÄR DU ÄR KLAR
+        Senaste
       </h2>
 
       <div className="flex flex-col md:flex-row gap-6">

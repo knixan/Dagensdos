@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -15,22 +14,27 @@ datasource db {
 }
 
 model Article {
-  id            String     @id @default(cuid())
+  id            String   @id @default(cuid())
   headline      String
   summary       String
   content       String
   image_url     String
-  views         Int        @default(0)
-  editorsChoice Boolean    @default(false)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  category      Category[]
-  author        User[]
+  views         Int      @default(0)
+  editorsChoice Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations (fixade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
 }
 
 model Category {
   id       String    @id @default(cuid())
-  name     String
+  name     String    @unique
   articles Article[]
 }
 
@@ -58,7 +62,6 @@ model User {
   id              String   @id @default(cuid())
   email           String   @unique
   name            String?
-  // firstname/lastname/phone/street/city/zip removed — profile fields are not persisted in DB
   role            String?
   image           String?
   createdAt       DateTime @default(now())
@@ -159,4 +162,9 @@ model Verification {
   @@map("verification")
 }
 
-
+enum Role {
+  admin
+  editor
+  subscriber
+  user
+}

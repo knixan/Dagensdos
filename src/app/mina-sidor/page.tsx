@@ -3,7 +3,7 @@ import React from "react";
 import { useSession } from "@/lib/auth-client";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Aside } from "@/components/layout/aside/aside";
+import Aside from "@/components/layout/aside/aside";
 import SubscriptionManager from "@/components/SubscriptionManager";
 import SettingsForm from "@/components/Forms/SettingsForm";
 

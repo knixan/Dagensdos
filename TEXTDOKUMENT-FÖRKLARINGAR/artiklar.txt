@@ -1,0 +1,48 @@
+
+Databasmodellen för artiklar: se schema.prisma (modell: Article).
+Admin-sidor använder server-side skydd med requireAdmin.
+Skapande/uppdatering/radering sker via server-actions som använder Prisma (prisma.ts).
+Från databas till listning / komponenter
+
+Server hämtar artiklar med Prisma i komponenten ArticlesSection (src/components/articles/ArticlesSection.server.tsx). Den mappar DB-resultaten till en lokal typ (Article i src/lib/articles.ts).
+Slug-generering görs i samma fil med en intern slugify-funktion (se ArticlesSection).
+Visning i listor:
+Stor/featured: ArticleHero (src/components/articles/ArticleHero.tsx).
+Kortkort i rutnät: ArticleCard (src/components/articles/ArticleCard.tsx).
+Artikelsida (enskild):
+Route: src/app/artiklar/[slug]/page.tsx. Den extraherar id-suffix från slug och söker i DB med startsWith för att hitta rätt artikel, mappar fält och renderar innehållet.
+Lokala hjälpfunktioner och typen finns i articles.ts (Article, getArticleBySlug).
+Hur slug / URL fungerar
+
+Slug konstrueras i serverkomponenten (ArticlesSection.server.tsx) som: cleaned-headline + "-" + id.slice(0,6).
+På artikel-sidan plockas de sista tecknen (id-prefix) ut för att hitta posten i Prisma via id.startsWith(...) (se src/app/artiklar/[slug]/page.tsx).
+Skapa artikel (admin)
+
+Admin-sida: page.tsx (säkras av requireAdmin).
+Formulärkomponent: CreateArticleForm (src/app/admin/artiklar/skapa/form.tsx). Validering med Zod-schema ArticleCreateSchema (src/app/admin/artiklar/skapa/schema.ts).
+Server-action: createArticle(src/app/admin/artiklar/skapa/actions.ts) — requireAdmin() kontrolleras, Zod validerar, och prisma.article.create(...) skapar posten. Efter skapande redirectas eller clienten uppdateras.
+Redigera artikel (admin)
+
+Edit-sida: src/app/admin/artiklar/redigera/[articleId]/page.tsx.
+Edit-form: ArticleEditForm (src/app/admin/artiklar/redigera/[articleId]/form.tsx) med Zod-schema ArticleEditSchema (src/app/admin/artiklar/redigera/[articleId]/schema.ts).
+Server-action: editArticle (src/app/admin/artiklar/redigera/[articleId]/actions.ts) — kör prisma.article.update(...) och redirect.
+Ta bort artikel (admin)
+
+Server-side action: deleteArticle (src/app/admin/artiklar/ta-bort/actions.ts) — kräver admin och kör prisma.article.delete(...).
+Client-knapp: DeleteButton (src/app/admin/artiklar/ta-bort/delete-button.tsx) — anropar antingen server-action eller en API-route.
+API-route för POST-delete finns också på route.ts.
+Var listor och sidor används
+
+Startsida / artikel-lista använder ArticlesSection via page.tsx och page.tsx.
+Enskild artikelrendering: src/app/artiklar/[slug]/page.tsx.
+Nyckelfiler & symboler att titta på
+
+Databas & modell: schema.prisma (Article).
+Prisma-klient: prisma.ts.
+Admin-skydd: requireAdmin (src/lib/server-auth.ts).
+Skapa: CreateArticleForm + createArticle.
+Redigera: ArticleEditForm + editArticle.
+Radera: DeleteButton + deleteArticle + route.ts.
+Listning & slug: ArticlesSection — slugify & mapping.
+Presentation: ArticleHero, ArticleCard.
+Artikelsida: src/app/artiklar/[slug]/page.tsx + articles.ts (Article, getArticleBySlug).

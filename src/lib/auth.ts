@@ -21,6 +21,12 @@ if (!process.env.BETTER_AUTH_SECRET) {
   );
 }
 
+// Type for error context
+type BetterAuthErrorContext = {
+  path: string;
+  error: Error;
+};
+
 export const auth = betterAuth({
   // Hemlig nyckel för att signera tokens och annan känslig data
   secret: process.env.BETTER_AUTH_SECRET,
@@ -29,17 +35,12 @@ export const auth = betterAuth({
   }),
   user: {
     changeEmail: { enabled: true },
-    update: { enabled: true },
   },
   emailAndPassword: {
     enabled: true,
-    // matchande med klientens valideringsregler
     minPasswordLength: 8,
-    // Avaktivera e-postverifiering för nuvarande användare eftersom vi inte har User.emailVerified-fältet
     requireEmailVerification: true,
-    // optimalt
-    async sendResetPassword({ user, url /*, token*/ }) {
-      // TODO: Integrate your email provider here
+    async sendResetPassword({ user, url }) {
       if (!user?.email) {
         console.warn("sendResetPassword: missing user.email");
         return;
@@ -60,10 +61,9 @@ export const auth = betterAuth({
       }
     },
   },
-  // E-post verifiering inaktiverad för nuvarande användare
   emailVerification: {
-    sendOnSignUp: true, // Detta måste vara true för att skicka mail
-    autoSignInAfterVerification: true, // <-- enable auto sign-in after user clicks verification link
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
     async sendVerificationEmail({ user, url, token }) {
       console.log("[Auth] Sending verification email to:", user?.email);
       if (!user?.email) return;
@@ -90,18 +90,17 @@ export const auth = betterAuth({
       }
     },
     resend: {
-      enabled: true, // Enable resend functionality
-      maxAttempts: 3, // Optional: limit resend attempts
+      enabled: true,
+      maxAttempts: 3,
     },
   },
-  // Registrera admin-plugin om du behöver den; annars ta bort importen ovan
   plugins: [admin()],
+  onError: async (ctx: BetterAuthErrorContext) => {
+    console.error("[BetterAuth] Error occurred:");
+    console.error("  Path:", ctx.path);
+    console.error("  Error:", ctx.error);
+    console.error("  Stack:", ctx.error?.stack);
+  },
 });
 
-// Flyttad kommentar: this module may be moved to src/lib/server-auth.ts to avoid importing next/headers in client bundles.
-
-type BetterAuthErrorContext = {
-  path: string;
-  error: Error;
-  // Lägg till fler fält om du vet vilka som finns
-};
+// Server-only helpers moved to src/lib/server-auth.ts to avoid importing next/headers in client bundles.
