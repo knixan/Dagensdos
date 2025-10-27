@@ -2,7 +2,7 @@ import React from "react";
 import LinkButton from "@/components/Buttons/LinkButton";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { requireAdmin } from '@/lib/server-auth';
+import { requireAdmin } from "@/lib/server-auth";
 import ArticleAIPage from "./artiklar-ai/page";
 
 export default async function AdminPage() {
@@ -44,9 +44,6 @@ export default async function AdminPage() {
               Användare
             </LinkButton>
           </div>
-        </div>
-        <div>
-          <ArticleAIPage />
         </div>
       </main>
       <Footer />
