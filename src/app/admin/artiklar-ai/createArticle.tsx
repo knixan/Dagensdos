@@ -5,8 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { generateNews } from "./ai";    
-import { MDXEditor, type MDXEditorMethods } from "@/components/mdx-editor";
-import { useRef } from "react";             
+import { useRef } from "react";   
+
+import { MDXEditor, MDXEditorMethods } from "@mdxeditor/editor";
 
 export default function CreateArticle() {
     const refSummary =useRef<MDXEditorMethods>(null);
