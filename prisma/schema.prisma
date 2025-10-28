@@ -29,10 +29,11 @@ model Article {
   category      Category[]
   author        User[]
 }
-
+// lägg till visa i navbar fält i kategori modellen
 model Category {
   id       String    @id @default(cuid())
   name     String
+  showInNavbar Boolean @default(false)
   articles Article[]
 }
 
