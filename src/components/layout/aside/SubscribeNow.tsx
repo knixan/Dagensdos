@@ -1,32 +1,23 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import * as React from "react";
+import { Button } from "@/components/ui/button";
 
-interface Props {
-  onSubscribeClick?: () => void;
-}
+export default function SubscribeNow() {
+  const handleSubscribeClick = () => {
+    // Handle subscription logic here
+    console.log("Subscribe clicked");
+    // You can add toast notifications, modal opening, etc.
+  };
 
-export default function SubscribeNow({ onSubscribeClick }: Props) {
   return (
-    <section className="rounded-xl p-6 shadow bg-primary text-primary-foreground text-center">
-      <h3 className="text-2xl font-bold mb-1">Vill du ha mer än en Dos?</h3>
-      <p className="text-xs text-muted-foreground mb-3"></p>
-      <p className="mb-4 text-sm md:text-base opacity-90">
-        Lås upp de riktigt deprimerande nyheterna med premium.
+    <section className="rounded-xl border bg-card text-card-foreground p-6 shadow">
+      <h3 className="text-xl font-bold mb-4">Prenumerera</h3>
+      <p className="text-sm text-muted-foreground mb-4">
+        Få de senaste nyheterna direkt i din inkorg.
       </p>
-      <Button
-        variant="secondary"
-        onClick={onSubscribeClick}
-        asChild={!onSubscribeClick}
-        className="font-medium"
-      >
-        {onSubscribeClick ? (
-          <span>Prenumerera Nu →</span>
-        ) : (
-          <Link href="/prenumeration">Prenumerera Nu →</Link>
-        )}
+      <Button onClick={handleSubscribeClick} className="w-full">
+        Prenumerera Nu
       </Button>
     </section>
   );

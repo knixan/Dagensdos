@@ -3,9 +3,24 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import SignUpForm from "@/components/Forms/SignUpForm";
 import Aside from "@/components/layout/aside/aside";
+import { prisma } from "@/lib/prisma";
 
-export default function RegisterPage() {
-  // RegisterForm handles its own form state
+export default async function RegisterPage(): Promise<React.ReactElement> {
+  // Fetch data on the server
+  const popularArticles = await prisma.article.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 3,
+    select: { id: true, headline: true },
+  });
+
+  const popularItems = popularArticles.map((article) => ({
+    title: article.headline ?? "Untitled",
+    href: `/artiklar/${(article.headline || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 50)}-${String(article.id).slice(0, 6)}`,
+  }));
 
   return (
     <div>
@@ -26,7 +41,7 @@ export default function RegisterPage() {
               </section>
             </div>
 
-            <Aside />
+            <Aside popularItems={popularItems} />
           </div>
         </div>
       </div>
