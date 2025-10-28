@@ -1,5 +1,5 @@
 import * as React from "react";
-import MostPopularServer from "@/components/layout/aside/MostPopular.server";
+import MostPopular from "@/components/layout/aside/MostPopular";
 import SubscribeNow from "@/components/layout/aside/SubscribeNow";
 import WeatherAside from "@/components/layout/aside/WeatherAside";
 import ElectricityPrices from "@/components/layout/aside/ElectricityPrices";
@@ -16,16 +16,21 @@ interface WeatherData {
   timeseries?: WeatherTimeseriesItem[];
 }
 
-interface AsideProps {
-  weather?: WeatherData;
-  onSubscribeClick?: () => void;
+interface PopularItem {
+  title: string;
+  href?: string;
 }
 
-export default function Aside({ weather, onSubscribeClick }: AsideProps) {
+interface AsideProps {
+  weather?: WeatherData;
+  popularItems?: PopularItem[];
+}
+
+export default function Aside({ weather, popularItems }: AsideProps) {
   return (
     <aside className="space-y-8">
-      <MostPopularServer />
-      <SubscribeNow onSubscribeClick={onSubscribeClick} />
+      <MostPopular popular={popularItems} />
+      <SubscribeNow />
       <WeatherAside weather={weather} />
       <ElectricityPrices />
     </aside>

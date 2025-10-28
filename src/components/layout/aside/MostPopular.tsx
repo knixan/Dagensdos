@@ -12,7 +12,13 @@ interface Props {
   popular?: PopularItem[];
 }
 
-export default function MostPopular({ popular = [] }: Props) {
+const defaultPopular: PopularItem[] = [
+  { title: "Senaste nyheterna från Sverige", href: "#" },
+  { title: "Ekonomiska utvecklingen", href: "#" },
+  { title: "Väderprognos för veckan", href: "#" },
+];
+
+export default function MostPopular({ popular = defaultPopular }: Props) {
   return (
     <section className="rounded-xl border bg-card text-card-foreground p-6 shadow">
       <h3 className="text-xl font-bold mb-1 border-b pb-1">Mest Populärt</h3>
