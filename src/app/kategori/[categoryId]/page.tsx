@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import ArticleCard from "@/components/articles/ArticleCard";
 import type { Article } from "@/lib/articles";
 import Link from "next/link";
+import Aside from "@/components/layout/aside/aside";
 
 type Props = { params: { categoryId: string } };
 
@@ -53,6 +54,25 @@ export default async function CategoryPage({ params }: Props) {
       : undefined,
   }));
 
+  // Hämta populära artiklar för Aside (samma som på startsidan)
+  const popularArticles = await prisma.article.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 3,
+    select: { id: true, headline: true },
+  });
+
+  const popularItems = popularArticles.map((article) => {
+    const slug = (article.headline || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "")
+      .slice(0, 50);
+    return {
+      title: article.headline ?? "Untitled",
+      href: `/artiklar/${slug}-${String(article.id).slice(0, 6)}`,
+    };
+  });
+
   return (
     <>
       <Navbar />
@@ -71,13 +91,16 @@ export default async function CategoryPage({ params }: Props) {
                 )}
               </div>
             </div>
-            <div>
-              <div className="sticky top-20">
+
+            {/* Aside — samma struktur som på huvudsidan */}
+            <aside className="lg:col-span-1">
+              <div className="sticky top-20 space-y-8">
                 <Link href="/" className="text-primary hover:underline">
                   ← Tillbaka
                 </Link>
+                <Aside popularItems={popularItems} />
               </div>
-            </div>
+            </aside>
           </div>
         </div>
       </main>

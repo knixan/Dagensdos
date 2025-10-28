@@ -16,7 +16,7 @@ export default async function ArticlePage({
   params,
 }: Props): Promise<React.ReactElement> {
   const { slug } = await params;
-  
+
   // Extract the ID from the slug (last part after final dash)
   const idMatch = slug.match(/-([a-z0-9]+)$/);
   const articleId = idMatch ? idMatch[1] : null;
@@ -47,11 +47,35 @@ export default async function ArticlePage({
     excerpt: dbArticle.summary ?? "",
     content: dbArticle.content ?? "",
     category: dbArticle.category.map((c) => c.name).join(", "),
-    image: dbArticle.image_url && (dbArticle.image_url.startsWith('http') || dbArticle.image_url.startsWith('/'))
-      ? dbArticle.image_url
+    image:
+      dbArticle.image_url &&
+      (dbArticle.image_url.startsWith("http") ||
+        dbArticle.image_url.startsWith("/"))
+        ? dbArticle.image_url
+        : undefined,
+    date: dbArticle.createdAt
+      ? new Date(dbArticle.createdAt).toISOString().slice(0, 10)
       : undefined,
-    date: dbArticle.createdAt ? new Date(dbArticle.createdAt).toISOString().slice(0, 10) : undefined,
   };
+
+  // Hämta populära artiklar för Aside (samma som på startsidan)
+  const popularArticles = await prisma.article.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 3,
+    select: { id: true, headline: true },
+  });
+
+  const popularItems = popularArticles.map((article) => {
+    const slugPart = (article.headline || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "")
+      .slice(0, 50);
+    return {
+      title: article.headline ?? "Untitled",
+      href: `/artiklar/${slugPart}-${String(article.id).slice(0, 6)}`,
+    };
+  });
 
   return (
     <>
@@ -109,7 +133,8 @@ export default async function ArticlePage({
               </article>
             </div>
 
-            <Aside />
+            {/* Aside — visa samma som på startsidan */}
+            <Aside popularItems={popularItems} />
           </div>
         </div>
       </main>
