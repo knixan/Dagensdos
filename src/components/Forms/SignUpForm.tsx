@@ -72,9 +72,19 @@ export default function SignUpForm({ onSuccess }: { onSuccess?: () => void }) {
 
       console.log("[SignUp] Success!");
       toast.success(
-        "Konto skapat! Kontrollera din e-post för verifieringslänk."
+        "Konto skapat! Kontrollera din e-post för verifieringslänk.",
+        {
+          duration: 8000, // Visa i 8 sekunder (längre än standard)
+          description:
+            "Ett verifieringsmail har skickats till din e-postadress.",
+        }
       );
-      router.push("/logga-in?message=check-email");
+      // Lägg till email-parametern så användaren ser sin email på login-sidan
+      router.push(
+        `/logga-in?message=check-email&email=${encodeURIComponent(
+          values.email
+        )}`
+      );
       onSuccess?.();
     } catch (err) {
       console.error("[SignUp] Caught error:", err);
