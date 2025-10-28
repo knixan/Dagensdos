@@ -31,11 +31,12 @@ model Article {
   authorId String
   author   User   @relation(fields: [authorId], references: [id])
 }
-
+// lägg till visa i navbar fält i kategori modellen
 model Category {
-  id       String    @id @default(cuid())
-  name     String    @unique
-  articles Article[]
+  id           String    @id @default(cuid())
+  name         String    @unique
+  showInNavbar Boolean   @default(false)
+  articles     Article[]
 }
 
 model Subscription {

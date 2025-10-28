@@ -6,7 +6,6 @@ import ArticlesSection from "@/components/articles/ArticlesSection.server";
 import { prisma } from "@/lib/prisma";
 
 export default async function HomePage(): Promise<React.ReactElement> {
-  // Fetch data on the server
   const popularArticles = await prisma.article.findMany({
     orderBy: { createdAt: "desc" },
     take: 3,

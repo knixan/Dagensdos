@@ -9,7 +9,9 @@ import { Footer } from "@/components/layout/Footer";
 import Aside from "@/components/layout/aside/aside";
 
 export default async function ArticlesIndexPage() {
-  type ArticleWithCategory = Prisma.ArticleGetPayload<{ include: { category: true } }>;
+  type ArticleWithCategory = Prisma.ArticleGetPayload<{
+    include: { category: true };
+  }>;
 
   const dbArticles: ArticleWithCategory[] = await prisma.article.findMany({
     include: { category: true },
@@ -21,7 +23,9 @@ export default async function ArticlesIndexPage() {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "")
-      .slice(0, 50) + "-" + id.slice(0, 6);
+      .slice(0, 50) +
+    "-" +
+    id.slice(0, 6);
 
   const articles: LocalArticle[] = dbArticles.map((a) => ({
     id: String(a.id),
@@ -31,7 +35,24 @@ export default async function ArticlesIndexPage() {
     content: a.content ?? "",
     category: a.category.map((c) => c.name).join(", "),
     image: a.image_url ?? undefined,
-    date: a.createdAt ? new Date(a.createdAt).toISOString().slice(0, 10) : undefined,
+    date: a.createdAt
+      ? new Date(a.createdAt).toISOString().slice(0, 10)
+      : undefined,
+  }));
+
+  const popularArticles = await prisma.article.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 3,
+    select: { id: true, headline: true },
+  });
+
+  const popularItems = popularArticles.map((article) => ({
+    title: article.headline ?? "Untitled",
+    href: `/artiklar/${(article.headline || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 50)}-${String(article.id).slice(0, 6)}`,
   }));
 
   return (
@@ -49,12 +70,20 @@ export default async function ArticlesIndexPage() {
                       className="bg-card border border-border rounded-lg p-4 hover:shadow transition"
                     >
                       <h3 className="text-xl font-bold mb-1">
-                        <Link href={`/artiklar/${article.slug}`} className="hover:underline">
+                        <Link
+                          href={`/artiklar/${article.slug}`}
+                          className="hover:underline"
+                        >
                           {article.title}
                         </Link>
                       </h3>
-                      <p className="text-sm text-muted-foreground mb-2">{article.excerpt}</p>
-                      <Link href={`/artiklar/${article.slug}`} className="text-primary text-sm">
+                      <p className="text-sm text-muted-foreground mb-2">
+                        {article.excerpt}
+                      </p>
+                      <Link
+                        href={`/artiklar/${article.slug}`}
+                        className="text-primary text-sm"
+                      >
                         Läs hela artikeln →
                       </Link>
                     </article>
@@ -62,9 +91,9 @@ export default async function ArticlesIndexPage() {
                 </div>
               </Section>
             </div>
-            <aside>
-              <Aside />
-            </aside>
+
+            {/* Aside — visa samma som på startsidan */}
+            <Aside popularItems={popularItems} />
           </div>
         </div>
       </main>

@@ -1,26 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ModeToggle } from "../Buttons/toggle-theme-button";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import authClient, { useSession } from "@/lib/auth-client";
 
-const navigation: { name: string; href: string }[] = [
-  { name: "Senaste", href: "#" },
-  { name: "Inrikes", href: "#" },
-  { name: "Världen", href: "#" },
-  { name: "Ekonomi", href: "#" },
-  { name: "Sport", href: "#" },
-  { name: "Väder", href: "#" },
-];
+type NavCategory = { id: string; name: string };
 
 export function Navbar(): React.ReactElement {
   const router = useRouter();
   const { data: session } = useSession();
   const isAuthenticated = !!session?.user;
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [categories, setCategories] = useState<NavCategory[]>([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
 
   async function handleLogout() {
     await authClient.signOut();
@@ -29,6 +24,26 @@ export function Navbar(): React.ReactElement {
     router.refresh();
     router.push("/");
   }
+
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      try {
+        const res = await fetch("/api/kategorier");
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        if (mounted) setCategories(data || []);
+      } catch (err) {
+        console.error("Could not load navbar categories", err);
+      } finally {
+        if (mounted) setLoadingCategories(false);
+      }
+    }
+    load();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <>
@@ -47,17 +62,21 @@ export function Navbar(): React.ReactElement {
               </div>
             </Link>
 
-            {/* Huvudnavigering (Desktop) */}
+            {/* Huvudnavigering (Desktop) - categories from API */}
             <nav className="hidden md:flex space-x-8">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="whitespace-nowrap text-base font-medium text-muted-foreground hover:text-primary"
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {loadingCategories ? (
+                <div className="text-sm text-muted-foreground">Laddar...</div>
+              ) : (
+                categories.map((cat) => (
+                  <Link
+                    key={cat.id}
+                    href={`/kategori/${cat.id}`}
+                    className="whitespace-nowrap text-base font-medium text-muted-foreground hover:text-primary"
+                  >
+                    {cat.name}
+                  </Link>
+                ))
+              )}
             </nav>
 
             <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 space-x-3">
@@ -146,16 +165,22 @@ export function Navbar(): React.ReactElement {
                     className="mt-2 bg-card rounded-md p-4 shadow-lg space-y-3 w-full max-h-[80vh] overflow-auto z-50"
                   >
                     <div className="flex flex-col space-y-2">
-                      {navigation.map((item) => (
-                        <Link
-                          key={item.name}
-                          href={item.href}
-                          className="block text-base font-medium text-foreground hover:text-primary"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
+                      {loadingCategories ? (
+                        <div className="block text-base font-medium text-foreground">
+                          Laddar...
+                        </div>
+                      ) : (
+                        categories.map((cat) => (
+                          <Link
+                            key={cat.id}
+                            href={`/kategori/${cat.id}`}
+                            className="block text-base font-medium text-foreground hover:text-primary"
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {cat.name}
+                          </Link>
+                        ))
+                      )}
                     </div>
 
                     <div className="pt-2 border-t border-muted-foreground/20 flex flex-col gap-2">
