@@ -4,6 +4,12 @@ import { prisma } from "@/lib/prisma";
 import { admin } from "better-auth/plugins";
 // Re-export shared validation schemas for convenience
 export { SignUpSchema, SignInSchema, PasswordResetSchema, PasswordResetRequestSchema, type SignUpInput, type SignInInput } from "./schemas/auth";
+import { stripe } from "@better-auth/stripe"
+import Stripe from "stripe"
+
+const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-09-30.clover", // Latest API version as of Stripe SDK v19
+})
 
 export const auth = betterAuth({
   // Hemlig nyckel för att signera tokens och annan känslig data
@@ -36,14 +42,28 @@ export const auth = betterAuth({
     },
     // autoSignInAfterVerification: true,
   },
-  plugins: [admin()],
- //Felrapportering för att underlätta felsökning under utveckling
+  plugins: [admin(), stripe({
+    stripeClient,
+    stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
+    createCustomerOnSignUp: true,
+    subscription: {
+      enabled: true,
+      plans: [
+        {
+          name: "Premium",
+          priceId: "price_1SNWrQFXkADrvOgmZWaUusth"
+        }
+      ]
+    }
+  })],
+  //Felrapportering för att underlätta felsökning under utveckling
   onError: async (ctx: BetterAuthErrorContext) => {
     console.error("[BetterAuth] Error occurred:");
     console.error("  Path:", ctx.path);
     console.error("  Error:", ctx.error);
     console.error("  Stack:", ctx.error?.stack);
   },
+
 });
 
 // Server-only helpers moved to src/lib/server-auth.ts to avoid importing next/headers in client bundles.
@@ -51,5 +71,5 @@ export const auth = betterAuth({
 type BetterAuthErrorContext = {
   path: string;
   error: Error;
- 
+
 };
