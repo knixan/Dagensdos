@@ -4,7 +4,33 @@ import { prisma } from "./prisma";
 import { admin } from "better-auth/plugins";
 import { sendEmail } from "./mail";
 
-// Re-export shared validation schemas for convenience
+// Re-export a shared type for BetterAuth sessions so other modules can import
+// it from the runtime auth module instead of a separate types file.
+export type BetterAuthSession = {
+  session: {
+    session: {
+      id: string;
+      createdAt: Date;
+      updatedAt: Date;
+      userId: string;
+      expiresAt: Date;
+      token: string;
+      ipAddress?: string | null | undefined;
+      userAgent?: string | null | undefined;
+    };
+    user: {
+      id: string;
+      createdAt: Date;
+      updatedAt: Date;
+      email: string;
+      emailVerified: boolean;
+      name: string;
+      image?: string | null | undefined;
+    };
+  } | null;
+};
+
+// Re-export validation schemas from schemas/auth (client-safe)
 export {
   SignUpSchema,
   SignInSchema,
@@ -12,9 +38,11 @@ export {
   PasswordResetRequestSchema,
   type SignUpInput,
   type SignInInput,
-} from "./schemas/auth";
+  type PasswordResetInput,
+  type PasswordResetRequestInput,
+} from "./zod-auth";
 
-// Kontrollera att secret finns
+// Kontrollera att secret finns (körs bara på server)
 if (!process.env.BETTER_AUTH_SECRET) {
   throw new Error(
     "Missing BETTER_AUTH_SECRET environment variable for better-auth."

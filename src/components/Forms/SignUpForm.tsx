@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignUpSchema, type SignUpInput } from "@/lib/schemas/auth";
+import { SignUpSchema, type SignUpInput } from "@/lib/zod-auth";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import {
