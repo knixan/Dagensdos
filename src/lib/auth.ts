@@ -1,9 +1,59 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "./prisma";
 import { admin } from "better-auth/plugins";
-// Re-export shared validation schemas for convenience
-export { SignUpSchema, SignInSchema, PasswordResetSchema, PasswordResetRequestSchema, type SignUpInput, type SignInInput } from "./schemas/auth";
+import { sendEmail } from "./mail";
+
+// Re-export a shared type for BetterAuth sessions so other modules can import
+// it from the runtime auth module instead of a separate types file.
+export type BetterAuthSession = {
+  session: {
+    session: {
+      id: string;
+      createdAt: Date;
+      updatedAt: Date;
+      userId: string;
+      expiresAt: Date;
+      token: string;
+      ipAddress?: string | null | undefined;
+      userAgent?: string | null | undefined;
+    };
+    user: {
+      id: string;
+      createdAt: Date;
+      updatedAt: Date;
+      email: string;
+      emailVerified: boolean;
+      name: string;
+      image?: string | null | undefined;
+    };
+  } | null;
+};
+
+// Re-export validation schemas from schemas/auth (client-safe)
+export {
+  SignUpSchema,
+  SignInSchema,
+  PasswordResetSchema,
+  PasswordResetRequestSchema,
+  type SignUpInput,
+  type SignInInput,
+  type PasswordResetInput,
+  type PasswordResetRequestInput,
+} from "./zod-auth";
+
+// Kontrollera att secret finns (körs bara på server)
+if (!process.env.BETTER_AUTH_SECRET) {
+  throw new Error(
+    "Missing BETTER_AUTH_SECRET environment variable for better-auth."
+  );
+}
+
+// Type for error context
+type BetterAuthErrorContext = {
+  path: string;
+  error: Error;
+};
 
 export const auth = betterAuth({
   // Hemlig nyckel för att signera tokens och annan känslig data
@@ -13,31 +63,66 @@ export const auth = betterAuth({
   }),
   user: {
     changeEmail: { enabled: true },
-    // Removed invalid 'update' option
   },
   emailAndPassword: {
     enabled: true,
-    // matchande med klientens valideringsregler
     minPasswordLength: 8,
-    // Avaktivera e-postverifiering för nuvarande användare eftersom vi inte har User.emailVerified-fältet
-    requireEmailVerification: false,
-    // optimalt
-    async sendResetPassword({ user, url /*, token*/ }) {
-      // TODO: Integrate your email provider here
-      console.log(`[BetterAuth] Password reset requested for ${user.email}. Link: ${url}`);
+    requireEmailVerification: true,
+    async sendResetPassword({ user, url }) {
+      if (!user?.email) {
+        console.warn("sendResetPassword: missing user.email");
+        return;
+      }
+      console.log(
+        `[BetterAuth] Password reset requested for ${user.email}. Link: ${url}`
+      );
+      try {
+        await sendEmail({
+          to: user.email,
+          subject: "Reset your password",
+          text: `Reset your password: ${url}`,
+          html: `Click to reset your password: <a href="${url}">Reset password</a>`,
+        });
+      } catch (err) {
+        console.error("Failed to send reset email:", err);
+        throw err;
+      }
     },
   },
-  // E-post verifiering inaktiverad för nuvarande användare
   emailVerification: {
-    sendOnSignUp: false, // Don't send verification email on signup
-    async sendVerificationEmail({ user, url /*, token*/ }) {
-      // TODO: Integrate your email provider here
-      console.log(`[BetterAuth] Verify email for ${user.email}. Link: ${url}`);
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    async sendVerificationEmail({ user, url, token }) {
+      console.log("[Auth] Sending verification email to:", user?.email);
+      if (!user?.email) return;
+
+      const subject = "Verifiera din e-postadress";
+      const text = `Klicka här för att verifiera din e-postadress: ${url}`;
+      const html = `
+        <h2>Verifiera din e-postadress</h2>
+        <p>Klicka på länken nedan för att verifiera:</p>
+        <a href="${url}">Verifiera min e-postadress</a>
+      `;
+
+      try {
+        await sendEmail({
+          to: user.email,
+          subject,
+          text,
+          html,
+        });
+        console.log("[Auth] Verification email sent successfully");
+      } catch (err) {
+        console.error("[Auth] Failed to send verification email:", err);
+        throw err;
+      }
     },
-    // autoSignInAfterVerification: true,
+    resend: {
+      enabled: true,
+      maxAttempts: 3,
+    },
   },
   plugins: [admin()],
- //Felrapportering för att underlätta felsökning under utveckling
   onError: async (ctx: BetterAuthErrorContext) => {
     console.error("[BetterAuth] Error occurred:");
     console.error("  Path:", ctx.path);
@@ -47,9 +132,3 @@ export const auth = betterAuth({
 });
 
 // Server-only helpers moved to src/lib/server-auth.ts to avoid importing next/headers in client bundles.
-
-type BetterAuthErrorContext = {
-  path: string;
-  error: Error;
- 
-};

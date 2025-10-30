@@ -3,8 +3,24 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Aside from "@/components/layout/aside/aside";
 import ArticlesSection from "@/components/articles/ArticlesSection.server";
+import { prisma } from "@/lib/prisma";
 
 export default async function HomePage(): Promise<React.ReactElement> {
+  const popularArticles = await prisma.article.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 3,
+    select: { id: true, headline: true },
+  });
+
+  const popularItems = popularArticles.map((article) => ({
+    title: article.headline ?? "Untitled",
+    href: `/artiklar/${(article.headline || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 50)}-${String(article.id).slice(0, 6)}`,
+  }));
+
   return (
     <>
       <Navbar />
@@ -16,7 +32,7 @@ export default async function HomePage(): Promise<React.ReactElement> {
               <ArticlesSection />
             </div>
 
-            <Aside />
+            <Aside popularItems={popularItems} />
           </div>
         </div>
       </main>

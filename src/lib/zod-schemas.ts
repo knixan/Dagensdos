@@ -11,9 +11,9 @@ export const createArticleSchema = z.object({
   categoryIds: z.array(z.string()).optional(), // array of category ids (string cuid)
   authorIds: z.array(z.string()).optional(), // array of user ids
 });
-
+//-- typ för skapande av artikel ---
 export type CreateArticleInput = z.infer<typeof createArticleSchema>;
-
+//
 export const updateArticleSchema = z.object({
   id: z.string().min(1),
   headline: z.string().min(1).optional(),
@@ -24,7 +24,7 @@ export const updateArticleSchema = z.object({
   categoryIds: z.array(z.string()).optional(),
   authorIds: z.array(z.string()).optional(),
 });
-
+//-- typ för uppdatering av artikel ---
 export type UpdateArticleInput = z.infer<typeof updateArticleSchema>;
 
 export const deleteArticleSchema = z.object({ id: z.string().min(1) });
@@ -36,7 +36,7 @@ export const createCategorySchema = z.object({
   description: z.string().optional(),
 });
 export type CreateCategoryInput = z.infer<typeof createCategorySchema>;
-
+//
 export const updateCategorySchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1).optional(),
@@ -51,10 +51,20 @@ export type DeleteCategoryInput = z.infer<typeof deleteCategorySchema>;
 export const createSubscriptionTypeSchema = z.object({
   name: z.string().min(1, { message: "Namn för abonnemangstyp krävs." }),
   description: z.string().optional(),
-  price: z.coerce.number().nonnegative({ message: "Pris måste vara ett icke-negativt tal." }),
-  durationDays: z.coerce.number().int().positive({ message: "Varaktighet i dagar måste vara ett positivt heltal." }).optional(),
+  price: z.coerce
+    .number()
+    .nonnegative({ message: "Pris måste vara ett icke-negativt tal." }),
+  durationDays: z.coerce
+    .number()
+    .int()
+    .positive({
+      message: "Varaktighet i dagar måste vara ett positivt heltal.",
+    })
+    .optional(),
 });
-export type CreateSubscriptionTypeInput = z.infer<typeof createSubscriptionTypeSchema>;
+export type CreateSubscriptionTypeInput = z.infer<
+  typeof createSubscriptionTypeSchema
+>;
 
 export const updateSubscriptionTypeSchema = z.object({
   id: z.string().min(1),
@@ -63,10 +73,14 @@ export const updateSubscriptionTypeSchema = z.object({
   price: z.coerce.number().nonnegative().optional(),
   durationDays: z.coerce.number().int().positive().optional(),
 });
-export type UpdateSubscriptionTypeInput = z.infer<typeof updateSubscriptionTypeSchema>;
+export type UpdateSubscriptionTypeInput = z.infer<
+  typeof updateSubscriptionTypeSchema
+>;
 
 export const deleteSubscriptionTypeSchema = z.object({ id: z.string().min(1) });
-export type DeleteSubscriptionTypeInput = z.infer<typeof deleteSubscriptionTypeSchema>;
+export type DeleteSubscriptionTypeInput = z.infer<
+  typeof deleteSubscriptionTypeSchema
+>;
 
 // --- Prenumeration Schemas ---
 export const createSubscriptionSchema = z.object({
@@ -123,7 +137,7 @@ export const orderSchema = z.object({
   OrderItem: z.array(orderItemSchema),
 });
 export type Order = z.infer<typeof orderSchema>;
-
+//-- Checkout order schema ---
 export const checkoutOrderSchema = z.object({
   customerFirstName: z.string().min(1, { message: "Förnamn krävs" }),
   customerLastName: z.string().min(1, { message: "Efternamn krävs" }),
@@ -143,12 +157,17 @@ export const checkoutOrderSchema = z.object({
 });
 export type CheckoutOrderInput = z.infer<typeof checkoutOrderSchema>;
 
-// --- Misc helpers ---
 // Update order status schema
 // Behöver göra om den här då vi inte ska skicka orders utan endast uppdatera status
 export const updateOrderStatusSchema = z.object({
   id: z.number().int().positive(),
-  status: z.enum(["PENDING", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED"]),
+  status: z.enum([
+    "PENDING",
+    "PROCESSING",
+    "SHIPPED",
+    "DELIVERED",
+    "CANCELLED",
+  ]),
 });
 export type UpdateOrderStatusInput = z.infer<typeof updateOrderStatusSchema>;
 
