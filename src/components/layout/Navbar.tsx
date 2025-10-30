@@ -16,6 +16,21 @@ export function Navbar(): React.ReactElement {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [categories, setCategories] = useState<NavCategory[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
+  const [subscriptions, setSubscription] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      if (session?.user.id) {
+        const response = await authClient.subscription.list()
+        setSubscription(response.data || [])
+      }
+
+    }
+    fetchSubscriptions()
+  }, [session?.user.id])
+  const activeSubscription = subscriptions.find(
+    (sub) => sub.status === "active" || sub.status === "trialing"
+  )
 
   async function handleLogout() {
     await authClient.signOut();
@@ -102,6 +117,23 @@ export function Navbar(): React.ReactElement {
                   >
                     Mina sidor
                   </Link>
+                  {activeSubscription?.status === "active" ? (
+                    <Button
+                      onClick={async () => {
+                        await authClient.subscription.cancel({
+                          returnUrl: "/"
+                        })
+                      }}
+                    >Unsubscribe</Button>) : (
+                    <Button
+                      onClick={async () => {
+                        await authClient.subscription.upgrade({
+                          plan: "Premium",
+                          successUrl: "/",
+                          cancelUrl: "/"
+                        })
+                      }}
+                    >Subscribe</Button>)}
                   <Button
                     variant="outline"
                     onClick={handleLogout}
