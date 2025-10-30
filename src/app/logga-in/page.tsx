@@ -16,18 +16,18 @@ export default function LoginPage(): React.JSX.Element {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-grow pt-8 pb-16">
+      <main className="flex grow pt-8 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2 space-y-8">
               {/* Email Verification Alert */}
               {message === "check-email" && (
-                <Alert className="bg-blue-50 border-2 border-blue-200 dark:bg-blue-950 dark:border-blue-800 shadow-lg">
-                  <Mail className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                  <AlertTitle className="text-blue-900 dark:text-blue-100 font-semibold text-lg">
+                <Alert className="border-2 border-primary/50 bg-primary/10 dark:bg-primary-950 dark:border-primary-800 shadow-lg">
+                  <Mail className="h-5 w-5 text-primary dark:text-primary-300" />
+                  <AlertTitle className="text-primary font-semibold text-lg dark:text-primary-100">
                     Bekräfta din e-postadress
                   </AlertTitle>
-                  <AlertDescription className="text-blue-800 dark:text-blue-200 text-base space-y-2">
+                  <AlertDescription className="text-primary dark:text-primary-200 text-base space-y-2">
                     <p>
                       Vänligen bekräfta din e-postadress genom att klicka på
                       länken vi har skickat till{" "}
