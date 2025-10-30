@@ -41,39 +41,6 @@ model Category {
   articles     Article[]
 }
 
-model Subscription {
-  id                   String           @id @default(cuid())
-  user                 User             @relation(fields: [userId], references: [id])
-  userId               String
-  type                 SubscriptionType @relation(fields: [typeId], references: [id])
-  typeId               String
-  createdAt            DateTime         @default(now())
-  expiresAt            DateTime
-  active               Boolean          @default(true)
-  plan                 String
-  referenceId          String
-  stripeCustomerId     String?
-  stripeSubscriptionId String?
-  status               String?
-  periodStart          DateTime?
-  periodEnd            DateTime?
-  trialStart           DateTime?
-  trialEnd             DateTime?
-  cancelAtPeriodEnd    Boolean?
-  seats                Int?
-
-  @@map("subscription")
-}
-
-model SubscriptionType {
-  id            String         @id @default(cuid())
-  name          String         @unique
-  description   String?
-  price         Int
-  durationDays  Int            @default(30)
-  subscriptions Subscription[]
-}
-
 model User {
   id              String   @id @default(cuid())
   email           String   @unique
@@ -84,7 +51,6 @@ model User {
   updatedAt       DateTime @updatedAt
   newsletterOptIn Boolean  @default(false)
 
-  subscriptions      Subscription[]
   articles           Article[]
   passwordResetToken PasswordResetToken[]
   order              Order[]
@@ -185,4 +151,21 @@ enum Role {
   editor
   subscriber
   user
+}
+
+model Subscription {
+  id                   String    @id
+  plan                 String
+  referenceId          String
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  status               String?
+  periodStart          DateTime?
+  periodEnd            DateTime?
+  trialStart           DateTime?
+  trialEnd             DateTime?
+  cancelAtPeriodEnd    Boolean?
+  seats                Int?
+
+  @@map("subscription")
 }
