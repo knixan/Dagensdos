@@ -82,7 +82,7 @@ export default function CreateArticleForm({
               <FormControl>
                 <textarea
                   {...field}
-                  className="w-full resize-y overflow-auto rounded border p-2 min-h-[4rem] max-h-[20rem]"
+                  className="w-full resize-y overflow-auto rounded border p-2 min-h- max-h-80"
                 />
               </FormControl>
               <FormMessage />
@@ -98,7 +98,7 @@ export default function CreateArticleForm({
               <FormControl>
                 <textarea
                   {...field}
-                  className="w-full resize-y overflow-auto rounded border p-2 min-h-[8rem] max-h-[36rem]"
+                  className="w-full resize-y overflow-auto rounded border p-2 min-h-32 max-h-92"
                 />
               </FormControl>
               <FormMessage />

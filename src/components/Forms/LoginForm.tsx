@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,8 +10,6 @@ import { toast } from "sonner";
 
 export default function LoginForm(): React.ReactElement {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const message = searchParams?.get("message");
 
   type FormData = { email: string; password: string };
 
@@ -40,15 +38,7 @@ export default function LoginForm(): React.ReactElement {
   return (
     <section className="bg-card p-6 rounded-xl shadow border border-border">
       <h1 className="text-3xl font-extrabold text-foreground mb-2">Logga in</h1>
-      {message && (
-        <p className="text-sm text-destructive mb-4">
-          Du måste{" "}
-          <a href="/registrera" className="underline text-primary">
-            registrera dig
-          </a>{" "}
-          och logga in för att komma åt kassan.
-        </p>
-      )}
+
       <p className="text-muted-foreground mb-6">
         Logga in för att hantera din prenumeration och dina inställningar.
       </p>

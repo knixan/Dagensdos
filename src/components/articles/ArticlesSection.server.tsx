@@ -25,7 +25,9 @@ export default async function ArticlesSection() {
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "")
-      .slice(0, 50) + "-" + id.slice(0, 6);
+      .slice(0, 50) +
+    "-" +
+    id.slice(0, 6);
 
   const articles: LocalArticle[] = dbArticles.map((a) => ({
     id: String(a.id),
@@ -33,12 +35,16 @@ export default async function ArticlesSection() {
     title: a.headline ?? "",
     excerpt: a.summary ?? "",
     content: a.content ?? "",
-    // Prisma schema defines `category` as Category[] so map directly
-    category: a.category.map((c) => c.name).join(", "),
-    image: a.image_url && (a.image_url.startsWith('http') || a.image_url.startsWith('/')) 
-      ? a.image_url 
+    // category is a single object, not an array
+    category: a.category?.name ?? "",
+    image:
+      a.image_url &&
+      (a.image_url.startsWith("http") || a.image_url.startsWith("/"))
+        ? a.image_url
+        : undefined,
+    date: a.createdAt
+      ? new Date(a.createdAt).toISOString().slice(0, 10)
       : undefined,
-    date: a.createdAt ? new Date(a.createdAt).toISOString().slice(0, 10) : undefined,
   }));
 
   const [hero, ...rest] = articles;

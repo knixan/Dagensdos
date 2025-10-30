@@ -46,7 +46,7 @@ export default async function ArticlePage({
     title: dbArticle.headline ?? "",
     excerpt: dbArticle.summary ?? "",
     content: dbArticle.content ?? "",
-    category: dbArticle.category.map((c) => c.name).join(", "),
+    category: dbArticle.category?.name ?? "",
     image:
       dbArticle.image_url &&
       (dbArticle.image_url.startsWith("http") ||
@@ -81,7 +81,7 @@ export default async function ArticlePage({
     <>
       <Navbar />
 
-      <main className="flex-grow pt-8 pb-16">
+      <main className="flex grow pt-8 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2">
