@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
-
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -118,3 +119,11 @@
   --sidebar-ring: #c4071d;
 }
 
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
