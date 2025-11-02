@@ -24,7 +24,7 @@ export default function CreateArticleForm({
   categories: { id: string; name: string }[];
 }) {
   const [imagePreview, setImagePreview] = useState<string>("");
-
+// initiera formulär med react-hook-form och zod-validator
   const form = useForm<ArticleCreateValues>({
     resolver: zodResolver(ArticleCreateSchema),
     defaultValues: {
@@ -37,7 +37,7 @@ export default function CreateArticleForm({
     },
   });
   const router = useRouter();
-
+// hantera formulärskick
   async function onSubmit(values: ArticleCreateValues) {
     try {
       const res = (await createArticle(values)) as {
@@ -56,10 +56,10 @@ export default function CreateArticleForm({
   }
   return (
     <Form {...form}>
-      <div className="max-w-5xl w-full mx-auto px-4">
+      <div className="w-full max-w-full mx-auto px-4">
         <form
           onSubmit={form.handleSubmit(onSubmit, (er) => console.error(er))}
-          className="space-y-8 bg-card p-8 md:p-10 rounded-xl shadow-lg border border-border"
+          className="w-full max-w-none space-y-8 bg-card p-8 md:p-10 rounded-xl shadow-lg border border-border"
         >
         <FormField
           control={form.control}

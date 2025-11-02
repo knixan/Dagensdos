@@ -256,7 +256,7 @@ export default async function Page({
       >
         {/* Header Section */}
         <header
-          className="bg-primary shadow-md"
+          className="bg-secondary shadow-md"
           style={{ padding: "32px 24px" }}
         >
           <div
@@ -309,7 +309,7 @@ export default async function Page({
             <SearchForm
               paramName="location"
               placeholder="Sök efter stad eller plats..."
-              className="flex flex-col sm:flex-row items-center justify-center gap-3"
+              className="flex flex-col sm:flex-row text-card-foreground items-center justify-center gap-3"
             />
           </div>
         </header>
@@ -322,7 +322,7 @@ export default async function Page({
             <ClientGeoWeather />
           ) : !weather ? (
             <div
-              className="text-center bg-card rounded-md border-2 border-secondary"
+              className="text-center bg-card-forground rounded-md border-2 border-secondary"
               style={{ padding: "64px 24px" }}
             >
               <div style={{ fontSize: "48px", marginBottom: "16px" }}>❌</div>
@@ -337,7 +337,7 @@ export default async function Page({
             <section>
               {/* Insert: compact current weather card */}
               {weather.timeseries[0] && (
-                <div className="current-card flex items-center gap-4 mb-5 p-3 bg-card rounded-lg border border-border shadow-sm">
+                <div className="current-card  flex items-center gap-4 mb-5 p-3 bg-card rounded-lg border border-border shadow-sm">
                   <div style={{ fontSize: 48, lineHeight: 1 }}>
                     {getWeatherEmoji(weather.timeseries[0].summary)}
                   </div>
