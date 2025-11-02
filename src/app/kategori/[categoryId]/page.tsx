@@ -30,7 +30,7 @@ export default async function CategoryPage({ params }: Props) {
     return (
       <>
         <Navbar />
-        <main className="flex-grow pt-8 pb-16">
+        <main className="flex grow pt-8 pb-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-2xl font-bold">Kategori hittades inte</h1>
             <p>Det gick inte att hitta den valda kategorin.</p>
@@ -76,7 +76,7 @@ export default async function CategoryPage({ params }: Props) {
   return (
     <>
       <Navbar />
-      <main className="flex-grow pt-8 pb-16">
+      <main className="flex grow pt-8 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2">

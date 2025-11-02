@@ -10,6 +10,7 @@ type Props = {
 export function Section({ title, children, className = "" }: Props) {
   return (
     <section className={cn("space-y-6", className)}>
+   
       <h2 className="text-2xl font-bold text-foreground border-b border-border pb-2">{title}</h2>
       {children}
     </section>

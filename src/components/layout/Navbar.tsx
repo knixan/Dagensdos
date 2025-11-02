@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from 'next/image';
 import React, { useState, useEffect } from "react";
+import type { AdminUser } from "@/lib/zod-schemas";
 import { ModeToggle } from "../Buttons/toggle-theme-button";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -28,6 +29,7 @@ export function Navbar(): React.ReactElement {
     minWidth: '130px',
     height: '44px',
     fontSize: '1.125rem',
+    fontWeight: 'semibold'
   };
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [subscriptions, setSubscription] = useState<Array<{ status?: string }>>([]);
@@ -82,10 +84,10 @@ export function Navbar(): React.ReactElement {
             {/* Logo och Titel-sektion */}
               <Link href="/" className="flex items-center space-x-3">
                 <Image
-                  src="/loggo.png"
+                  src="/images/loggo.jpg"
                   alt="Dagens Dos logotyp"
-                  width={100}
-                  height={100}
+                  width={60}
+                  height={60}
                   className="rounded"
                   priority
                 />
@@ -107,6 +109,11 @@ export function Navbar(): React.ReactElement {
                     {cat.name}
                   </Link>
                 ))
+              )}
+              {(session?.user as unknown as AdminUser)?.role === 'admin' && (
+                <Link href="/admin" className="whitespace-nowrap text-lg font-medium" style={{ color: 'var(--secondary-foreground)' }}>
+                  Admin
+                </Link>
               )}
             </nav>
 
@@ -230,6 +237,16 @@ export function Navbar(): React.ReactElement {
                             </Link>
                         ))
                       )}
+                      {(session?.user as unknown as AdminUser)?.role === 'admin' && (
+                        <Link
+                          href="/admin"
+                          className="block text-lg font-medium"
+                          style={{ color: 'var(--secondary-foreground)' }}
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          Admin
+                        </Link>
+                      )}
                     </div>
 
                     <div className="pt-2 border-t border-muted-foreground/20 flex flex-col gap-3">
@@ -261,6 +278,38 @@ export function Navbar(): React.ReactElement {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Varningsraden under länkar och knappar */}
+        <div className="w-full overflow-hidden">
+          <div
+            role="status"
+            aria-live="polite"
+            className="marquee-bar"
+            style={{ backgroundColor: 'var(--primary)', color: 'var(--accent-foreground)', fontWeight: 'bold' }}
+          >
+            <div
+              className="marquee"
+              style={{ display: 'inline-block', paddingLeft: '100%', whiteSpace: 'nowrap', animation: 'marquee 40s linear infinite' }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.animationPlayState = 'paused')}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.animationPlayState = 'running')}
+            >
+              VARNING TILL ALLMÄNHETEN — En man som identifierar sig som en Kalkong springer runt med blöjja på södermalm, men va inte orolig han är inte farlig även om det är mycket obehagligt!
+            </div>
+          </div>
+
+          <style>{`
+            @keyframes marquee {
+              0% { transform: translateX(100%); }
+              100% { transform: translateX(-100%); }
+            }
+            .marquee { animation-play-state: running; }
+            .marquee-bar { padding: 0.5rem 0; }
+            .marquee:hover { animation-play-state: paused; }
+            @media (prefers-reduced-motion: reduce) {
+              .marquee { animation: none !important; transform: none !important; }
+            }
+          `}</style>
         </div>
       </header>
     </>

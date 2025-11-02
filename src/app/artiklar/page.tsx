@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import type { Prisma } from "@prisma/client";
 import Section from "@/components/articles/Section";
 import type { Article as LocalArticle } from "@/lib/articles";
 import { Navbar } from "@/components/layout/Navbar";
@@ -9,11 +8,12 @@ import { Footer } from "@/components/layout/Footer";
 import Aside from "@/components/layout/aside/aside";
 
 export default async function ArticlesIndexPage() {
-  type ArticleWithCategory = Prisma.ArticleGetPayload<{
-    include: { category: true };
-  }>;
-
-  const dbArticles: ArticleWithCategory[] = await prisma.article.findMany({
+// Använd en typ härledd från det faktiska returvärdet från Prisma-klienten istället för
+// Prisma.ArticleGetPayload som kanske inte finns i vissa genererade klienter.
+// Låt TypeScript härleda den returnerade elementtypen (inkl. `category`) från
+// Prisma-anropet som inkluderar relationen. Detta undviker att referera till
+// Prismas interna typer som kan skilja sig mellan genererade klienter.
+  const dbArticles = await prisma.article.findMany({
     include: { category: true },
     orderBy: { createdAt: "desc" },
   });
@@ -33,7 +33,8 @@ export default async function ArticlesIndexPage() {
     title: a.headline ?? "",
     excerpt: a.summary ?? "",
     content: a.content ?? "",
-    category: a.category.map((c) => c.name).join(", "),
+ 
+  category: a.category?.name ?? "",
     image: a.image_url ?? undefined,
     date: a.createdAt
       ? new Date(a.createdAt).toISOString().slice(0, 10)
@@ -56,9 +57,9 @@ export default async function ArticlesIndexPage() {
   }));
 
   return (
-    <>
+    <> 
       <Navbar />
-      <main className="flex-grow py-8">
+      <main className="flex grow py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2">
