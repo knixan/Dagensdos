@@ -63,7 +63,7 @@ export function Footer(): React.ReactElement {
             <Link href="/" className="flex items-center space-x-3">
               <div className="relative h-24 w-24">
                 <Image
-                  src="/images/loggo.jpg"
+                  src="/images/loggo.png"
                   alt="Nyhetspulsen"
                   fill
                   className="object-contain"
