@@ -166,11 +166,11 @@ export function Navbar(): React.ReactElement {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Sök..."
-                  className="border border-border rounded-md px-3 py-2 w-64 text-sm bg-transparent"
+                  className="border border-border text-secondary-foreground rounded-md px-3 py-2 w-64 text-sm bg-transparent"
                 />
                 <button
                   type="submit"
-                  className="px-3 py-2 rounded-md bg-primary text-white text-sm"
+                  className="px-3 py-2 rounded-md bg-primary text-secondary-foreground text-sm"
                 >
                   Sök
                 </button>
@@ -349,7 +349,7 @@ export function Navbar(): React.ReactElement {
           </div>
         </div>
 
-        {/* Varningsraden under länkar och knappar */}
+        {/* Varningsraden under länkar och knappar
         <div className="w-full overflow-hidden">
           <div
             role="status"
@@ -379,7 +379,7 @@ export function Navbar(): React.ReactElement {
               .marquee { animation: none !important; transform: none !important; }
             }
           `}</style>
-        </div>
+        </div> */}
       </header>
     </>
   );
