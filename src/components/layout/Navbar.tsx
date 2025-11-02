@@ -12,8 +12,6 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import authClient, { useSession } from "@/lib/auth-client";
@@ -105,7 +103,7 @@ export function Navbar(): React.ReactElement {
             {/* Logo och Titel-sektion */}
               <Link href="/" className="flex items-center space-x-3">
                 <Image
-                  src="/images/loggo.jpg"
+                  src="/images/loggo.png"
                   alt="Dagens Dos logotyp"
                   width={60}
                   height={60}
