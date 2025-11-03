@@ -24,7 +24,7 @@ export default function CreateArticleForm({
   categories: { id: string; name: string }[];
 }) {
   const [imagePreview, setImagePreview] = useState<string>("");
-
+// initiera formulär med react-hook-form och zod-validator
   const form = useForm<ArticleCreateValues>({
     resolver: zodResolver(ArticleCreateSchema),
     defaultValues: {
@@ -37,7 +37,7 @@ export default function CreateArticleForm({
     },
   });
   const router = useRouter();
-
+// hantera formulärskick
   async function onSubmit(values: ArticleCreateValues) {
     try {
       const res = (await createArticle(values)) as {
@@ -56,18 +56,19 @@ export default function CreateArticleForm({
   }
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit, (er) => console.error(er))}
-        className="space-y-4"
-      >
+      <div className="w-full max-w-full mx-auto px-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit, (er) => console.error(er))}
+          className="w-full max-w-none space-y-8 bg-card p-8 md:p-10 rounded-xl shadow-lg border border-border"
+        >
         <FormField
           control={form.control}
           name="headline"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Rubrik</FormLabel>
+              <FormLabel className="text-lg font-semibold">Rubrik</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} className="h-14 text-lg px-4" placeholder="Skriv artikelns rubrik här..." />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -78,11 +79,12 @@ export default function CreateArticleForm({
           name="summary"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Samanfattning</FormLabel>
+              <FormLabel className="text-lg font-semibold">Sammanfattning</FormLabel>
               <FormControl>
                 <textarea
                   {...field}
-                  className="w-full resize-y overflow-auto rounded border p-2 min-h- max-h-80"
+                  placeholder="En kort sammanfattning av artikeln..."
+                  className="w-full resize-y overflow-auto rounded-md border border-input bg-background px-4 py-3 min-h-[120px] max-h-80 text-base leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </FormControl>
               <FormMessage />
@@ -94,11 +96,12 @@ export default function CreateArticleForm({
           name="content"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Innehåll</FormLabel>
+              <FormLabel className="text-lg font-semibold">Innehåll</FormLabel>
               <FormControl>
                 <textarea
                   {...field}
-                  className="w-full resize-y overflow-auto rounded border p-2 min-h-32 max-h-92"
+                  placeholder="Skriv artikelns fullständiga innehåll här..."
+                  className="w-full resize-y overflow-auto rounded-md border border-input bg-background px-4 py-3 min-h-80 max-h-[640px] text-base leading-relaxed font-normal focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </FormControl>
               <FormMessage />
@@ -110,9 +113,9 @@ export default function CreateArticleForm({
           name="image_url"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bild (URL)</FormLabel>
+              <FormLabel className="text-lg font-semibold">Bild (URL)</FormLabel>
               <FormControl>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <Input
                     type="url"
                     placeholder="https://example.com/image.jpg"
@@ -122,9 +125,10 @@ export default function CreateArticleForm({
                       field.onChange(url);
                       setImagePreview(url);
                     }}
+                    className="h-14 text-lg px-4"
                   />
                   {imagePreview ? (
-                    <div className="relative w-full h-48 rounded border overflow-hidden">
+                    <div className="relative w-full h-56 rounded border overflow-hidden">
                       <Image
                         src={imagePreview}
                         alt="Preview"
@@ -147,15 +151,16 @@ export default function CreateArticleForm({
           control={form.control}
           name="editorsChoice"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Editors Choice</FormLabel>
+            <FormItem className="flex items-center gap-3 space-y-0">
               <FormControl>
                 <input
                   type="checkbox"
                   checked={field.value}
                   onChange={(e) => field.onChange(e.target.checked)}
+                  className="w-5 h-5 rounded border-input cursor-pointer"
                 />
               </FormControl>
+              <FormLabel className="text-base font-medium cursor-pointer">Editors Choice</FormLabel>
               <FormMessage />
             </FormItem>
           )}
@@ -165,7 +170,7 @@ export default function CreateArticleForm({
           name="categoryIds"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Kategorier</FormLabel>
+              <FormLabel className="text-lg font-semibold">Kategorier <span className="text-sm font-normal text-muted-foreground">(håll Ctrl/Cmd för flera val)</span></FormLabel>
               <FormControl>
                 <select
                   multiple
@@ -177,10 +182,10 @@ export default function CreateArticleForm({
                       )
                     )
                   }
-                  className="w-full border rounded p-2"
+                  className="w-full border border-input rounded-md px-4 py-3 h-48 text-base bg-background focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   {categories.map((c) => (
-                    <option key={c.id} value={c.id}>
+                    <option key={c.id} value={c.id} className="py-2">
                       {c.name}
                     </option>
                   ))}
@@ -190,8 +195,13 @@ export default function CreateArticleForm({
             </FormItem>
           )}
         />
-        <Button type="submit">Skapa artikel</Button>
-      </form>
+        <div className="flex justify-end pt-4 border-t border-border">
+          <Button type="submit" className="h-14 px-8 text-lg font-semibold">
+            Skapa artikel
+          </Button>
+        </div>
+        </form>
+      </div>
     </Form>
   );
 }

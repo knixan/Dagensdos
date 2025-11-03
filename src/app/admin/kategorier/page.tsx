@@ -18,7 +18,7 @@ export default async function AdminKategorierPage() {
   return (
     <>
       <Navbar />
-      <main className="flex-grow pt-8 pb-16">
+      <main className="flex grow pt-8 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-bold mb-6">Admin: Kategorier</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 items-start">

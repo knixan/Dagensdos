@@ -90,7 +90,7 @@ export default async function ArticlePage({
                   ← Tillbaka
                 </Link>
 
-                <h1 className="mt-4 text-3xl font-extrabold">
+                <h1 className="mt-4 text-3xl text-foreground font-extrabold">
                   {article!.title}
                 </h1>
                 <p className="text-sm text-muted-foreground mb-6">
@@ -109,8 +109,8 @@ export default async function ArticlePage({
                   </div>
                 )}
 
-                <div className="text-base text-foreground leading-7 prose prose-invert dark:prose-invert">
-                  {article!.content.split(/\n\s*\n/).map((para, idx) => {
+                <div className="text-base text-muted-foreground leading-7 prose prose-invert dark:prose-invert">
+                  {(article.content ?? "").split(/\n\s*\n/).map((para, idx) => {
                     const lines = para.split(/\n/);
                     return (
                       <p key={idx} className="mb-4">

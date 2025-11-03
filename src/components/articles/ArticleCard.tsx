@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import type { Article } from "@/lib/articles";
 
@@ -10,24 +11,52 @@ type Props = {
 };
 
 export function ArticleCard({ article, compact = false, className = "" }: Props) {
+  // Säker läsning av eventuellt bildfält utan `any`
+  const imgSrc = (article as { image?: string }).image ?? "/placeholder.png";
+
   return (
     <article
       className={cn(
-        "bg-card p-4 rounded-lg shadow hover:shadow-lg transition duration-200 border border-border",
-        compact ? "p-3" : "p-4",
+        "bg-card rounded-lg shadow hover:shadow-lg transition duration-200 border border-border",
+        compact ? "p-3" : "p-6",
+        "grid grid-cols-1  gap-4",
         className
       )}
     >
-  <p className="text-xs font-semibold text-accent uppercase">{article.category}</p>
-  <Link href={`/artiklar/${article.slug}`} className="mt-1 block">
-        <h4 className="mt-1 text-lg font-bold text-foreground hover:text-accent cursor-pointer line-clamp-2">
-          {article.title}
-        </h4>
-      </Link>
-      <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{article.excerpt}</p>
-      <Link href={`/artiklar/${article.slug}`} className="mt-3 inline-block text-sm text-primary hover:underline">
-        Läs mer
-      </Link>
+      {/* kategori */}
+      <div className="col-span-full">
+        <p className="text-xs font-semibold text-accent uppercase">{article.category}</p>
+      </div>
+
+      {/* innehåll: rubrik först */}
+      <div className="col-span-full">
+        <Link href={`/artiklar/${article.slug}`} className="mt-1 block">
+          <h4 className="mt-1 text-xl font-bold text-foreground hover:text-accent cursor-pointer line-clamp-2">
+            {article.title}
+          </h4>
+        </Link>
+      </div>
+
+      {/* bild (nu under rubriken och över excerpt) */}
+      <div className="col-span-full w-full h-40 md:h-48 rounded-md overflow-hidden bg-muted">
+        <Image
+          src={imgSrc}
+          alt={article.title}
+          width={800}
+          height={480}
+          className="object-cover w-full h-full"
+          priority={false}
+        />
+      </div>
+
+      {/* excerpt + Läs mer */}
+      <div className="col-span-full">
+        <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{article.excerpt}</p>
+
+        <Link href={`/artiklar/${article.slug}`} className="mt-3 inline-block text-sm text-primary hover:underline">
+          Läs mer
+        </Link>
+      </div>
     </article>
   );
 }

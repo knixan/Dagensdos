@@ -52,7 +52,7 @@ export default async function ArticlesSection() {
   return (
     <Section title="Artiklar">
       {hero && <ArticleHero article={hero} />}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="mt-6 grid  grid-cols-1 md:grid-cols-3 gap-4">
         {rest.map((article) => (
           <ArticleCard key={article.id} article={article} />
         ))}

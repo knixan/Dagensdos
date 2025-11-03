@@ -1,6 +1,7 @@
 "use client"
 
-// Image import removed because it's not used (logo was commented out)
+import Link from 'next/link';
+import Image from 'next/image';
 import React from 'react';
 
 type FooterVariant = 'primary' | 'secondary' | 'muted';
@@ -58,18 +59,18 @@ export function Footer(): React.ReactElement {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-muted-foreground">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           {/* Logga längst till vänster */}
-          {/* <div className="flex items-start">
+          <div className="flex items-start">
             <Link href="/" className="flex items-center space-x-3">
-              <div className="relative h-12 w-12">
+              <div className="relative h-24 w-24">
                 <Image
-                  src="/loggo.png"
-                  alt="Dagens Dos Logga"
+                  src="/images/loggo.png"
+                  alt="Nyhetspulsen"
                   fill
                   className="object-contain"
                 />
               </div>
             </Link>
-          </div> */}
+          </div>
  
           {/* Om Oss */}
           <div>

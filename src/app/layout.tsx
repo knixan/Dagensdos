@@ -15,8 +15,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Dagens Dos - Sanningen gör ont, här får du en bedövning.",
-  description: "Next.js och Tailwind CSS sida för Dagens Dos.",
+  title: "Nyhetspulsen",
+  description: "Alltid i takt med tiden",
 };
 
 export default function RootLayout({

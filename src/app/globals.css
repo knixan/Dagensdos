@@ -2,7 +2,6 @@
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -49,75 +48,75 @@
 :root {
   --radius: 0.625rem;
   
-  /* Ljust tema - #F9F3EF, #1B3C53, #456882, #D2C1B6 */
-  --background: #F9F3EF;
-  --foreground: #1B3C53;
-  --card: #FFFFFF;
-  --card-foreground: #1B3C53;
-  --popover: #FFFFFF;
-  --popover-foreground: #1B3C53;
-  --primary: #456882;
-  --primary-foreground: #FFFFFF;
-  --secondary: #E8DFD8;
-  --secondary-foreground: #1B3C53;
-  --muted: #E8DFD8;
-  --muted-foreground: #5C6F7F;
-  --accent: #D2C1B6;
-  --accent-foreground: #1B3C53;
-  --destructive: #C7735D;
-  --destructive-foreground: #FFFFFF;
-  --border: #DDD0C5;
-  --input: #DDD0C5;
-  --ring: #456882;
-  --chart-1: #456882;
-  --chart-2: #1B3C53;
-  --chart-3: #D2C1B6;
-  --chart-4: #5E8099;
-  --chart-5: #E0D2C9;
-  --sidebar: #FFFFFF;
-  --sidebar-foreground: #1B3C53;
-  --sidebar-primary: #456882;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F9F3EF;
-  --sidebar-accent-foreground: #1B3C53;
-  --sidebar-border: #DDD0C5;
-  --sidebar-ring: #456882;
+  /* Ljust tema - #c4071d (röd), #003366 (blå), #ffffff (vit), #000000 (svart) */
+  --background: #ffffff;
+  --foreground: #004d99;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #c4071d;
+  --primary-foreground: #ffffff;
+  --secondary: #003366;
+  --secondary-foreground: #ffffff;
+  --muted: #f5f5f5;
+  --muted-foreground: #666666;
+  --accent: #c4071d;
+  --accent-foreground: #ffffff;
+  --destructive: #c4071d;
+  --destructive-foreground: #ffffff;
+  --border: #e0e0e0;
+  --input: #e0e0e0;
+  --ring: #c4071d;
+  --chart-1: #c4071d;
+  --chart-2: #003366;
+  --chart-3: #e60a23;
+  --chart-4: #004d99;
+  --chart-5: #a60517;
+  --sidebar: #f9f9f9;
+  --sidebar-foreground: #000000;
+  --sidebar-primary: #c4071d;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f5f5f5;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #e0e0e0;
+  --sidebar-ring: #c4071d;
 }
 
 .dark {
-  /* Mörkt tema - #1B3C53, #456882, #D2C1B6, #F9F3EF */
-  --background: #1B3C53;
-  --foreground: #F9F3EF;
-  --card: #274D68;
-  --card-foreground: #F9F3EF;
-  --popover: #274D68;
-  --popover-foreground: #F9F3EF;
-  --primary: #456882;
-  --primary-foreground: #F9F3EF;
-  --secondary: #325571;
-  --secondary-foreground: #F9F3EF;
-  --muted: #2D5265;
-  --muted-foreground: #D2C1B6;
-  --accent: #D2C1B6;
-  --accent-foreground: #1B3C53;
-  --destructive: #D48A71;
-  --destructive-foreground: #F9F3EF;
-  --border: rgba(69, 104, 130, 0.4);
-  --input: rgba(69, 104, 130, 0.5);
-  --ring: #456882;
-  --chart-1: #456882;
-  --chart-2: #D2C1B6;
-  --chart-3: #5E8099;
-  --chart-4: #E0D2C9;
-  --chart-5: #376176;
-  --sidebar: #152E41;
-  --sidebar-foreground: #F9F3EF;
-  --sidebar-primary: #456882;
-  --sidebar-primary-foreground: #F9F3EF;
-  --sidebar-accent: #274D68;
-  --sidebar-accent-foreground: #F9F3EF;
-  --sidebar-border: rgba(69, 104, 130, 0.4);
-  --sidebar-ring: #456882;
+  /* Mörkt tema - #000d19 (bakgrund), #111111 (kort), #c4071d (röd), #003366 (blå), #ffffff (vit) */
+  --background: #000d19;
+  --foreground: #004d99;
+  --card: #111111;
+  --card-foreground: #ffffff;
+  --popover: #111111;
+  --popover-foreground: #ffffff;
+  --primary: #c4071d;
+  --primary-foreground: #ffffff;
+  --secondary: #003366;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1a1a;
+  --muted-foreground: #b3b3b3;
+  --accent: #c4071d;
+  --accent-foreground: #ffffff;
+  --destructive: #c4071d;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.05);
+  --ring: #c4071d;
+  --chart-1: #c4071d;
+  --chart-2: #003366;
+  --chart-3: #e60a23;
+  --chart-4: #004d99;
+  --chart-5: #ff1a33;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #c4071d;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #c4071d;
 }
 
 @layer base {
