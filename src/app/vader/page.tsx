@@ -1,4 +1,4 @@
-import { getWeatherByLocation } from "../admin/artiklar-ai/actions/weather";
+import { getWeatherByLocation } from "../../lib/weather";
 import Image from "next/image";
 import WeatherComment from "../../components/weather-comments";
 import ClientGeoWeather from "../../components/weather-client";

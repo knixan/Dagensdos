@@ -11,14 +11,43 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  BlockTypeSelect,
+  BoldItalicUnderlineToggles,
+  headingsPlugin,
+  InsertTable,
+  linkDialogPlugin,
+  linkPlugin,
+  listsPlugin,
+  ListsToggle,
+  MDXEditor,
+  MDXEditorMethods,
+  quotePlugin,
+  tablePlugin,
+  thematicBreakPlugin,
+  toolbarPlugin,
+  UndoRedo,
+} from "@mdxeditor/editor";
+import "@mdxeditor/editor/style.css";
 import { Button } from "@/components/ui/button";
 import { ArticleEditSchema, ArticleEditValues } from "./schema";
 import { editArticle } from "./actions";
 import type { Article, Category } from "@/generated/prisma";
 
-type ArticleWithCategories = Article & { category: Category[] };
+// Prisma Article has a single `category` relation (object). Some parts of the app
+// previously expected an array; handle both shapes at runtime.
+type ArticleWithCategories = Article & { category?: Category | Category[] };
 
-export default function ArticleEditForm({ article, categories }: { article: ArticleWithCategories; categories: Category[] }) {
+export default function ArticleEditForm({
+  article,
+  categories,
+}: {
+  article: ArticleWithCategories;
+  categories: Category[];
+}) {
+  const refSummary = React.useRef<MDXEditorMethods | null>(null);
+  const refContent = React.useRef<MDXEditorMethods | null>(null);
+
   const form = useForm<ArticleEditValues>({
     resolver: zodResolver(ArticleEditSchema),
     defaultValues: {
@@ -28,7 +57,11 @@ export default function ArticleEditForm({ article, categories }: { article: Arti
       content: article.content,
       image_url: article.image_url,
       editorsChoice: !!article.editorsChoice,
-  categoryIds: article.category?.map((c) => c.id) ?? [],
+      categoryIds: Array.isArray(article.category)
+        ? (article.category as Category[]).map((c) => c.id)
+        : article.category && (article.category as Category).id
+        ? [(article.category as Category).id]
+        : [],
     },
   });
 
@@ -59,7 +92,35 @@ export default function ArticleEditForm({ article, categories }: { article: Arti
             <FormItem>
               <FormLabel>Summary</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <div className="text-white rounded-md border border-muted p-2 bg-surface">
+                  <MDXEditor
+                    ref={refSummary}
+                    markdown={field.value ?? ""}
+                    onChange={(md) => field.onChange(md)}
+                    contentEditableClassName="prose prose-slate"
+                    className="min-h-[120px] prose max-w-none text-foreground bg-transparent"
+                    plugins={[
+                      headingsPlugin(),
+                      listsPlugin(),
+                      quotePlugin(),
+                      thematicBreakPlugin(),
+                      linkPlugin(),
+                      linkDialogPlugin(),
+                      tablePlugin(),
+                      toolbarPlugin({
+                        toolbarContents: () => (
+                          <>
+                            <UndoRedo />
+                            <BoldItalicUnderlineToggles />
+                            <BlockTypeSelect />
+                            <ListsToggle />
+                            <InsertTable />
+                          </>
+                        ),
+                      }),
+                    ]}
+                  />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -72,7 +133,34 @@ export default function ArticleEditForm({ article, categories }: { article: Arti
             <FormItem>
               <FormLabel>Content</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <div className="rounded-md border border-muted p-2 bg-surface">
+                  <MDXEditor
+                    ref={refContent}
+                    markdown={field.value ?? ""}
+                    onChange={(md) => field.onChange(md)}
+                    className="min-h-[220px] prose max-w-none text-foreground bg-transparent"
+                    plugins={[
+                      headingsPlugin(),
+                      listsPlugin(),
+                      quotePlugin(),
+                      thematicBreakPlugin(),
+                      linkPlugin(),
+                      linkDialogPlugin(),
+                      tablePlugin(),
+                      toolbarPlugin({
+                        toolbarContents: () => (
+                          <>
+                            <UndoRedo />
+                            <BoldItalicUnderlineToggles />
+                            <BlockTypeSelect />
+                            <ListsToggle />
+                            <InsertTable />
+                          </>
+                        ),
+                      }),
+                    ]}
+                  />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,7 +186,11 @@ export default function ArticleEditForm({ article, categories }: { article: Arti
             <FormItem>
               <FormLabel>Editors Choice</FormLabel>
               <FormControl>
-                <input type="checkbox" checked={field.value} onChange={(e) => field.onChange(e.target.checked)} />
+                <input
+                  type="checkbox"
+                  checked={field.value}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,7 +207,11 @@ export default function ArticleEditForm({ article, categories }: { article: Arti
                   multiple
                   value={field.value ?? []}
                   onChange={(e) =>
-                    field.onChange(Array.from(e.currentTarget.selectedOptions).map((o) => o.value))
+                    field.onChange(
+                      Array.from(e.currentTarget.selectedOptions).map(
+                        (o) => o.value
+                      )
+                    )
                   }
                   className="w-full border rounded p-2"
                 >

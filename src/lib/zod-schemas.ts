@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Role as PrismaRole } from "@prisma/client";
+import { Role as PrismaRole } from "@/generated/prisma";
 
 // --- Article Schemas ---
 export const createArticleSchema = z.object({

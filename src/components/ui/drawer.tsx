@@ -1,3 +1,10 @@
+//chad CN komponent externt bibliotek https://ui.shadcn.com/docs/components/drawer
+
+// NOTE: This file requires 'vaul' package which is not installed.
+// Commented out entire file since it's not used in the project.
+// To use this component, run: npm install vaul
+
+/*
 "use client"
 
 import * as React from "react"
@@ -133,3 +140,16 @@ export {
   DrawerTitle,
   DrawerDescription,
 }
+*/
+
+// Stub exports to prevent import errors if something tries to import this
+export const Drawer = () => null;
+export const DrawerPortal = () => null;
+export const DrawerOverlay = () => null;
+export const DrawerTrigger = () => null;
+export const DrawerClose = () => null;
+export const DrawerContent = () => null;
+export const DrawerHeader = () => null;
+export const DrawerFooter = () => null;
+export const DrawerTitle = () => null;
+export const DrawerDescription = () => null;

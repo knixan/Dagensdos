@@ -30,7 +30,7 @@ export default async function AdminArtiklarPage({
   return (
     <>
       <Navbar />
-      <main className="flex-grow pt-8 pb-16">
+      <main className="flex grow pt-8 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-bold mb-6">Admin: Artiklar</h1>
           <div className="flex gap-4 mb-6 items-center">
@@ -41,7 +41,14 @@ export default async function AdminArtiklarPage({
             />
             <div className="ml-auto flex gap-2">
               <LinkButton href="/admin/artiklar/skapa" variant="primary">
-                Skapa
+                Skapa Artikel
+              </LinkButton>
+              <LinkButton
+                href="/admin/artiklar-ai"
+                variant="primary"
+                className="hidden md:inline-flex"
+              >
+                Skapa AI Artikel
               </LinkButton>
             </div>
           </div>

@@ -4,28 +4,34 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useState, useRef } from "react";
+import Image from "next/image";
+import ArticleContent from "@/components/ArticleContent";
 import { generateNews } from "./ai";
-import { 
-BlockTypeSelect,
-BoldItalicUnderlineToggles, 
-headingsPlugin,
-InsertTable, 
-linkDialogPlugin, 
-linkPlugin, 
-listsPlugin, 
-ListsToggle, 
-MDXEditor,
-MDXEditorMethods,
-quotePlugin, 
-tablePlugin, 
-thematicBreakPlugin,
-toolbarPlugin, 
-UndoRedo
- } from "@mdxeditor/editor";
- import "@mdxeditor/editor/style.css";
+import {
+  BlockTypeSelect,
+  BoldItalicUnderlineToggles,
+  headingsPlugin,
+  InsertTable,
+  linkDialogPlugin,
+  linkPlugin,
+  listsPlugin,
+  ListsToggle,
+  MDXEditor,
+  MDXEditorMethods,
+  quotePlugin,
+  tablePlugin,
+  thematicBreakPlugin,
+  toolbarPlugin,
+  UndoRedo,
+} from "@mdxeditor/editor";
+import "@mdxeditor/editor/style.css";
 import { saveArticle } from "./actions/articles-ai";
- 
-export default function CreateArticle() {
+
+export default function CreateArticle({
+  categories,
+}: {
+  categories: { id: string; name: string }[];
+}) {
   const refSummary = useRef<MDXEditorMethods>(null);
   const refContent = useRef<MDXEditorMethods>(null);
 
@@ -33,20 +39,25 @@ export default function CreateArticle() {
   const [headLine, setHeadLine] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    categories?.[0]?.id ?? ""
+  );
+  const [isEditorsChoice, setIsEditorsChoice] = useState<boolean>(false);
 
   return (
     <>
-      <Card className="p-6 mb-8 bg-gradient-to-r from-primary to-secondary text-primary-foreground shadow-sm">
+      <Card className="p-6 mb-8 bg-background  text-secondary-foreground shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg">
-            Generate News Article with AI
+          <CardTitle className="text-primary text-lg">
+            Generera AI Artikel
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex gap-4 items-center">
             <div className="flex-1">
               <label htmlFor="topic" className="sr-only">
-                Topic:
+                Ämne:
               </label>
               <Input
                 id="topic"
@@ -76,12 +87,12 @@ export default function CreateArticle() {
 
       <Card className="mb-8 border border-border bg-background text-foreground">
         <CardHeader>
-          <CardTitle>Article Details</CardTitle>
+          <CardTitle>Artikel Detaljer</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
             <label htmlFor="header" className="text-sm text-muted-foreground">
-              Header
+              Rubrik
             </label>
             <Input
               id="header"
@@ -92,7 +103,51 @@ export default function CreateArticle() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm text-muted-foreground">Summary</label>
+            <label htmlFor="image" className="text-sm text-muted-foreground">
+              Bild (URL)
+            </label>
+            <Input
+              id="image"
+              type="url"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="https://example.com/image.jpg"
+              className="bg-surface border border-muted text-foreground"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm text-muted-foreground">Kategori</label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full border border-input rounded-md px-3 py-2 bg-background"
+            >
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              id="editorsChoice"
+              type="checkbox"
+              checked={isEditorsChoice}
+              onChange={(e) => setIsEditorsChoice(e.target.checked)}
+              className="w-5 h-5 rounded border-input cursor-pointer"
+            />
+            <label htmlFor="editorsChoice" className="text-sm">
+              Redaktörens Val
+            </label>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm text-muted-foreground">
+              Samanfattning
+            </label>
             <div className="text-white rounded-md border border-muted p-2 bg-surface">
               <MDXEditor
                 ref={refSummary}
@@ -125,7 +180,7 @@ export default function CreateArticle() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm text-muted-foreground">Content</label>
+            <label className="text-sm text-muted-foreground">Innehåll</label>
             <div className="rounded-md border border-muted p-2 bg-surface">
               <MDXEditor
                 ref={refContent}
@@ -160,38 +215,49 @@ export default function CreateArticle() {
 
       <Card className="border border-border bg-background text-foreground">
         <CardHeader>
-          <CardTitle>Preview</CardTitle>
+          <CardTitle>Förhandsgranskning</CardTitle>
         </CardHeader>
         <CardContent>
           <h2 className="text-xl font-semibold text-foreground">
-            {headLine || "No headLine yet"}
+            {headLine || "Ingen rubrik än"}
           </h2>
           <div className="mt-4 text-muted-foreground">
-            <h3 className="font-medium">Summary</h3>
-            <div
-              className="prose max-w-none text-foreground"
-              dangerouslySetInnerHTML={{
-                __html: summary || "<em>No summary</em>",
-              }}
+            {imageUrl ? (
+              <div className="mb-4 relative w-full h-56">
+                <Image
+                  src={imageUrl}
+                  alt="Preview"
+                  fill
+                  className="object-cover rounded border"
+                  unoptimized
+                />
+              </div>
+            ) : null}
+            <h3 className="font-medium">Samanfattning</h3>
+            <ArticleContent
+              markdown={summary}
+              className="prose prose-slate dark:prose-invert max-w-none"
             />
-            <h3 className="mt-4 font-medium">Content</h3>
-            <div
-              className="prose max-w-none text-foreground"
-              dangerouslySetInnerHTML={{
-                __html: content || "<em>No content</em>",
-              }}
+            <h3 className="mt-4 font-medium">Innehåll</h3>
+            <ArticleContent
+              markdown={content}
+              className="prose prose-slate dark:prose-invert max-w-none"
             />
           </div>
           <div className="mt-6">
             <Button
-              className="bg-green-600 text-white hover:bg-green-700"
+              className="bg-primary text-primary-foreground"
               onClick={async () => {
-                try {
-                  await saveArticle({ headLine, summary, content, category: "1", author: "1"  });
-                  alert("Article saved successfully");
-                } catch (error) {
-                  alert("Error saving article: " + (error as Error).message);
-                }
+                // Don't wrap in try-catch - redirect() throws NEXT_REDIRECT which is normal behavior
+                await saveArticle({
+                  headLine,
+                  summary,
+                  content,
+                  category: selectedCategory || categories?.[0]?.id || "",
+                  image_url: imageUrl,
+                  editorsChoice: isEditorsChoice,
+                });
+                // After redirect, this code won't execute
               }}
             >
               Save Article to Database

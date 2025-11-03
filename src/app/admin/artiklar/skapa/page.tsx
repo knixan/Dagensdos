@@ -2,7 +2,7 @@ import CreateArticleForm from "./form";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { prisma } from "@/lib/prisma";
-import type { Category } from "@prisma/client";
+import type { Category } from "@/generated/prisma";
 import { requireAdmin } from "@/lib/server-auth";
 
 export default async function AdminSkapaArtikelPage() {

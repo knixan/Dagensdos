@@ -22,7 +22,7 @@ export default async function AdminRedigeraArtikelPage({
   return (
     <>
       <Navbar />
-      <main className="flex-grow pt-8 pb-16">
+      <main className="flex grow pt-8 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl font-bold mb-6">Redigera artikel</h1>
           <div className="mb-4">
@@ -38,13 +38,7 @@ export default async function AdminRedigeraArtikelPage({
                 <div>
                   <div className="font-semibold">{a.headline}</div>
                   <div className="text-sm text-muted-foreground">
-                    {Array.isArray(
-                      (a as Article & { category: Category[] }).category
-                    )
-                      ? (a as Article & { category: Category[] }).category
-                          .map((c) => c.name)
-                          .join(", ")
-                      : ""}
+                    {a.category ? a.category.name : ""}
                   </div>
                 </div>
                 <div className="flex gap-2">

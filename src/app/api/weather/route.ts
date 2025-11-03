@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getWeatherByLocation } from "@/app/admin/artiklar-ai/actions/weather";
+import { getWeatherByLocation } from "@/lib/weather";
 
 export async function POST(req: Request) {
   try {

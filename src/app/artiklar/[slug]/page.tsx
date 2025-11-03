@@ -7,6 +7,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Aside from "@/components/layout/aside/aside";
 import { prisma } from "@/lib/prisma";
+import ArticleContent from "@/components/ArticleContent";
 
 type Props = {
   params: { slug: string };
@@ -17,7 +18,7 @@ export default async function ArticlePage({
 }: Props): Promise<React.ReactElement> {
   const { slug } = await params;
 
-  // Extract the ID from the slug (last part after final dash)
+  // Extracta ID från sluggen (sista delen efter sista strecket)
   const idMatch = slug.match(/-([a-z0-9]+)$/);
   const articleId = idMatch ? idMatch[1] : null;
 
@@ -25,7 +26,7 @@ export default async function ArticlePage({
     notFound();
   }
 
-  // Find article by ID prefix (since we only store first 6 chars in slug)
+  // Hitta artikeln i databasen
   const dbArticle = await prisma.article.findFirst({
     where: {
       id: {
@@ -38,8 +39,7 @@ export default async function ArticlePage({
   if (!dbArticle) {
     notFound();
   }
-
-  // Map to local Article type
+  // Mappa databasen till Article-typen
   const article: Article = {
     id: String(dbArticle.id),
     slug: slug,
@@ -109,21 +109,10 @@ export default async function ArticlePage({
                   </div>
                 )}
 
-                <div className="text-base text-muted-foreground leading-7 prose prose-invert dark:prose-invert">
-                  {(article.content ?? "").split(/\n\s*\n/).map((para, idx) => {
-                    const lines = para.split(/\n/);
-                    return (
-                      <p key={idx} className="mb-4">
-                        {lines.map((line, i) => (
-                          <React.Fragment key={i}>
-                            {line}
-                            {i < lines.length - 1 && <br />}
-                          </React.Fragment>
-                        ))}
-                      </p>
-                    );
-                  })}
-                </div>
+                <ArticleContent
+                  markdown={article.content}
+                  className="text-base text-muted-foreground leading-7 prose prose-slate dark:prose-invert max-w-none"
+                />
 
                 <div className="mt-8">
                   <Link href="/" className="text-primary hover:underline">

@@ -1,6 +1,6 @@
 "use server";
 
-import { WeatherType } from "../../../types/weather-types";
+import { WeatherType } from "../app/types/weather-types";
 
 export async function getWeatherByLocation(
   location: string

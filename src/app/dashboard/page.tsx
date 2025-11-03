@@ -37,60 +37,65 @@ export default async function Dashboard() {
   //Total subscriptions
   const subscriptionCount = await prisma.subscription.count();
 
-  //Premium subscription
-  const premium = await prisma.subscriptionType.findUnique({
-    where: { name: "premium" },
-    include: {
-      subscriptions: {
-        select: { id: true },
-      },
-    },
-  });
-  const totalProfitPremium = premium
-    ? premium.price * premium.subscriptions.length
-    : 0 || 0;
+  //Premium subscription - NOTE: SubscriptionType model doesn't exist in schema
+  // const premium = await prisma.subscriptionType.findUnique({
+  //   where: { name: "premium" },
+  //   include: {
+  //     subscriptions: {
+  //       select: { id: true },
+  //     },
+  //   },
+  // });
+  // const totalProfitPremium = premium
+  //   ? premium.price * premium.subscriptions.length
+  //   : 0 || 0;
+  const totalProfitPremium = 0; // Placeholder until SubscriptionType is added to schema
   console.log("totalProfitPremium", totalProfitPremium);
 
-  const lastYearStart = startOfYear(subYears(new Date(), 1));
-  const lastYearEnd = endOfYear(subYears(new Date(), 1));
+  // const lastYearStart = startOfYear(subYears(new Date(), 1));
+  // const lastYearEnd = endOfYear(subYears(new Date(), 1));
 
-  const subscriptionsLastYear = await prisma.subscription.findMany({
-    where: {
-      createdAt: {
-        gte: lastYearStart,
-        lte: lastYearEnd,
-      },
-    },
-    include: {
-      type: {
-        select: { price: true, name: true },
-      },
-    },
-  });
+  // NOTE: Subscription model doesn't have createdAt or type relation in current schema
+  // const subscriptionsLastYear = await prisma.subscription.findMany({
+  //   where: {
+  //     createdAt: {
+  //       gte: lastYearStart,
+  //       lte: lastYearEnd,
+  //     },
+  //   },
+  //   include: {
+  //     type: {
+  //       select: { price: true, name: true },
+  //     },
+  //   },
+  // });
 
   //Compute total profit
-  const totalProfitLastYear =
-    subscriptionsLastYear.reduce((sum, sub) => sum + sub.type.price, 0) || 0;
+  // const totalProfitLastYear =
+  //   subscriptionsLastYear.reduce((sum, sub) => sum + sub.type.price, 0) || 0;
+  const totalProfitLastYear = 0; // Placeholder
 
   console.log({ totalProfitLastYear });
 
-  const thirtyDaysAgo = subDays(new Date(), 30);
-  const subscriptionsLast30Days = await prisma.subscription.findMany({
-    where: {
-      createdAt: {
-        gte: thirtyDaysAgo, // createdAt >= 30 days ago
-      },
-    },
-    include: {
-      type: {
-        select: { price: true },
-      },
-    },
-  });
+  // const thirtyDaysAgo = subDays(new Date(), 30);
+  // NOTE: Subscription doesn't have createdAt or type relation
+  // const subscriptionsLast30Days = await prisma.subscription.findMany({
+  //   where: {
+  //     createdAt: {
+  //       gte: thirtyDaysAgo, // createdAt >= 30 days ago
+  //     },
+  //   },
+  //   include: {
+  //     type: {
+  //       select: { price: true },
+  //     },
+  //   },
+  // });
 
   // Calculate profit last 30 days
-  const totalProfitLast30Days =
-    subscriptionsLast30Days.reduce((sum, sub) => sum + sub.type.price, 0) || 0;
+  // const totalProfitLast30Days =
+  //   subscriptionsLast30Days.reduce((sum, sub) => sum + sub.type.price, 0) || 0;
+  const totalProfitLast30Days = 0; // Placeholder
 
   console.log({ totalProfitLast30Days });
 
@@ -100,20 +105,14 @@ export default async function Dashboard() {
     },
     take: 7,
   });
-  const UserData: UserDataProps[] = recentUsers.map(
-    (account: {
-      name: string;
-      email: string;
-      /*image: unknown;*/ createdAt: Date;
-    }) => ({
-      name: account.name || "Unknown",
-      email: account.email || "Unknown",
-      // image: account.image || "/images/user-icon.jpg",
-      time: formatDistanceToNow(new Date(account.createdAt), {
-        addSuffix: true,
-      }),
-    })
-  );
+  const UserData: UserDataProps[] = recentUsers.map((account) => ({
+    name: account.name || "Unknown",
+    email: account.email || "Unknown",
+    // image: account.image || "/images/user-icon.jpg",
+    time: formatDistanceToNow(new Date(account.createdAt), {
+      addSuffix: true,
+    }),
+  }));
 
   const usersThisMonth = await prisma.user.groupBy({
     by: ["createdAt"],
@@ -134,38 +133,38 @@ export default async function Dashboard() {
   console.log(monthlyUsersData);
 
   /*** */
-  const sixMonthsAgo = subMonths(currentDate, 6);
+  // const sixMonthsAgo = subMonths(currentDate, 6);
 
-  const subscriptionsLast6Months = await prisma.subscription.findMany({
-    where: {
-      createdAt: {
-        gte: sixMonthsAgo,
-        lte: currentDate,
-      },
-    },
-    include: {
-      type: {
-        select: { price: true },
-      },
-    },
-  });
+  // NOTE: Subscription doesn't have createdAt or type relation
+  // const subscriptionsLast6Months = await prisma.subscription.findMany({
+  //   where: {
+  //     createdAt: {
+  //       gte: sixMonthsAgo,
+  //       lte: currentDate,
+  //     },
+  //   },
+  //   include: {
+  //     type: {
+  //       select: { price: true },
+  //     },
+  //   },
+  // });
 
   // Group by month and sum prices
-  const revenueByMonth: Record<string, number> = {};
+  // const revenueByMonth: Record<string, number> = {};
 
-  subscriptionsLast6Months.forEach((sub) => {
-    const monthKey = format(sub.createdAt, "yyyy-MM");
-    revenueByMonth[monthKey] = (revenueByMonth[monthKey] || 0) + sub.type.price;
-  });
+  // subscriptionsLast6Months.forEach((sub) => {
+  //   const monthKey = format(sub.createdAt, "yyyy-MM");
+  //   revenueByMonth[monthKey] = (revenueByMonth[monthKey] || 0) + sub.type.price;
+  // });
 
-  // Ensure all months exist (even with 0)
+  // Ensure all months exist (even with 0) - Placeholder data
   const monthlyRevenueData = [];
   for (let i = 5; i >= 0; i--) {
     const monthDate = subMonths(currentDate, i);
-    const monthKey = format(monthDate, "yyyy-MM");
     monthlyRevenueData.push({
       month: format(monthDate, "MMM"),
-      total: revenueByMonth[monthKey] || 0,
+      total: 0, // Placeholder
     });
   }
 
@@ -186,7 +185,7 @@ export default async function Dashboard() {
   const PurchaseCard: UserPurchaseProps[] = recentSales.map((purchase) => ({
     name: purchase.user?.name || "Unknown",
     email: purchase.user?.email || "Unknown",
-    paid: purchase.paid ? "Paid" : "Unpaid",
+    paid: purchase.paid, // boolean as expected by UserPurchaseProps
     //image: purchase.user?. || "/images/user-icon.jpg",_count
   }));
 

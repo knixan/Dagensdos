@@ -9,8 +9,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-// Importera typen från Prisma Client (kräver `npx prisma generate`)
-import type { Category } from "@prisma/client";
+// Importera typen från den genererade Prisma-klienten
+import type { Category } from "@/generated/prisma";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { Resolver } from "react-hook-form";

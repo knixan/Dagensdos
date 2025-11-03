@@ -8,9 +8,8 @@ export async function editArticle(values: ArticleEditValues) {
   await requireAdmin();
   const data = await ArticleEditSchema.parseAsync(values);
 
-    // Build connect array from provided categoryIds
-    const connectCategories = (data.categoryIds || []).map((id) => ({ id }));
-
+  const categoryId = data.categoryIds?.[0];
+  // Uppdatera artikeln med de nya värdena
   const updated = await prisma.article.update({
     where: { id: data.id },
     data: {
@@ -19,8 +18,10 @@ export async function editArticle(values: ArticleEditValues) {
       content: data.content,
       image_url: data.image_url,
       editorsChoice: data.editorsChoice,
-        category: { set: [], connect: connectCategories },
+      // Enbart koppla kategorin om en categoryId finns
+      ...(categoryId ? { category: { connect: { id: categoryId } } } : {}),
     },
   });
-  redirect(`/article/${updated.id}`);
+  // Efter uppdatering, omdirigera till admin artikelsidan
+  redirect(`/admin/artiklar`);
 }
