@@ -4,7 +4,7 @@ import { LucideIcon } from "lucide-react";
 interface DashboardCardProps {
     label: string;
     Icon: LucideIcon;
-    amount: unknown;
+    amount: string | number;
     description: string;
 }
 

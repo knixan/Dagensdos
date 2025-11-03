@@ -248,19 +248,16 @@ export default function CreateArticle({
             <Button
               className="bg-primary text-primary-foreground"
               onClick={async () => {
-                try {
-                  await saveArticle({
-                    headLine,
-                    summary,
-                    content,
-                    category: selectedCategory || categories?.[0]?.id || "",
-                    image_url: imageUrl,
-                    editorsChoice: isEditorsChoice,
-                  });
-                  alert("Article saved successfully");
-                } catch (error) {
-                  alert("Error saving article: " + (error as Error).message);
-                }
+                // Don't wrap in try-catch - redirect() throws NEXT_REDIRECT which is normal behavior
+                await saveArticle({
+                  headLine,
+                  summary,
+                  content,
+                  category: selectedCategory || categories?.[0]?.id || "",
+                  image_url: imageUrl,
+                  editorsChoice: isEditorsChoice,
+                });
+                // After redirect, this code won't execute
               }}
             >
               Save Article to Database

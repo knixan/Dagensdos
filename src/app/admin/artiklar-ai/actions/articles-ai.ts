@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/server-auth";
+import { redirect } from "next/navigation";
 
 export async function saveArticle(data: {
   headLine: string;
@@ -18,7 +19,7 @@ export async function saveArticle(data: {
     throw new Error("All fields are required");
   }
 
-  const article = await prisma.article.create({
+  await prisma.article.create({
     data: {
       headline: data.headLine,
       summary: data.summary,
@@ -29,5 +30,6 @@ export async function saveArticle(data: {
       authorId: session.user.id,
     },
   });
-  return { id: article.id, headline: article.headline };
+  // After creating via AI flow, navigate the admin back to the articles list
+  redirect(`/admin/artiklar`);
 }
