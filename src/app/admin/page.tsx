@@ -19,6 +19,7 @@ export default async function AdminPage() {
             <LinkButton href="/admin/artiklar-ai" variant="primary" className="w-full md:w-auto text-center text-lg py-4 px-8">Artiklar AI</LinkButton>
             <LinkButton href="/admin/kategorier" variant="primary" className="w-full md:w-auto text-center text-lg py-4 px-8">Kategorier</LinkButton>
             <LinkButton href="/admin/anvandare" variant="primary" className="w-full md:w-auto text-center text-lg py-4 px-8">Användare</LinkButton>
+            <LinkButton href="/admin/dashboard" variant="primary" className="w-full md:w-auto text-center text-lg py-4 px-8">Dashboard</LinkButton>
           </div>
         </div>
       </main>

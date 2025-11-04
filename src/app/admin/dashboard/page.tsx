@@ -26,8 +26,12 @@ import BarChart from "@/components/dashboard/barchart";
 import LineGraph from "@/components/dashboard/line-graph";
 
 import GoalDataCard from "@/components/dashboard/goal";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { requireAdmin } from "@/lib/server-auth";
 
 export default async function Dashboard() {
+    await requireAdmin();
     const currentDate = new Date();
 
     //Total subscriptions
@@ -157,71 +161,75 @@ export default async function Dashboard() {
     const goalProgress = (premiumProfit / goalAmount) * 100;
 
     return (
-        <div className="flex flex-col gap-5 w-full">
-            <h1 className="text-2xl font-bold text-bold text-center mx-6">
-                Dashboard
-            </h1>
-            <div className="container mx-auto py-8">
-                <div className="flex flex-col gap-5 w-full">
-                    <section
-                        className="grid w-full grid-cols-1 sm:grid-cols-2 xl:grid-cols-4
+        <>
+            <Navbar />
+            <div className="flex flex-col gap-5 w-full">
+                <h1 className="text-2xl font-bold text-bold text-center mx-6">
+                    Dashboard
+                </h1>
+                <div className="container mx-auto py-8">
+                    <div className="flex flex-col gap-5 w-full">
+                        <section
+                            className="grid w-full grid-cols-1 sm:grid-cols-2 xl:grid-cols-4
                         gap-4 gap-x-8 transition-all"
-                    >
-                        <DashboardCard
-                            label={"Totalt prenumeranter"}
-                            Icon={Users}
-                            amount={subscriptionCount}
-                            description=""
-                        />
-                        <DashboardCard
-                            label={"Prenumeranter förra året"}
-                            Icon={Calendar}
-                            amount={subscriptionsLastYear}
-                            description="Totalt"
-                        />
-                        <DashboardCard
-                            label={"Vinst Premium"}
-                            Icon={Coins}
-                            amount={`${premiumProfit} Kr`}
-                            description="Totalt"
-                        />
-                        <DashboardCard
-                            label={"Antal publicerade artiklar"}
-                            Icon={Newspaper}
-                            amount={totalArticles}
-                            description="Totalt"
-                        />
+                        >
+                            <DashboardCard
+                                label={"Totalt prenumeranter"}
+                                Icon={Users}
+                                amount={subscriptionCount}
+                                description=""
+                            />
+                            <DashboardCard
+                                label={"Prenumeranter förra året"}
+                                Icon={Calendar}
+                                amount={subscriptionsLastYear}
+                                description="Totalt"
+                            />
+                            <DashboardCard
+                                label={"Vinst Premium"}
+                                Icon={Coins}
+                                amount={`${premiumProfit} Kr`}
+                                description="Totalt"
+                            />
+                            <DashboardCard
+                                label={"Antal publicerade artiklar"}
+                                Icon={Newspaper}
+                                amount={totalArticles}
+                                description="Totalt"
+                            />
 
-                    </section>
-                    <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 transition-all">
-                        <DashboardCardContent>
-                            <section className="flex justify-between gap-2 pb-2">
-                                <p>Senaste användare</p>
-                                <UserRoundCheck className="h-4 w-4" />
-                            </section>
-                            {UserData.map((data, index) => (
-                                <UserDataCard
-                                    key={index}
-                                    name={data.name}
-                                    //image={data.image}
-                                    email={data.email}
-                                    time={data.time}
-                                ></UserDataCard>
-                            ))}
-                        </DashboardCardContent>
+                        </section>
+                        <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 transition-all">
+                            <DashboardCardContent>
+                                <section className="flex justify-between gap-2 pb-2">
+                                    <p>Senaste användare</p>
+                                    <UserRoundCheck className="h-4 w-4" />
+                                </section>
+                                {UserData.map((data, index) => (
+                                    <UserDataCard
+                                        key={index}
+                                        name={data.name}
+                                        //image={data.image}
+                                        email={data.email}
+                                        time={data.time}
+                                    ></UserDataCard>
+                                ))}
+                            </DashboardCardContent>
 
-                    </section>
-                    <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 transition-all">
-                        <BarChart data={monthlyUsersData}></BarChart>
-                        <LineGraph data={monthlyRevenueData} />
-                    </section>
-                    <GoalDataCard
-                        goal={goalAmount}
-                        value={premiumProfit}
-                        bar={goalProgress}
-                    />
+                        </section>
+                        <section className="grid grid-cols-1 lg:grid-cols-2 gap-4 transition-all">
+                            <BarChart data={monthlyUsersData}></BarChart>
+                            <LineGraph data={monthlyRevenueData} />
+                        </section>
+                        <GoalDataCard
+                            goal={goalAmount}
+                            value={premiumProfit}
+                            bar={goalProgress}
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
+            <Footer />
+        </>
     );
 }
