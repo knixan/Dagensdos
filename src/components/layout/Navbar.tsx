@@ -148,6 +148,14 @@ export function Navbar(): React.ReactElement {
                 Startsida
               </Link>
 
+              <Link
+                href="/redaktorens-val"
+                className="whitespace-nowrap text-lg font-medium"
+                style={{ color: "var(--secondary-foreground)" }}
+              >
+                Redaktörens val
+              </Link>
+
               {/* Kategorier dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -404,6 +412,14 @@ export function Navbar(): React.ReactElement {
                           </Link>
                         ))
                       )}
+                      <Link
+                        href="/redaktorens-val"
+                        className="block text-lg font-medium"
+                        style={{ color: "var(--secondary-foreground)" }}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        Redaktörens val
+                      </Link>
                       {(session?.user as unknown as AdminUser)?.role ===
                         "admin" && (
                         <Link

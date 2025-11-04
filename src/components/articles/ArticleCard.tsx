@@ -23,7 +23,9 @@ export function ArticleCard({
   return (
     <article
       className={cn(
-        "bg-card rounded-lg shadow hover:shadow-lg transition duration-200 border border-border",
+        // group for child hover effects, scale on hover and smoother GPU transform
+        "group bg-card rounded-lg shadow transition duration-200 border border-border transform-gpu",
+        "hover:shadow-2xl hover:scale-105",
         compact ? "p-3" : "p-6",
         "grid grid-cols-1  gap-4",
         className
@@ -57,7 +59,7 @@ export function ArticleCard({
           alt={article.title}
           width={800}
           height={480}
-          className="object-cover w-full h-full"
+          className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
           priority={false}
         />
       </div>
