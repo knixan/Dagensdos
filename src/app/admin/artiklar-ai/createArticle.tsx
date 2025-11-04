@@ -44,6 +44,7 @@ export default function CreateArticle({
     categories?.[0]?.id ?? ""
   );
   const [isEditorsChoice, setIsEditorsChoice] = useState<boolean>(false);
+  const [isPremium, setIsPremium] = useState<boolean>(false);
 
   return (
     <>
@@ -141,6 +142,19 @@ export default function CreateArticle({
             />
             <label htmlFor="editorsChoice" className="text-sm">
               Redaktörens Val
+            </label>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              id="premium"
+              type="checkbox"
+              checked={isPremium}
+              onChange={(e) => setIsPremium(e.target.checked)}
+              className="w-5 h-5 rounded border-input cursor-pointer"
+            />
+            <label htmlFor="premium" className="text-sm">
+              Premium (endast för prenumeranter)
             </label>
           </div>
 
@@ -256,6 +270,7 @@ export default function CreateArticle({
                   category: selectedCategory || categories?.[0]?.id || "",
                   image_url: imageUrl,
                   editorsChoice: isEditorsChoice,
+                  premium: isPremium,
                 });
                 // After redirect, this code won't execute
               }}

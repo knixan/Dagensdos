@@ -2,12 +2,13 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Article } from "@/lib/articles";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Aside from "@/components/layout/aside/aside";
 import { prisma } from "@/lib/prisma";
 import ArticleContent from "@/components/ArticleContent";
+import { getSession } from "@/lib/server-auth";
 
 type Props = {
   params: { slug: string };
@@ -38,6 +39,59 @@ export default async function ArticlePage({
 
   if (!dbArticle) {
     notFound();
+  }
+
+  // If the article is premium, ensure the viewer has an active subscription
+  if ((dbArticle as unknown as { premium?: boolean }).premium) {
+    // Try to get session (does not force redirect)
+    const session = await getSession();
+    // If no session, redirect to login
+    if (!session) {
+      redirect(`/logga-in?next=/artiklar/${slug}`);
+    }
+
+    // Try to find a subscription for this user using stripeCustomerId
+    const stripeCustomerId = (
+      session.user as unknown as { stripeCustomerId?: string }
+    )?.stripeCustomerId;
+    const hasActive = stripeCustomerId
+      ? await prisma.subscription.findFirst({
+          where: {
+            stripeCustomerId: stripeCustomerId,
+            status: {
+              in: ["active", "trialing"],
+            },
+          },
+        })
+      : null;
+
+    if (!hasActive) {
+      // Render a simple paywall message page
+      return (
+        <>
+          <Navbar />
+          <main className="flex grow pt-8 pb-16">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="prose prose-invert dark:prose-invert">
+                <h1 className="text-3xl font-bold">Premiuminnehåll</h1>
+                <p className="text-lg">
+                  Den här artikeln är endast tillgänglig för prenumeranter.
+                </p>
+                <div className="mt-6">
+                  <a
+                    href="/prenumeration"
+                    className="text-primary hover:underline"
+                  >
+                    Bli prenumerant
+                  </a>
+                </div>
+              </div>
+            </div>
+          </main>
+          <Footer />
+        </>
+      );
+    }
   }
   // Mappa databasen till Article-typen
   const article: Article = {

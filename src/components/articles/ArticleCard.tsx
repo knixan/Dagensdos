@@ -1,4 +1,6 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -10,7 +12,11 @@ type Props = {
   className?: string;
 };
 
-export function ArticleCard({ article, compact = false, className = "" }: Props) {
+export function ArticleCard({
+  article,
+  compact = false,
+  className = "",
+}: Props) {
   // Säker läsning av eventuellt bildfält utan `any`
   const imgSrc = (article as { image?: string }).image ?? "/placeholder.png";
 
@@ -25,7 +31,9 @@ export function ArticleCard({ article, compact = false, className = "" }: Props)
     >
       {/* kategori */}
       <div className="col-span-full">
-        <p className="text-xs font-semibold text-accent uppercase">{article.category}</p>
+        <p className="text-xs font-semibold text-accent uppercase">
+          {article.category}
+        </p>
       </div>
 
       {/* innehåll: rubrik först */}
@@ -38,7 +46,12 @@ export function ArticleCard({ article, compact = false, className = "" }: Props)
       </div>
 
       {/* bild (nu under rubriken och över excerpt) */}
-      <div className="col-span-full w-full h-40 md:h-48 rounded-md overflow-hidden bg-muted">
+      <div className="col-span-full w-full h-40 md:h-48 rounded-md overflow-hidden bg-muted relative">
+        {article.premium ? (
+          <div className="absolute left-2 top-2 bg-primary-foreground text-primary px-2 py-0.5 rounded-md text-xs font-semibold">
+            Premium Artikel
+          </div>
+        ) : null}
         <Image
           src={imgSrc}
           alt={article.title}
@@ -51,9 +64,16 @@ export function ArticleCard({ article, compact = false, className = "" }: Props)
 
       {/* excerpt + Läs mer */}
       <div className="col-span-full">
-        <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{article.excerpt}</p>
+        <div className="mt-2 text-sm text-muted-foreground line-clamp-3 prose prose-sm max-w-none">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {article.excerpt}
+          </ReactMarkdown>
+        </div>
 
-        <Link href={`/artiklar/${article.slug}`} className="mt-3 inline-block text-sm text-primary hover:underline">
+        <Link
+          href={`/artiklar/${article.slug}`}
+          className="mt-3 inline-block text-sm text-primary hover:underline"
+        >
           Läs mer
         </Link>
       </div>

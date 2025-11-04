@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Aside from "@/components/layout/aside/aside";
 import LoginForm from "@/components/Forms/LoginForm";
+import Link from "next/link";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Mail } from "lucide-react";
 
@@ -43,6 +44,23 @@ export default function LoginPage(): React.JSX.Element {
               )}
 
               <LoginForm />
+              <div className="mt-4 text-sm text-muted-foreground">
+                <p>
+                  Har du inget konto?&nbsp;
+                  <Link
+                    href={`/registrera${
+                      searchParams?.get("next")
+                        ? `?next=${encodeURIComponent(
+                            searchParams.get("next") || ""
+                          )}`
+                        : ""
+                    }`}
+                    className="text-primary hover:underline"
+                  >
+                    Registrera dig
+                  </Link>
+                </p>
+              </div>
             </div>
 
             <Aside />

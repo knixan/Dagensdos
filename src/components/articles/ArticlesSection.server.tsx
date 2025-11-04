@@ -45,6 +45,7 @@ export default async function ArticlesSection() {
     date: a.createdAt
       ? new Date(a.createdAt).toISOString().slice(0, 10)
       : undefined,
+    premium: (a as unknown as { premium?: boolean }).premium ?? false,
   }));
 
   const [hero, ...rest] = articles;

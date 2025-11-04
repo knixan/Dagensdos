@@ -223,19 +223,13 @@ export function Navbar(): React.ReactElement {
                   >
                     Mina sidor
                   </Link>
-                  {activeSubscription?.status === "active" ? (
-                    <Button
-                      size="sm"
-                      onClick={async () => {
-                        await authClient.subscription.cancel({
-                          returnUrl: "/",
-                        });
-                      }}
-                      style={actionStyle}
-                    >
-                      Avsluta
-                    </Button>
-                  ) : (
+                  {/*
+                    Om användaren inte har en aktiv prenumeration, visa "Prenumerera"-knappen
+                    Om användaren har en aktiv prenumeration, visa inget här
+                    om användaren är admin, visa inget här heller
+                    om användaren är vanlig användare utan prenumeration, visa knappen
+                  */}
+                  {activeSubscription?.status === "active" ? null : (
                     <Button
                       size="sm"
                       onClick={async () => {

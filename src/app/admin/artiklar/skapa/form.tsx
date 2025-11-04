@@ -53,6 +53,7 @@ export default function CreateArticleForm({
       content: "",
       image_url: "",
       editorsChoice: true,
+      premium: false,
       categoryIds: [],
     },
   });
@@ -239,6 +240,27 @@ export default function CreateArticleForm({
                 </FormControl>
                 <FormLabel className="text-base font-medium cursor-pointer">
                   Editors Choice
+                </FormLabel>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="premium"
+            render={({ field }) => (
+              <FormItem className="flex items-center gap-3 space-y-0">
+                <FormControl>
+                  <input
+                    type="checkbox"
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                    className="w-5 h-5 rounded border-input cursor-pointer"
+                  />
+                </FormControl>
+                <FormLabel className="text-base font-medium cursor-pointer">
+                  Premium (endast för prenumeranter)
                 </FormLabel>
                 <FormMessage />
               </FormItem>
