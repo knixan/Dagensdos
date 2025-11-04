@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from 'next/image';
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import type { AdminUser } from "@/lib/zod-schemas";
 import { ModeToggle } from "../Buttons/toggle-theme-button";
@@ -28,20 +28,22 @@ export function Navbar(): React.ReactElement {
   const [searchQuery, setSearchQuery] = useState("");
   // Shared style for auth / action buttons so they have equal size
   const actionStyle: React.CSSProperties = {
-    backgroundColor: 'var(--chart-4)',
-    color: 'var(--secondary-foreground)',
-    padding: '0.25rem 0.5rem',
-    borderRadius: '0.375rem',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minWidth: '80px',
-    height: '32px',
-    fontSize: '0.875rem',
-    fontWeight: '600'
+    backgroundColor: "var(--chart-4)",
+    color: "var(--secondary-foreground)",
+    padding: "0.25rem 0.5rem",
+    borderRadius: "0.375rem",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: "80px",
+    height: "32px",
+    fontSize: "0.875rem",
+    fontWeight: "600",
   };
   const [loadingCategories, setLoadingCategories] = useState(true);
-  const [subscriptions, setSubscription] = useState<Array<{ status?: string }>>([]);
+  const [subscriptions, setSubscription] = useState<Array<{ status?: string }>>(
+    []
+  );
 
   // Hantera sök-submit
   function handleSearchSubmit(e?: React.FormEvent) {
@@ -56,16 +58,15 @@ export function Navbar(): React.ReactElement {
   useEffect(() => {
     const fetchSubscriptions = async () => {
       if (session?.user.id) {
-        const response = await authClient.subscription.list()
-        setSubscription(response.data || [])
+        const response = await authClient.subscription.list();
+        setSubscription(response.data || []);
       }
-
-    }
-    fetchSubscriptions()
-  }, [session?.user.id])
+    };
+    fetchSubscriptions();
+  }, [session?.user.id]);
   const activeSubscription = subscriptions.find(
     (sub) => sub.status === "active" || sub.status === "trialing"
-  )
+  );
 
   async function handleLogout() {
     await authClient.signOut();
@@ -97,58 +98,74 @@ export function Navbar(): React.ReactElement {
 
   return (
     <>
-  <header className="shadow-md sticky top-0 z-50" style={{ backgroundColor: 'var(--secondary)' }}>
+      <header
+        className="shadow-md sticky top-0 z-50"
+        style={{ backgroundColor: "var(--secondary)" }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10">
             {/* Logo och Titel-sektion */}
-              <Link href="/" className="flex items-center space-x-3">
-                <Image
-                  src="/images/loggo.png"
-                  alt="Dagens Dos logotyp"
-                  width={60}
-                  height={60}
-                  className="rounded"
-                  priority
-                />
-             
+            <Link href="/" className="flex items-center space-x-3">
+              <Image
+                src="/images/loggo.png"
+                alt="Dagens Dos logotyp"
+                width={60}
+                height={60}
+                className="rounded"
+                priority
+              />
             </Link>
 
             {/* Huvudnavigering (Desktop) - Startsida + Kategorier-dropdown */}
             <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/" className="whitespace-nowrap text-lg font-medium" style={{ color: 'var(--secondary-foreground)' }}>
+              <Link
+                href="/"
+                className="whitespace-nowrap text-lg font-medium"
+                style={{ color: "var(--secondary-foreground)" }}
+              >
                 Startsida
               </Link>
 
               {/* Kategorier dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button type="button" className="whitespace-nowrap text-lg font-medium bg-transparent border-0 p-0 cursor-pointer" style={{ color: 'var(--secondary-foreground)' }}>
+                  <button
+                    id="kategorier-dropdown-trigger"
+                    type="button"
+                    className="whitespace-nowrap text-lg font-medium bg-transparent border-0 p-0 cursor-pointer"
+                    style={{ color: "var(--secondary-foreground)" }}
+                  >
                     Kategorier
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="start">
-                 
-                 
                   <DropdownMenuGroup>
                     {loadingCategories ? (
-                      <div className="px-3 py-2 text-sm text-muted-foreground">Laddar...</div>
+                      <div className="px-3 py-2 text-sm text-muted-foreground">
+                        Laddar...
+                      </div>
                     ) : (
                       categories.map((cat) => (
                         <DropdownMenuItem key={cat.id} asChild>
-                          <Link href={`/kategori/${cat.id}`} className="w-full block">
+                          <Link
+                            href={`/kategori/${cat.id}`}
+                            className="w-full block"
+                          >
                             {cat.name}
                           </Link>
                         </DropdownMenuItem>
                       ))
                     )}
                   </DropdownMenuGroup>
-                
-                
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {(session?.user as unknown as AdminUser)?.role === 'admin' && (
-                <Link href="/admin" className="whitespace-nowrap text-lg font-medium" style={{ color: 'var(--secondary-foreground)' }}>
+              {(session?.user as unknown as AdminUser)?.role === "admin" && (
+                <Link
+                  href="/admin"
+                  className="whitespace-nowrap text-lg font-medium"
+                  style={{ color: "var(--secondary-foreground)" }}
+                >
                   Admin
                 </Link>
               )}
@@ -156,8 +173,13 @@ export function Navbar(): React.ReactElement {
 
             <div className="hidden md:flex items-center justify-end md:flex-1 gap-4">
               {/* Desktop-sök */}
-              <form onSubmit={handleSearchSubmit} className="hidden md:flex items-center gap-2">
-                <label htmlFor="nav-search" className="sr-only">Sök</label>
+              <form
+                onSubmit={handleSearchSubmit}
+                className="hidden md:flex items-center gap-2"
+              >
+                <label htmlFor="nav-search" className="sr-only">
+                  Sök
+                </label>
                 <input
                   id="nav-search"
                   type="text"
@@ -177,16 +199,28 @@ export function Navbar(): React.ReactElement {
 
               {!isAuthenticated ? (
                 <>
-                        <Link href="/logga-in" className="whitespace-nowrap text-lg font-medium" style={actionStyle}>
-                          Logga in
-                        </Link>
-                        <Link href="/registrera" className="whitespace-nowrap text-lg font-medium" style={actionStyle}>
-                          Registrera
-                        </Link>
+                  <Link
+                    href="/logga-in"
+                    className="whitespace-nowrap text-lg font-medium"
+                    style={actionStyle}
+                  >
+                    Logga in
+                  </Link>
+                  <Link
+                    href="/registrera"
+                    className="whitespace-nowrap text-lg font-medium"
+                    style={actionStyle}
+                  >
+                    Registrera
+                  </Link>
                 </>
               ) : (
                 <>
-                  <Link href="/mina-sidor" className="whitespace-nowrap text-lg font-medium" style={actionStyle}>
+                  <Link
+                    href="/mina-sidor"
+                    className="whitespace-nowrap text-lg font-medium"
+                    style={actionStyle}
+                  >
                     Mina sidor
                   </Link>
                   {activeSubscription?.status === "active" ? (
@@ -194,8 +228,8 @@ export function Navbar(): React.ReactElement {
                       size="sm"
                       onClick={async () => {
                         await authClient.subscription.cancel({
-                          returnUrl: "/"
-                        })
+                          returnUrl: "/",
+                        });
                       }}
                       style={actionStyle}
                     >
@@ -208,14 +242,23 @@ export function Navbar(): React.ReactElement {
                         await authClient.subscription.upgrade({
                           plan: "Premium",
                           successUrl: "/",
-                          cancelUrl: "/"
-                        })
+                          cancelUrl: "/",
+                        });
                       }}
                     >
                       Prenumerera
                     </Button>
                   )}
-                  <Button variant="outline" size="sm" onClick={handleLogout} style={{ minWidth: actionStyle.minWidth, height: actionStyle.height, fontSize: actionStyle.fontSize }}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleLogout}
+                    style={{
+                      minWidth: actionStyle.minWidth,
+                      height: actionStyle.height,
+                      fontSize: actionStyle.fontSize,
+                    }}
+                  >
                     Logga ut
                   </Button>
                 </>
@@ -272,12 +315,17 @@ export function Navbar(): React.ReactElement {
                   <nav
                     id="mobile-menu"
                     className="mt-2 rounded-md p-4 shadow-lg space-y-3 w-full max-h-[80vh] overflow-auto z-50"
-                    style={{ backgroundColor: 'var(--secondary)' }}
+                    style={{ backgroundColor: "var(--secondary)" }}
                   >
                     <div className="flex flex-col space-y-3">
                       {/* Mobil-sök */}
-                      <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
-                        <label htmlFor="mobile-nav-search" className="sr-only">Sök</label>
+                      <form
+                        onSubmit={handleSearchSubmit}
+                        className="flex items-center gap-2"
+                      >
+                        <label htmlFor="mobile-nav-search" className="sr-only">
+                          Sök
+                        </label>
                         <input
                           id="mobile-nav-search"
                           type="text"
@@ -294,21 +342,22 @@ export function Navbar(): React.ReactElement {
                       ) : (
                         categories.map((cat) => (
                           <Link
-                              key={cat.id}
-                              href={`/kategori/${cat.id}`}
-                  className="block text-lg font-medium"
-                    style={{ color: 'var(--secondary-foreground)' }}
-                              onClick={() => setMobileOpen(false)}
-                            >
-                              {cat.name}
-                            </Link>
+                            key={cat.id}
+                            href={`/kategori/${cat.id}`}
+                            className="block text-lg font-medium"
+                            style={{ color: "var(--secondary-foreground)" }}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {cat.name}
+                          </Link>
                         ))
                       )}
-                      {(session?.user as unknown as AdminUser)?.role === 'admin' && (
+                      {(session?.user as unknown as AdminUser)?.role ===
+                        "admin" && (
                         <Link
                           href="/admin"
                           className="block text-lg font-medium"
-                          style={{ color: 'var(--secondary-foreground)' }}
+                          style={{ color: "var(--secondary-foreground)" }}
                           onClick={() => setMobileOpen(false)}
                         >
                           Admin
@@ -322,19 +371,42 @@ export function Navbar(): React.ReactElement {
                       </div>
                       {!isAuthenticated ? (
                         <>
-                          <Link href="/logga-in" className="block font-medium" style={actionStyle} onClick={() => setMobileOpen(false)}>
+                          <Link
+                            href="/logga-in"
+                            className="block font-medium"
+                            style={actionStyle}
+                            onClick={() => setMobileOpen(false)}
+                          >
                             Logga in
                           </Link>
-                          <Link href="/registrera" className="block font-medium" style={actionStyle} onClick={() => setMobileOpen(false)}>
+                          <Link
+                            href="/registrera"
+                            className="block font-medium"
+                            style={actionStyle}
+                            onClick={() => setMobileOpen(false)}
+                          >
                             Registrera
                           </Link>
                         </>
                       ) : (
                         <>
-                          <Link href="/mina-sidor" className="block font-medium" style={actionStyle} onClick={() => setMobileOpen(false)}>
+                          <Link
+                            href="/mina-sidor"
+                            className="block font-medium"
+                            style={actionStyle}
+                            onClick={() => setMobileOpen(false)}
+                          >
                             Mina sidor
                           </Link>
-                          <button onClick={handleLogout} className="block font-medium text-foreground hover:text-primary" style={{ minWidth: actionStyle.minWidth, height: actionStyle.height, fontSize: actionStyle.fontSize }}>
+                          <button
+                            onClick={handleLogout}
+                            className="block font-medium text-foreground hover:text-primary"
+                            style={{
+                              minWidth: actionStyle.minWidth,
+                              height: actionStyle.height,
+                              fontSize: actionStyle.fontSize,
+                            }}
+                          >
                             Logga ut
                           </button>
                         </>
