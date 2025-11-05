@@ -236,7 +236,10 @@ export function Navbar(): React.ReactElement {
                     ref={searchRef}
                     className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-md p-3 shadow-lg z-50"
                   >
-                    <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
+                    <form
+                      onSubmit={handleSearchSubmit}
+                      className="flex items-center gap-2"
+                    >
                       <label htmlFor="nav-search" className="sr-only">
                         Sök
                       </label>
