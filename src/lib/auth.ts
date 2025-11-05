@@ -54,12 +54,12 @@ type BetterAuthErrorContext = {
   path: string;
   error: Error;
 };
-import { stripe } from "@better-auth/stripe"
-import Stripe from "stripe"
+import { stripe } from "@better-auth/stripe";
+import Stripe from "stripe";
 
 const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-09-30.clover", // Latest API version as of Stripe SDK v19
-})
+});
 
 export const auth = betterAuth({
   // Hemlig nyckel för att signera tokens och annan känslig data
@@ -98,9 +98,12 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
-    async sendVerificationEmail({ user, url, token }) {
+    async sendVerificationEmail({ user, url, token: _token }) {
       console.log("[Auth] Sending verification email to:", user?.email);
       if (!user?.email) return;
+      // token param is provided by the caller but not used here; mark it as used
+      // to satisfy linter/no-unused-vars
+      void _token;
 
       const subject = "Verifiera din e-postadress";
       const text = `Klicka här för att verifiera din e-postadress: ${url}`;
@@ -128,20 +131,23 @@ export const auth = betterAuth({
       maxAttempts: 3,
     },
   },
-  plugins: [admin(), stripe({
-    stripeClient,
-    stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
-    createCustomerOnSignUp: true,
-    subscription: {
-      enabled: true,
-      plans: [
-        {
-          name: "Premium",
-          priceId: "price_1SNWrQFXkADrvOgmZWaUusth"
-        }
-      ]
-    }
-  })],
+  plugins: [
+    admin(),
+    stripe({
+      stripeClient,
+      stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!,
+      createCustomerOnSignUp: true,
+      subscription: {
+        enabled: true,
+        plans: [
+          {
+            name: "Premium",
+            priceId: "price_1SNWrQFXkADrvOgmZWaUusth",
+          },
+        ],
+      },
+    }),
+  ],
   //Felrapportering för att underlätta felsökning under utveckling
   onError: async (ctx: BetterAuthErrorContext) => {
     console.error("[BetterAuth] Error occurred:");
@@ -149,7 +155,6 @@ export const auth = betterAuth({
     console.error("  Error:", ctx.error);
     console.error("  Stack:", ctx.error?.stack);
   },
-
 });
 
 // Server-only helpers moved to src/lib/server-auth.ts to avoid importing next/headers in client bundles.

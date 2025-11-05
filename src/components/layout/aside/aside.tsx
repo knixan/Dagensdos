@@ -1,6 +1,7 @@
 import * as React from "react";
 import MostPopular from "@/components/layout/aside/MostPopular";
 import SubscribeNow from "@/components/layout/aside/SubscribeNow";
+import TipUs from "@/components/layout/aside/TipUs";
 import WeatherAside from "@/components/layout/aside/WeatherAside";
 import ElectricityPrices from "@/components/layout/aside/ElectricityPrices";
 
@@ -31,6 +32,7 @@ export default function Aside({ weather, popularItems }: AsideProps) {
     <aside className="space-y-8">
       <MostPopular popular={popularItems} />
       <SubscribeNow />
+      <TipUs />
       <WeatherAside weather={weather} />
       <ElectricityPrices />
     </aside>

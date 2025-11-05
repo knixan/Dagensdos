@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import ContactForm from "@/components/Forms/ContactForm";
+import ContactFormWrapper from "@/components/Forms/ContactFormWrapper";
 
 export default function ContactPage(): React.ReactElement {
   return (
@@ -11,7 +11,7 @@ export default function ContactPage(): React.ReactElement {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <section className="bg-card p-6 rounded-xl shadow border border-border">
             <h1 className="text-2xl font-bold text-foreground mb-4">
-              Kontakta oss HÅRDKODAD SIDA TA BORT NÄR DU ÄR KLAR MED NODEMAILER
+              Kontakta oss
             </h1>
 
             <p className="text-muted-foreground mb-4">
@@ -20,7 +20,7 @@ export default function ContactPage(): React.ReactElement {
               känner för det.
             </p>
 
-            <ContactForm />
+            <ContactFormWrapper />
           </section>
         </div>
       </main>

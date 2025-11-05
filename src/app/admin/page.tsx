@@ -36,6 +36,13 @@ export default async function AdminPage() {
             >
               Användare
             </LinkButton>
+            <LinkButton
+              href="/admin/dashboard"
+              variant="primary"
+              className="w-full md:w-auto text-center text-lg py-4 px-8"
+            >
+              Dashboard
+            </LinkButton>
           </div>
         </div>
       </main>

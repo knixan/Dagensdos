@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { prisma } from "@/lib/prisma";
@@ -11,6 +12,7 @@ export async function saveArticle(data: {
   category: string; // category id
   image_url?: string;
   editorsChoice?: boolean;
+  premium?: boolean;
 }) {
   // require admin session and use that user as author
   const session = await requireAdmin();
@@ -20,15 +22,17 @@ export async function saveArticle(data: {
   }
 
   await prisma.article.create({
+    // cast to any until prisma client is regenerated
     data: {
       headline: data.headLine,
       summary: data.summary,
       content: data.content,
       image_url: data.image_url ?? "",
       editorsChoice: data.editorsChoice ?? false,
+      premium: data.premium ?? false,
       categoryId: data.category,
       authorId: session.user.id,
-    },
+    } as any,
   });
   // After creating via AI flow, navigate the admin back to the articles list
   redirect(`/admin/artiklar`);
