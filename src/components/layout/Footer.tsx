@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import React from 'react';
+import Link from "next/link";
+import Image from "next/image";
+import React from "react";
 
-type FooterVariant = 'primary' | 'secondary' | 'muted';
+type FooterVariant = "primary" | "secondary" | "muted";
 
 interface FooterSectionProps {
   title: string;
@@ -12,9 +12,17 @@ interface FooterSectionProps {
   variant?: FooterVariant;
 }
 
-function FooterSection({ title, links, variant = 'primary' }: FooterSectionProps): React.ReactElement {
+function FooterSection({
+  title,
+  links,
+  variant = "primary",
+}: FooterSectionProps): React.ReactElement {
   const titleClass = `text-lg font-semibold mb-4 ${
-    variant === 'primary' ? 'text-primary' : variant === 'secondary' ? 'text-secondary' : 'text-muted-foreground'
+    variant === "primary"
+      ? "text-primary"
+      : variant === "secondary"
+      ? "text-secondary"
+      : "text-muted-foreground"
   }`;
   return (
     <div>
@@ -32,23 +40,27 @@ function FooterSection({ title, links, variant = 'primary' }: FooterSectionProps
   );
 }
 
-const footerSections: { title: string; variant?: FooterVariant; links: { name: string; href: string }[] }[] = [
+const footerSections: {
+  title: string;
+  variant?: FooterVariant;
+  links: { name: string; href: string }[];
+}[] = [
   {
-    title: 'Sidor',
-    variant: 'primary' as FooterVariant,
+    title: "Sidor",
+    variant: "primary" as FooterVariant,
     links: [
-      { name: 'Hem', href: '#' },
-      { name: 'Prenumerera', href: '/prenumeration' },
-      { name: 'Om oss', href: '/om-oss' },
+      { name: "Hem", href: "#" },
+      { name: "Prenumerera", href: "/prenumeration" },
+      { name: "Om Projectet", href: "/projectet" },
     ],
   },
   {
-    title: 'Juridiskt',
-    variant: 'muted' as FooterVariant,
+    title: "Juridiskt",
+    variant: "muted" as FooterVariant,
     links: [
-      { name: 'Prenumerationsvillkor', href: '/prenumerationsvillkor' },
-      { name: 'Integritet & Cookies', href: '/integritet-cookies' },
-      { name: 'Kontakta Oss', href: '/kontakta-oss' },
+      { name: "Prenumerationsvillkor", href: "/prenumerationsvillkor" },
+      { name: "Integritet & Cookies", href: "/integritet-cookies" },
+      { name: "Kontakta Oss", href: "/kontakta-oss" },
     ],
   },
 ];
@@ -71,17 +83,18 @@ export function Footer(): React.ReactElement {
               </div>
             </Link>
           </div>
- 
+
           {/* Om Oss */}
           <div>
             <h4 className={`text-lg font-semibold mb-4 text-primary`}>
               Dagens Dos
             </h4>
             <p className="text-sm text-muted-foreground">
-              Vår mission är att leverera nyheter så att du kan känna dig minimalt informerad.
+              Vår mission är att leverera nyheter så att du kan känna dig
+              minimalt informerad.
             </p>
           </div>
- 
+
           {/* Dynamiska sektioner */}
           {footerSections.map((section) => (
             <FooterSection
@@ -91,17 +104,16 @@ export function Footer(): React.ReactElement {
               variant={section.variant}
             />
           ))}
- 
-       
         </div>
- 
-         {/* Copyright */}
-         <div className="mt-10 pt-6 border-t border-muted-foreground/30 text-center">
-           <p className="text-sm text-muted-foreground">
-             &copy; 2025 Dagens Dos. Alla rättigheter reserverade. Utvecklat av Josefine, Johan, Ahamed och Magui och en stor dos sarkasm.
-           </p>
-         </div>
-       </div>
-     </footer>
-   );
+
+        {/* Copyright */}
+        <div className="mt-10 pt-6 border-t border-muted-foreground/30 text-center">
+          <p className="text-sm text-muted-foreground">
+            &copy; 2025 Dagens Dos. Alla rättigheter reserverade. Utvecklat av
+            Josefine, Johan, Ahamed och Magui och en stor dos sarkasm.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
 }
