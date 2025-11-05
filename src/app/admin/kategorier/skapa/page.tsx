@@ -1,10 +1,11 @@
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 import CreateCategoryForm from "./form";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
 export default async function AdminSkapaKategoriPage() {
-  await requireAdmin();
+
+  await requireAdminOrEditor();
   return (
     <>
       <Navbar />

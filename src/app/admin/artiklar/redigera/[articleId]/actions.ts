@@ -2,10 +2,11 @@
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { ArticleEditSchema, ArticleEditValues } from "./schema";
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export async function editArticle(values: ArticleEditValues) {
-  await requireAdmin();
+
+  await requireAdminOrEditor();
   const data = await ArticleEditSchema.parseAsync(values);
 
   const categoryId = data.categoryIds?.[0];

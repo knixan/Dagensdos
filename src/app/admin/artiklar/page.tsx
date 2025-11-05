@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import SearchForm from "@/components/Forms/SearchForm";
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 import DeleteButton from "../artiklar/ta-bort/delete-button";
 
 // Next 15: searchParams is async in Server Components. Accept as Promise and await it.
@@ -13,14 +13,15 @@ export default async function AdminArtiklarPage({
 }: {
   searchParams?: Promise<{ q?: string }>;
 }) {
-  await requireAdmin();
+
+  await requireAdminOrEditor();
 
   const params = await searchParams;
   const q = params?.q ?? "";
   const where = q
     ? {
-        OR: [{ headline: { contains: q } }, { summary: { contains: q } }],
-      }
+      OR: [{ headline: { contains: q } }, { summary: { contains: q } }],
+    }
     : undefined;
 
   const articles = await prisma.article.findMany({

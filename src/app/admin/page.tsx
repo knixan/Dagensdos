@@ -2,10 +2,11 @@ import React from "react";
 import LinkButton from "@/components/Buttons/LinkButton";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export default async function AdminPage() {
-  await requireAdmin();
+
+  const session = await requireAdminOrEditor();
 
   return (
     <>
@@ -29,20 +30,33 @@ export default async function AdminPage() {
             >
               Kategorier
             </LinkButton>
-            <LinkButton
+            {/*<LinkButton
               href="/admin/anvandare"
               variant="primary"
               className="w-full md:w-auto text-center text-lg py-4 px-8"
             >
               Användare
-            </LinkButton>
-            <LinkButton
-              href="/admin/dashboard"
-              variant="primary"
-              className="w-full md:w-auto text-center text-lg py-4 px-8"
-            >
-              Dashboard
-            </LinkButton>
+            </LinkButton>*/}
+
+            {/* Only show this if user is admin */}
+            {session.user.role === "admin" && (
+              <LinkButton
+                href="/admin/anvandare"
+                variant="primary"
+                className="w-full md:w-auto text-center text-lg py-4 px-8"
+              >
+                Användare
+              </LinkButton>
+            )}
+            {session.user.role === "admin" && (
+              <LinkButton
+                href="/admin/dashboard"
+                variant="primary"
+                className="w-full md:w-auto text-center text-lg py-4 px-8"
+              >
+                Dashboard
+              </LinkButton>
+            )}
           </div>
         </div>
       </main>

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Link from "next/link";
@@ -9,8 +9,8 @@ import DeleteButton from "./ta-bort/delete-button";
 
 export default async function AdminKategorierPage() {
   // Require admin session for access to this page
-  await requireAdmin();
 
+  await requireAdminOrEditor();
   // NOTE: search is temporarily disabled to avoid App Router sync-dynamic-apis complexity.
   // We list all categories and provide inline edit/delete buttons per row.
   const categories: Category[] = await prisma.category.findMany();

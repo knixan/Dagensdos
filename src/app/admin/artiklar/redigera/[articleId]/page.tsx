@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import ArticleEditForm from "./form";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 import type { Category } from "@/generated/prisma";
 
 export default async function AdminEditArticlePage({
@@ -11,7 +11,8 @@ export default async function AdminEditArticlePage({
 }: {
   params: { articleId: string };
 }) {
-  await requireAdmin();
+
+  await requireAdminOrEditor();
   const articleId = params.articleId;
   if (!articleId) return notFound();
 
