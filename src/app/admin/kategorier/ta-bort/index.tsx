@@ -1,9 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import DeleteButton from "./delete-button";
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export default async function DeleteCategoryPage() {
-    await requireAdmin();
+
+    await requireAdminOrEditor();
     const categories = await prisma.category.findMany();
     return (
         <div>

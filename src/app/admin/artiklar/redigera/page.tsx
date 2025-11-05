@@ -4,14 +4,15 @@ import { Footer } from "@/components/layout/Footer";
 import LinkButton from "@/components/Buttons/LinkButton";
 import SearchForm from "@/components/Forms/SearchForm";
 import type { Article, Category } from "@/generated/prisma";
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export default async function AdminRedigeraArtikelPage({
   searchParams,
 }: {
   searchParams?: { q?: string };
 }) {
-  await requireAdmin();
+
+  await requireAdminOrEditor();
   const q = searchParams?.q ?? "";
   const articles = await prisma.article.findMany({
     where: q

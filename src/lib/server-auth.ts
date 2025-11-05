@@ -13,6 +13,23 @@ export async function requireAdmin() {
 
   return session;
 }
+export async function requireAdminOrEditor() {
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session || !session.user) {
+    redirect("/logga-in");
+  }
+
+  const role = session.user.role;
+
+  // Allow both admin and editor
+  if (role !== "admin" && role !== "editor") {
+    redirect("/logga-in");
+  }
+
+  return session;
+}
+
 // Få nuvarande session utan att kräva inloggning
 export async function getSession() {
   const session = await auth.api.getSession({ headers: await headers() });

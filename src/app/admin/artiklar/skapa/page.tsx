@@ -3,10 +3,11 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { prisma } from "@/lib/prisma";
 import type { Category } from "@/generated/prisma";
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export default async function AdminSkapaArtikelPage() {
-  await requireAdmin();
+
+  await requireAdminOrEditor();
   const categories: Category[] = await prisma.category.findMany();
   return (
     <>

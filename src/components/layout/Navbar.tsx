@@ -200,6 +200,15 @@ export function Navbar(): React.ReactElement {
                   Admin
                 </Link>
               )}
+              {(session?.user as unknown as AdminUser)?.role === "editor" && (
+                <Link
+                  href="/admin"
+                  className="whitespace-nowrap text-lg font-medium"
+                  style={{ color: "var(--secondary-foreground)" }}
+                >
+                  Editor&apos;s page
+                </Link>
+              )}
             </nav>
 
             <div className="hidden md:flex items-center justify-end md:flex-1 gap-4">
@@ -426,15 +435,15 @@ export function Navbar(): React.ReactElement {
                       </Link>
                       {(session?.user as unknown as AdminUser)?.role ===
                         "admin" && (
-                        <Link
-                          href="/admin"
-                          className="block text-lg font-medium"
-                          style={{ color: "var(--secondary-foreground)" }}
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          Admin
-                        </Link>
-                      )}
+                          <Link
+                            href="/admin"
+                            className="block text-lg font-medium"
+                            style={{ color: "var(--secondary-foreground)" }}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            Admin
+                          </Link>
+                        )}
                     </div>
 
                     <div className="pt-2 border-t border-muted-foreground/20 flex flex-col gap-3">

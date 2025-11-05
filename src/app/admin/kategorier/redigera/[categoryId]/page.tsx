@@ -2,12 +2,13 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 import EditForm from "../form";
 import type { Category } from "@/generated/prisma";
 
 export default async function AdminEditCategoryPage({ params }: { params: { categoryId: string } }) {
-  await requireAdmin();
+
+  await requireAdminOrEditor();
   const categoryId = params.categoryId;
   if (!categoryId) return notFound();
 

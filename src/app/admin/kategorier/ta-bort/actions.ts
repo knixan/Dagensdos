@@ -2,10 +2,11 @@
 
 import { prisma } from "@/lib/prisma"
 import { redirect } from "next/navigation"
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export async function deleteCategory(id: string) {
-    await requireAdmin();
+
+    await requireAdminOrEditor();
     const deletedCategory = await prisma.category.delete({
         where: { id },
     })

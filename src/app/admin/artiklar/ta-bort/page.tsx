@@ -2,10 +2,11 @@ import { prisma } from "@/lib/prisma";
 import DeleteButton from "./delete-button";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export default async function AdminDeleteArticlesPage() {
-  await requireAdmin();
+
+  await requireAdminOrEditor();
   const articles = await prisma.article.findMany({ include: { category: true } });
   return (
     <>

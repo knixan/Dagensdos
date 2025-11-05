@@ -3,10 +3,11 @@
 
 import { ArticleCreateSchema, ArticleCreateValues } from "./schema";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/server-auth";
+import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export async function createArticle(values: ArticleCreateValues) {
-  const session = await requireAdmin();
+
+  const session = await requireAdminOrEditor();
   const data = await ArticleCreateSchema.parseAsync(values);
 
   const article = await prisma.article.create({
