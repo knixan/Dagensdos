@@ -85,14 +85,14 @@ export default function SettingsForm({ user }: SettingsFormProps) {
         )}
 
         {/* Ändra e-post */}
+        <h3 className="text-lg font-semibold flex items-center gap-2">
+          <Lock size={18} /> Byt E-POST
+        </h3>
         <form
           onSubmit={handleEmail(onSubmitEmail)}
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
           <label className="flex flex-col">
-            <h3 className="text-lg font-semibold flex items-center gap-2">
-              <Lock size={18} /> Byt E-POST HÅRDKODAD FRONTEND{" "}
-            </h3>
             <span className="text-sm font-medium text-muted-foreground">
               Ny e-post
             </span>
@@ -142,7 +142,7 @@ export default function SettingsForm({ user }: SettingsFormProps) {
       {/* Ändra lösenord */}
       <section className="space-y-4">
         <h3 className="text-lg font-semibold flex items-center gap-2">
-          <Lock size={18} /> Byt lösenord HÅRDKODAD FRONTEND{" "}
+          <Lock size={18} /> Byt lösenord{" "}
         </h3>
         <form
           onSubmit={handlePassword(onSubmitPassword)}
