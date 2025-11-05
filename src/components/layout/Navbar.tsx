@@ -490,22 +490,38 @@ export function Navbar(): React.ReactElement {
             </div>
           </div>
         </div>
-
         {/* Varningsraden under länkar och knappar
         <div className="w-full overflow-hidden">
           <div
             role="status"
             aria-live="polite"
             className="marquee-bar"
-            style={{ backgroundColor: 'var(--primary)', color: 'var(--accent-foreground)', fontWeight: 'bold' }}
+            style={{
+              backgroundColor: "var(--primary)",
+              color: "var(--accent-foreground)",
+              fontWeight: "bold",
+            }}
           >
             <div
               className="marquee"
-              style={{ display: 'inline-block', paddingLeft: '100%', whiteSpace: 'nowrap', animation: 'marquee 40s linear infinite' }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.animationPlayState = 'paused')}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.animationPlayState = 'running')}
+              style={{
+                display: "inline-block",
+                paddingLeft: "100%",
+                whiteSpace: "nowrap",
+                animation: "marquee 40s linear infinite",
+              }}
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLDivElement).style.animationPlayState =
+                  "paused")
+              }
+              onMouseLeave={(e) =>
+                ((e.currentTarget as HTMLDivElement).style.animationPlayState =
+                  "running")
+              }
             >
-              VARNING TILL ALLMÄNHETEN — En man som identifierar sig som en Kalkong springer runt med blöjja på södermalm, men va inte orolig han är inte farlig även om det är mycket obehagligt!
+              VARNING TILL ALLMÄNHETEN — En man som identifierar sig som en
+              Kalkong springer runt med blöjja på södermalm, men va inte orolig
+              han är inte farlig även om det är mycket obehagligt!
             </div>
           </div>
 
@@ -520,8 +536,8 @@ export function Navbar(): React.ReactElement {
             @media (prefers-reduced-motion: reduce) {
               .marquee { animation: none !important; transform: none !important; }
             }
-          `}</style>
-        </div> */}
+          `}</style> */}
+        {/* </div> */}
       </header>
     </>
   );
