@@ -9,5 +9,6 @@ export type Article = {
   category?: string;
   image?: string;
   date?: string; // ISO yyyy-mm-dd
+  premium?: boolean;
 };
 

@@ -98,9 +98,12 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
-    async sendVerificationEmail({ user, url, token }) {
+    async sendVerificationEmail({ user, url, token: _token }) {
       console.log("[Auth] Sending verification email to:", user?.email);
       if (!user?.email) return;
+      // token param is provided by the caller but not used here; mark it as used
+      // to satisfy linter/no-unused-vars
+      void _token;
 
       const subject = "Verifiera din e-postadress";
       const text = `Klicka här för att verifiera din e-postadress: ${url}`;

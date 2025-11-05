@@ -5,7 +5,7 @@ import ClientGeoWeather from "../../components/weather-client";
 import { Navbar } from "../../components/layout/Navbar";
 import { Footer } from "../../components/layout/Footer";
 import SearchForm from "@/components/Forms/SearchForm";
-import { Location, Series } from "../types/weather-types";
+import { Location, Series } from "../../lib/types/weather-types";
 
 // Helper function for wind direction
 function getWindDirection(degrees: number): string {

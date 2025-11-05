@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import type { AdminUser } from "@/lib/zod-schemas";
 import { ModeToggle } from "../Buttons/toggle-theme-button";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,9 @@ export function Navbar(): React.ReactElement {
   const [categories, setCategories] = useState<NavCategory[]>([]);
   // Sök-state
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement | null>(null);
+  const searchButtonRef = useRef<HTMLButtonElement | null>(null);
   // Shared style for auth / action buttons so they have equal size
   const actionStyle: React.CSSProperties = {
     backgroundColor: "var(--chart-4)",
@@ -54,6 +57,25 @@ export function Navbar(): React.ReactElement {
     setSearchQuery("");
     setMobileOpen(false);
   }
+
+  useEffect(() => {
+    // Close pop-out search when clicking outside
+    function onDocClick(e: MouseEvent) {
+      const target = e.target as Node | null;
+      if (
+        searchOpen &&
+        searchRef.current &&
+        !searchRef.current.contains(target) &&
+        searchButtonRef.current &&
+        !searchButtonRef.current.contains(target)
+      ) {
+        setSearchOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, [searchOpen]);
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
@@ -126,6 +148,14 @@ export function Navbar(): React.ReactElement {
                 Startsida
               </Link>
 
+              <Link
+                href="/redaktorens-val"
+                className="whitespace-nowrap text-lg font-medium"
+                style={{ color: "var(--secondary-foreground)" }}
+              >
+                Redaktörens val
+              </Link>
+
               {/* Kategorier dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -172,29 +202,65 @@ export function Navbar(): React.ReactElement {
             </nav>
 
             <div className="hidden md:flex items-center justify-end md:flex-1 gap-4">
-              {/* Desktop-sök */}
-              <form
-                onSubmit={handleSearchSubmit}
-                className="hidden md:flex items-center gap-2"
-              >
-                <label htmlFor="nav-search" className="sr-only">
-                  Sök
-                </label>
-                <input
-                  id="nav-search"
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Sök..."
-                  className="border border-border text-secondary-foreground rounded-md px-3 py-2 w-64 text-sm bg-transparent"
-                />
-                <button
-                  type="submit"
-                  className="px-3 py-2 rounded-md bg-primary text-secondary-foreground text-sm"
-                >
-                  Sök
-                </button>
-              </form>
+              {/* Desktop-sök: visa endast ikon, öppnar pop-out sökfält */}
+              <div className="hidden md:flex items-center gap-2 relative">
+                <Button variant="outline" size="icon" asChild>
+                  <button
+                    ref={searchButtonRef}
+                    type="button"
+                    onClick={() => setSearchOpen((s) => !s)}
+                    aria-expanded={searchOpen}
+                    aria-label="Öppna sök"
+                  >
+                    <svg
+                      className="h-[1.2rem] w-[1.2rem] text-muted-foreground"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 21l-4.35-4.35M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
+                      />
+                    </svg>
+                    <span className="sr-only">Sök</span>
+                  </button>
+                </Button>
+
+                {searchOpen && (
+                  <div
+                    ref={searchRef}
+                    className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-md p-3 shadow-lg z-50"
+                  >
+                    <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
+                      <label htmlFor="nav-search" className="sr-only">
+                        Sök
+                      </label>
+                      <input
+                        id="nav-search"
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Sök..."
+                        autoFocus
+                        onKeyDown={(e) => {
+                          if (e.key === "Escape") setSearchOpen(false);
+                        }}
+                        className="w-full border border-border text-foreground rounded-md px-3 py-2 text-sm bg-transparent"
+                      />
+                      <button
+                        type="submit"
+                        className="px-3 py-2 rounded-md bg-primary text-secondary-foreground text-sm"
+                      >
+                        Sök
+                      </button>
+                    </form>
+                  </div>
+                )}
+              </div>
               <ModeToggle />
 
               {!isAuthenticated ? (
@@ -223,19 +289,13 @@ export function Navbar(): React.ReactElement {
                   >
                     Mina sidor
                   </Link>
-                  {activeSubscription?.status === "active" ? (
-                    <Button
-                      size="sm"
-                      onClick={async () => {
-                        await authClient.subscription.cancel({
-                          returnUrl: "/",
-                        });
-                      }}
-                      style={actionStyle}
-                    >
-                      Avsluta
-                    </Button>
-                  ) : (
+                  {/*
+                    Om användaren inte har en aktiv prenumeration, visa "Prenumerera"-knappen
+                    Om användaren har en aktiv prenumeration, visa inget här
+                    om användaren är admin, visa inget här heller
+                    om användaren är vanlig användare utan prenumeration, visa knappen
+                  */}
+                  {activeSubscription?.status === "active" ? null : (
                     <Button
                       size="sm"
                       onClick={async () => {
@@ -352,6 +412,14 @@ export function Navbar(): React.ReactElement {
                           </Link>
                         ))
                       )}
+                      <Link
+                        href="/redaktorens-val"
+                        className="block text-lg font-medium"
+                        style={{ color: "var(--secondary-foreground)" }}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        Redaktörens val
+                      </Link>
                       {(session?.user as unknown as AdminUser)?.role ===
                         "admin" && (
                         <Link

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import WeatherComment from "./weather-comments";
-import type { Series, WeatherType } from "../app/types/weather-types";
+import type { Series, WeatherType } from "../lib/types/weather-types";
 
 function getWeatherEmoji(summary?: string) {
   const s = (summary || "").toLowerCase();

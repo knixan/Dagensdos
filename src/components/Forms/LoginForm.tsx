@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,8 @@ import { toast } from "sonner";
 
 export default function LoginForm(): React.ReactElement {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextParam = searchParams?.get("next");
 
   type FormData = { email: string; password: string };
 
@@ -32,6 +34,17 @@ export default function LoginForm(): React.ReactElement {
 
     toast.success("Inloggad");
     router.refresh();
+    // If a next param exists (e.g. checkout), go there. Otherwise go to account.
+    if (nextParam) {
+      // decode and navigate
+      try {
+        const decoded = decodeURIComponent(nextParam);
+        router.push(decoded);
+        return;
+      } catch (e) {
+        console.warn("Failed to decode next param", e);
+      }
+    }
     router.push("/mina-sidor");
   }
 

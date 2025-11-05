@@ -1,23 +1,23 @@
 import React from "react";
 import { prisma } from "@/lib/prisma";
-import type { Article as LocalArticle } from "@/lib/articles";
 import type { Prisma } from "@/generated/prisma";
 import Section from "@/components/articles/Section";
 import ArticleHero from "@/components/articles/ArticleHero";
 import ArticleCard from "@/components/articles/ArticleCard";
+import type { Article as LocalArticle } from "@/lib/articles";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
 
-// Server component that fetches articles and renders the hero + cards
-export default async function ArticlesSection() {
-  // Use createdAt and image_url per Prisma schema. Slug is not stored in DB,
-  // so derive a URL-safe slug from the headline and append a short id.
+export default async function EditorChoicePage() {
   type ArticleWithCategory = Prisma.ArticleGetPayload<{
     include: { category: true };
   }>;
 
   const dbArticles: ArticleWithCategory[] = await prisma.article.findMany({
+    where: { editorsChoice: true },
     include: { category: true },
     orderBy: { createdAt: "desc" },
-    take: 6,
+    take: 12,
   });
 
   const slugify = (s: string, id: string) =>
@@ -35,29 +35,31 @@ export default async function ArticlesSection() {
     title: a.headline ?? "",
     excerpt: a.summary ?? "",
     content: a.content ?? "",
-    // category is a single object, not an array
     category: a.category?.name ?? "",
     image:
-      a.image_url &&
-      (a.image_url.startsWith("http") || a.image_url.startsWith("/"))
+      a.image_url && (a.image_url.startsWith("http") || a.image_url.startsWith("/"))
         ? a.image_url
         : undefined,
-    date: a.createdAt
-      ? new Date(a.createdAt).toISOString().slice(0, 10)
-      : undefined,
+    date: a.createdAt ? new Date(a.createdAt).toISOString().slice(0, 10) : undefined,
     premium: (a as unknown as { premium?: boolean }).premium ?? false,
   }));
 
   const [hero, ...rest] = articles;
 
   return (
-    <Section title="Artiklar">
-      {hero && <ArticleHero article={hero} />}
-      <div className="mt-6 grid  grid-cols-1 md:grid-cols-3 gap-4">
-        {rest.map((article) => (
-          <ArticleCard key={article.id} article={article} />
-        ))}
-      </div>
-    </Section>
+    <>
+      <Navbar />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Section title="Redaktörens val">
+          {hero && <ArticleHero article={hero} />}
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+            {rest.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        </Section>
+      </main>
+      <Footer />
+    </>
   );
 }

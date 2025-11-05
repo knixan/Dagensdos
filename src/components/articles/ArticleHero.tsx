@@ -1,4 +1,6 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -24,9 +26,14 @@ export function ArticleHero({ article, className = "" }: Props) {
       <div className="flex flex-col md:flex-row gap-6">
         <Link
           href={`/artiklar/${article.slug}`}
-          className="md:w-1/2 block rounded-lg overflow-hidden shadow-md"
+          className="md:w-1/2 block rounded-lg overflow-hidden shadow-md relative"
           aria-label={article.title}
         >
+          {article.premium ? (
+            <div className="absolute left-3 top-3 bg-primary-foreground/50 shaddow text-foreground px-2 py-0.5 rounded-md text-xs font-semibold">
+              Premium Artikel
+            </div>
+          ) : null}
           <Image
             src={article.image || "/placeholder.svg"}
             alt={article.title}
@@ -45,9 +52,11 @@ export function ArticleHero({ article, className = "" }: Props) {
               {article.title}
             </h3>
           </Link>
-          <p className="mt-4 text-muted-foreground line-clamp-4">
-            {article.excerpt}
-          </p>
+          <div className="mt-4 text-muted-foreground line-clamp-4 prose prose-lg max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {article.excerpt}
+            </ReactMarkdown>
+          </div>
           <Link
             href={`/artiklar/${article.slug}`}
             className="mt-4 inline-flex items-center text-primary hover:text-primary/90 font-medium"

@@ -35,7 +35,7 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
       learnMoreHref = "#",
       ...props
     },
-    ref,
+    ref
   ) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [hide, setHide] = React.useState(false);
@@ -77,7 +77,7 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
     const containerClasses = cn(
       "fixed z-50 transition-all duration-700",
       !isOpen ? "translate-y-full opacity-0" : "translate-y-0 opacity-100",
-      className,
+      className
     );
 
     const commonWrapperProps = {
@@ -86,7 +86,7 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
         containerClasses,
         variant === "mini"
           ? "left-0 right-0 sm:left-4 bottom-4 w-full sm:max-w-3xl"
-          : "bottom-0 left-0 right-0 sm:left-4 sm:bottom-4 w-full sm:max-w-md",
+          : "bottom-0 left-0 right-0 sm:left-4 sm:bottom-4 w-full sm:max-w-md"
       ),
       ...props,
     };
@@ -104,7 +104,9 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
                 {description}
               </CardDescription>
               <p className="text-xs text-muted-foreground">
-                Genom att klicka på <span className="font-medium">"Acceptera"</span> godkänner du vår användning av cookies.
+                Genom att klicka på{" "}
+                <span className="font-medium">&quot;Acceptera&quot;</span>{" "}
+                godkänner du vår användning av cookies.
               </p>
               <a
                 href={learnMoreHref}
@@ -199,7 +201,7 @@ const CookieConsent = React.forwardRef<HTMLDivElement, CookieConsentProps>(
     }
 
     return null;
-  },
+  }
 );
 
 CookieConsent.displayName = "CookieConsent";
