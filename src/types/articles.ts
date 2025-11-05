@@ -1,5 +1,3 @@
-// Shared lightweight Article type used by UI components
-// This mirrors the shape created in ArticlesSection.server when mapping Prisma rows
 export type Article = {
   id: string;
   slug: string;
@@ -11,4 +9,3 @@ export type Article = {
   date?: string; // ISO yyyy-mm-dd
   premium?: boolean;
 };
-

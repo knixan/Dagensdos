@@ -4,7 +4,7 @@ import remarkGfm from "remark-gfm";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import type { Article } from "@/lib/articles";
+import type { Article } from "@/types/articles";
 
 type Props = {
   article: Article;

@@ -4,7 +4,7 @@ import type { Prisma } from "@/generated/prisma";
 import Section from "@/components/articles/Section";
 import ArticleHero from "@/components/articles/ArticleHero";
 import ArticleCard from "@/components/articles/ArticleCard";
-import type { Article as LocalArticle } from "@/lib/articles";
+import type { Article as LocalArticle } from "@/types/articles";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
@@ -37,10 +37,13 @@ export default async function EditorChoicePage() {
     content: a.content ?? "",
     category: a.category?.name ?? "",
     image:
-      a.image_url && (a.image_url.startsWith("http") || a.image_url.startsWith("/"))
+      a.image_url &&
+      (a.image_url.startsWith("http") || a.image_url.startsWith("/"))
         ? a.image_url
         : undefined,
-    date: a.createdAt ? new Date(a.createdAt).toISOString().slice(0, 10) : undefined,
+    date: a.createdAt
+      ? new Date(a.createdAt).toISOString().slice(0, 10)
+      : undefined,
     premium: (a as unknown as { premium?: boolean }).premium ?? false,
   }));
 

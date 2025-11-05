@@ -3,7 +3,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { prisma } from "@/lib/prisma";
 import ArticleCard from "@/components/articles/ArticleCard";
-import type { Article } from "@/lib/articles";
+import type { Article } from "@/types/articles";
 import Link from "next/link";
 import Aside from "@/components/layout/aside/aside";
 

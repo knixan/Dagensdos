@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import * as React from "react";
 import WeatherComment from "@/components/weather-comments";
-import { getWeatherData } from "@/lib/weatherActions";
+import { getWeatherData } from "@/lib/actions/weather-location";
 
 interface WeatherTimeseriesItem {
   temp: number | null;

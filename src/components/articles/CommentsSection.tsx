@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/lib/client/auth-client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
@@ -9,7 +9,7 @@ import {
   getComments,
   createComment,
   type CommentWithUser,
-} from "@/lib/commentActions";
+} from "@/lib/actions/comment";
 
 type CommentsSectionProps = {
   articleId: string;

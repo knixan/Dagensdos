@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import authClient, { useSession } from "@/lib/auth-client";
+import authClient, { useSession } from "@/lib/client/auth-client";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Aside from "@/components/layout/aside/aside";

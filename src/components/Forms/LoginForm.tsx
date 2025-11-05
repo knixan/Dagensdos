@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/lib/client/auth-client";
 import { toast } from "sonner";
 
 export default function LoginForm(): React.ReactElement {

@@ -1,6 +1,6 @@
 import React from "react";
 import { prisma } from "@/lib/prisma";
-import type { Article as LocalArticle } from "@/lib/articles";
+import type { Article as LocalArticle } from "@/types/articles";
 import type { Prisma } from "@/generated/prisma";
 import Section from "@/components/articles/Section";
 import ArticleHero from "@/components/articles/ArticleHero";

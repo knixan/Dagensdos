@@ -1,4 +1,4 @@
-import { getWeatherByLocation } from "../../lib/weather";
+import { getWeatherData } from "@/lib/actions/weather-location";
 import Image from "next/image";
 import WeatherComment from "../../components/weather-comments";
 import ClientGeoWeather from "../../components/weather-client";
@@ -233,7 +233,10 @@ export default async function Page({
 }) {
   const params = await searchParams;
   const location = params?.location ?? "";
-  const weather = location ? await getWeatherByLocation(location) : null;
+
+  // Use server action that returns { ok, data } for better error handling
+  const weatherResult = location ? await getWeatherData({ location }) : null;
+  const weather = weatherResult?.ok ? weatherResult.data : null;
 
   // 10-dagarslista (exklusive idag) med post närmast kl 12
   // getNextDaysMidday starts from today, so request 11 days and drop the first

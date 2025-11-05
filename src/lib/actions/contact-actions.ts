@@ -1,7 +1,7 @@
 "use server";
 // filepath: src/lib/actions/contact-actions.ts
 
-import { sendEmail } from "@/lib/mail";
+import { sendEmail } from "@/lib/actions/mail";
 
 export type ContactFormData = {
   name: string;

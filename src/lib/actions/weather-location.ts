@@ -1,6 +1,6 @@
 "use server";
 
-import { getWeatherByLocation } from "@/lib/weather";
+import { getWeatherByLocation } from "@/lib/actions/weather";
 
 type WeatherParams = {
   lat?: number;

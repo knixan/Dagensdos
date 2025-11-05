@@ -2,7 +2,7 @@
 // filepath: src/lib/actions/email-actions.ts
 
 import { auth } from "@/lib/auth";
-import { sendEmail } from "@/lib/mail";
+import { sendEmail } from "@/lib/actions/mail";
 import { prisma } from "@/lib/prisma";
 
 export async function resendVerificationEmail(email: string) {

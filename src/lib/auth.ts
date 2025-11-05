@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import { admin } from "better-auth/plugins";
-import { sendEmail } from "./mail";
+import { sendEmail } from "./actions/mail";
 
 // Re-export a shared type for BetterAuth sessions so other modules can import
 // it from the runtime auth module instead of a separate types file.
@@ -40,7 +40,7 @@ export {
   type SignInInput,
   type PasswordResetInput,
   type PasswordResetRequestInput,
-} from "./zod-auth";
+} from "./schema/zod-auth";
 
 // Kontrollera att secret finns (körs bara på server)
 if (!process.env.BETTER_AUTH_SECRET) {

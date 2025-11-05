@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useSession } from "@/lib/auth-client";
+import { useSession } from "@/lib/client/auth-client";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import Aside from "@/components/layout/aside/aside";

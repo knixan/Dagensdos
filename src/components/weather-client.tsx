@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import WeatherComment from "./weather-comments";
 import type { Series, WeatherType } from "../types/weather-types";
+import { getWeatherData } from "@/lib/actions/weather-location";
 
 function getWeatherEmoji(summary?: string) {
   const s = (summary || "").toLowerCase();
@@ -75,13 +76,14 @@ export default function ClientGeoWeather() {
         try {
           const lat = pos.coords.latitude;
           const lon = pos.coords.longitude;
-          const res = await fetch("/api/weather", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ lat, lon }),
-          });
-          if (!res.ok) throw new Error(`Serverfel: ${res.status}`);
-          const data = (await res.json()) as WeatherType;
+
+          // Use server action instead of an API route
+          const result = await getWeatherData({ lat, lon });
+          if (!result || !result.ok || !result.data) {
+            throw new Error(result?.error ?? "Inget data från server");
+          }
+
+          const data = result.data as WeatherType;
           setWeather(data);
           setStatus("ready");
         } catch (err: unknown) {

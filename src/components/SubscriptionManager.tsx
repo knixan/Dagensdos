@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSession, authClient } from "@/lib/auth-client";
+import { useSession, authClient } from "@/lib/client/auth-client";
 import { useRouter } from "next/navigation";
 
 export default function SubscriptionManager(): React.ReactElement {
