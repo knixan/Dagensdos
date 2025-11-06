@@ -51,7 +51,7 @@ export default async function ArticlesSection() {
   const [hero, ...rest] = articles;
 
   return (
-    <Section title="Artiklar">
+    <Section>
       {hero && <ArticleHero article={hero} />}
       <div className="mt-6 grid  grid-cols-1 md:grid-cols-3 gap-4">
         {rest.map((article) => (

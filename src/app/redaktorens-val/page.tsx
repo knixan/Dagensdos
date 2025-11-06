@@ -4,6 +4,7 @@ import type { Prisma } from "@/generated/prisma";
 import Section from "@/components/articles/Section";
 import ArticleHero from "@/components/articles/ArticleHero";
 import ArticleCard from "@/components/articles/ArticleCard";
+import EditorChoiceCarousel from "@/components/articles/EditorChoiceCarousel";
 import type { Article as LocalArticle } from "@/types/articles";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -54,7 +55,8 @@ export default async function EditorChoicePage() {
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Section title="Redaktörens val">
-          {hero && <ArticleHero article={hero} />}
+          <EditorChoiceCarousel articles={articles} />
+          {hero && <ArticleHero article={hero} className="mt-6" />}
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
             {rest.map((article) => (
               <ArticleCard key={article.id} article={article} />
