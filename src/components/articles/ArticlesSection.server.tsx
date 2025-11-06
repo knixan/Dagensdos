@@ -17,7 +17,7 @@ export default async function ArticlesSection() {
   const dbArticles: ArticleWithCategory[] = await prisma.article.findMany({
     include: { category: true },
     orderBy: { createdAt: "desc" },
-    take: 6,
+    take: 10,
   });
 
   const slugify = (s: string, id: string) =>

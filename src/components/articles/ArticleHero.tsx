@@ -52,7 +52,7 @@ export function ArticleHero({ article, className = "" }: Props) {
               {article.title}
             </h3>
           </Link>
-          <div className="mt-4 text-muted-foreground line-clamp-4 prose prose-lg max-w-none">
+          <div className="mt-4 text-muted-foreground line-clamp-8 prose prose-md max-w-none">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {article.excerpt}
             </ReactMarkdown>

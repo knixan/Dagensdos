@@ -83,14 +83,14 @@ export function EditorChoiceCarousel({ articles }: Props) {
                       {article.title}
                     </h3>
                   </Link>
-                  <div className="mt-4 text-muted-foreground line-clamp-4 prose prose-lg max-w-none">
+                  <div className="mt-4 text-muted-foreground line-clamp-6 prose prose-md max-w-none">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {article.excerpt}
                     </ReactMarkdown>
                   </div>
                   <Link
                     href={`/artiklar/${article.slug}`}
-                    className="mt-4 inline-flex items-center text-primary hover:text-primary/90 font-medium"
+                    className="mt-4 inline-flex items-center text-primary hover:text-primary/90 font-small"
                   >
                     Läs mer &rarr;
                   </Link>
