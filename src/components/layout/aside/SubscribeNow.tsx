@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import ThemeLogo from "@/components/Logo/ThemeLogo";
 import * as React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -12,13 +12,7 @@ export default function SubscribeNow() {
 
       <div className="current-card flex items-center gap-4 p-3 bg-card rounded-lg border border-border shadow-sm mb-4">
         <div className="shrink-0">
-          <Image
-            src="/images/loggo.png"
-            alt="Logotyp"
-            width={48}
-            height={48}
-            className="object-contain"
-          />
+          <ThemeLogo alt="Logotyp" width={48} height={48} className="object-contain" />
         </div>
 
         <div className="flex flex-col">

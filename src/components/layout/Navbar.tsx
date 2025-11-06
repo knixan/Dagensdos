@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import ThemeLogo from "@/components/Logo/ThemeLogo";
 import React, { useState, useEffect, useRef } from "react";
 import type { AdminUser } from "@/lib/schema/zod-schemas";
 import { ModeToggle } from "../Buttons/toggle-theme-button";
@@ -112,14 +112,10 @@ export function Navbar(): React.ReactElement {
           <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10">
             {/* Logo och Titel-sektion */}
             <Link href="/" className="flex items-center space-x-3">
-              <Image
-                src="/images/loggo.png"
-                alt="Dagens Dos logotyp"
-                width={60}
-                height={60}
-                className="rounded"
-                priority
-              />
+              <span className="text-4xl font-semibold text-secondary-foreground">
+                Dagens Dos
+              </span>
+              <ThemeLogo width={100} height={60} className="rounded" priority />
             </Link>
 
             {/* Huvudnavigering (Desktop) - Startsida + Kategorier-dropdown */}

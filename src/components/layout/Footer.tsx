@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import ThemeLogo from "@/components/Logo/ThemeLogo";
 import React from "react";
 
 type FooterVariant = "primary" | "secondary" | "muted";
@@ -73,13 +73,8 @@ export function Footer(): React.ReactElement {
           {/* Logga längst till vänster */}
           <div className="flex items-start">
             <Link href="/" className="flex items-center space-x-3">
-              <div className="relative h-24 w-24">
-                <Image
-                  src="/images/loggo.png"
-                  alt="Nyhetspulsen"
-                  fill
-                  className="object-contain"
-                />
+              <div className="h-24 w-24">
+                <ThemeLogo alt="Dagens Dos" width={96} height={96} />
               </div>
             </Link>
           </div>
