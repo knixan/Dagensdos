@@ -434,14 +434,14 @@ export function Navbar(): React.ReactElement {
                         <>
                           <Link
                             href="/mina-sidor"
-                            className="block bg-chart-4 text-secondary-foreground py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
+                            className="block bg-chart-4 text-primary-foreground py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
                             onClick={() => setMobileOpen(false)}
                           >
                             Mina sidor
                           </Link>
                           <button
                             onClick={handleLogout}
-                            className="block font-medium text-foreground hover:text-primary min-w-20 h-8 text-sm"
+                            className="block font-medium text-primary-foreground hover:text-primary min-w-20 h-8 text-sm"
                           >
                             Logga ut
                           </button>
