@@ -254,13 +254,13 @@ export function Navbar(): React.ReactElement {
                 <>
                   <Link
                     href="/logga-in"
-                    className="whitespace-nowrap bg-chart-4 text-secondary-foreground py-1 px-2 rounded-md inline-flex items-center justify-center min-w-20 h-8 text-sm font-semibold"
+                    className="whitespace-nowrap bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md inline-flex items-center justify-center min-w-20 h-8 text-sm font-semibold"
                   >
                     Logga in
                   </Link>
                   <Link
                     href="/registrera"
-                    className="whitespace-nowrap bg-chart-4 text-secondary-foreground py-1 px-2 rounded-md inline-flex items-center justify-center min-w-20 h-8 text-sm font-semibold"
+                    className="whitespace-nowrap bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md inline-flex items-center justify-center min-w-20 h-8 text-sm font-semibold"
                   >
                     Registrera
                   </Link>
@@ -269,7 +269,7 @@ export function Navbar(): React.ReactElement {
                 <>
                   <Link
                     href="/mina-sidor"
-                    className="whitespace-nowrap bg-chart-4 text-secondary-foreground py-1 px-2 rounded-md inline-flex items-center justify-center min-w-20 h-8 text-sm font-semibold"
+                    className="whitespace-nowrap bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md inline-flex items-center justify-center min-w-20 h-8 text-sm font-semibold"
                   >
                     Mina sidor
                   </Link>
@@ -417,14 +417,14 @@ export function Navbar(): React.ReactElement {
                         <>
                           <Link
                             href="/logga-in"
-                            className="block bg-chart-4 text-secondary-foreground py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
+                            className="block bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
                             onClick={() => setMobileOpen(false)}
                           >
                             Logga in
                           </Link>
                           <Link
                             href="/registrera"
-                            className="block bg-chart-4 text-secondary-foreground py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
+                            className="block bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
                             onClick={() => setMobileOpen(false)}
                           >
                             Registrera
@@ -434,7 +434,7 @@ export function Navbar(): React.ReactElement {
                         <>
                           <Link
                             href="/mina-sidor"
-                            className="block bg-chart-4 text-primary-foreground py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
+                            className="block bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
                             onClick={() => setMobileOpen(false)}
                           >
                             Mina sidor
