@@ -6,10 +6,7 @@ import Section from "@/components/articles/Section";
 import ArticleHero from "@/components/articles/ArticleHero";
 import ArticleCard from "@/components/articles/ArticleCard";
 
-// Server component that fetches articles and renders the hero + cards
 export default async function ArticlesSection() {
-  // Use createdAt and image_url per Prisma schema. Slug is not stored in DB,
-  // so derive a URL-safe slug from the headline and append a short id.
   type ArticleWithCategory = Prisma.ArticleGetPayload<{
     include: { category: true };
   }>;
@@ -17,7 +14,7 @@ export default async function ArticlesSection() {
   const dbArticles: ArticleWithCategory[] = await prisma.article.findMany({
     include: { category: true },
     orderBy: { createdAt: "desc" },
-    take: 6,
+    take: 10,
   });
 
   const slugify = (s: string, id: string) =>
@@ -35,7 +32,7 @@ export default async function ArticlesSection() {
     title: a.headline ?? "",
     excerpt: a.summary ?? "",
     content: a.content ?? "",
-    // category is a single object, not an array
+
     category: a.category?.name ?? "",
     image:
       a.image_url &&
@@ -51,7 +48,7 @@ export default async function ArticlesSection() {
   const [hero, ...rest] = articles;
 
   return (
-    <Section title="Artiklar">
+    <Section>
       {hero && <ArticleHero article={hero} />}
       <div className="mt-6 grid  grid-cols-1 md:grid-cols-3 gap-4">
         {rest.map((article) => (

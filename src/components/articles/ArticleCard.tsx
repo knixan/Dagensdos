@@ -17,13 +17,12 @@ export function ArticleCard({
   compact = false,
   className = "",
 }: Props) {
-  // Säker läsning av eventuellt bildfält utan `any`
   const imgSrc = (article as { image?: string }).image ?? "/placeholder.png";
 
   return (
     <article
       className={cn(
-        // group for child hover effects, scale on hover and smoother GPU transform
+        // HOVER EFFEKT OCH STILAR
         "group bg-card rounded-lg shadow transition duration-200 border border-border transform-gpu",
         "hover:shadow-2xl hover:scale-105",
         compact ? "p-3" : "p-6",
@@ -66,7 +65,7 @@ export function ArticleCard({
 
       {/* excerpt + Läs mer */}
       <div className="col-span-full">
-        <div className="mt-2 text-sm text-muted-foreground line-clamp-3 prose prose-sm max-w-none">
+        <div className="mt-2 text-sm text-muted-foreground line-clamp-6 prose prose-sm max-w-none">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {article.excerpt}
           </ReactMarkdown>
