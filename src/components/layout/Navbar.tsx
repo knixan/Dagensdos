@@ -112,7 +112,7 @@ export function Navbar(): React.ReactElement {
           <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10">
             {/* Logo och Titel-sektion */}
             <Link href="/" className="flex items-center space-x-3">
-              <span className="text-4xl font-semibold text-secondary-foreground">
+              <span className="text-3xl font-semibold text-secondary-foreground">
                 Dagens Dos
               </span>
               <ThemeLogo width={100} height={60} className="rounded" priority />

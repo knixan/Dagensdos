@@ -1,5 +1,9 @@
 # News Gamma
 
+<p align="center">
+	<img src="/mockup-dagensdos.jpg" alt="Mockup - Dagens Dos" style="max-width:100%;height:auto;border-radius:8px;" />
+</p>
+
 En modern nyhetsapplikation byggd med Next.js 15 (App Router) och TypeScript. Projektet är utvecklat som ett grupparbete av Josefine, Johan, Magui och Ahmed på Lexicon i Linköping.
 
 ## Innehållsförteckning
@@ -32,6 +36,12 @@ News Gamma är en fullstack nyhetsapplikation med fokus på prestanda, typesäke
 - CRUD-funktionalitet för artiklar och kategorier
 - Dashboard med statistik och visualiseringar
 - Extern API-integration (Elpriser, Väderdata)
+
+<!-- Dark / Light screenshots -->
+<p align="center">
+	<img src="/screenshot-dark.png" alt="Dark mode screenshot" style="max-width:48%;height:auto;border-radius:6px;margin-right:2%;" />
+	<img src="/screenshot-light.png" alt="Light mode screenshot" style="max-width:48%;height:auto;border-radius:6px;" />
+</p>
 
 ## Teknikstack
 
@@ -314,6 +324,10 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
 
 ### Admin/Editor-funktioner
 
+<p align="center">
+	<img src="/screenshot-adminartiklar.png" alt="Admin artiklar - screenshot" style="max-width:100%;height:auto;border-radius:6px;" />
+</p>
+
 - Skapa, redigera, ta bort artiklar
 - AI-assisterad artikelgenerering med Gemini
 - MDX-editor för rich text innehåll
@@ -325,6 +339,10 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
 - Användarbanhantering
 
 ### Innehållspresentation
+
+<p align="center">
+	<img src="/screenshot-slug.png" alt="Artikelvy / slug - exempel" style="max-width:100%;height:auto;border-radius:6px;" />
+</p>
 
 - Responsiva artikelkort
 - Karuseller för utvalt innehåll
