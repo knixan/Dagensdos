@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Separator } from "@/components/ui/separator";
@@ -21,6 +22,17 @@ export default function AboutPage(): React.ReactElement {
               fullstack-utveckling med fokus på skalbarhet, typsäkerhet och
               användarvänlighet.
             </p>
+
+            <div className="w-full flex justify-center mb-6">
+              <Image
+                src="/mockup-dagensdos.jpg"
+                alt="Mockup - Dagens Dos"
+                width={1200}
+                height={700}
+                className="w-full max-w-2xl rounded-lg shadow-md"
+                priority
+              />
+            </div>
 
             <Separator className="my-8" />
 
@@ -210,8 +222,8 @@ export default function AboutPage(): React.ReactElement {
                     <li>Sökfunktion och SLUG-system för SEO</li>
                     <li>Article rendering-komponenter</li>
                     <li>Editor&apos;s Choice Carousel</li>
-                    <li>Projektledning och koordinering</li>
-                    <li>Övergripande arkitektur</li>
+                    <li>Projektledning</li>
+                
                   </ul>
                 </div>
               </div>
