@@ -1,12 +1,13 @@
 "use server";
 
-import { Prisma, Role } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/server-auth";
 import { revalidatePath } from "next/cache";
+import { ROLES, type Role } from "@/lib/roles";
 
 function isValidRole(value: string): value is Role {
-  return (Object.values(Role) as string[]).includes(value);
+  return (ROLES as readonly string[]).includes(value);
 }
 
 function isForeignKeyViolation(error: unknown): boolean {

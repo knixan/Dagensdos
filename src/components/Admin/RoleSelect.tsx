@@ -2,14 +2,14 @@
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { updateUserRole } from "@/lib/actions/admin";
-import { Role } from "@/generated/prisma";
+import { ROLES } from "@/lib/roles";
 
 type Props = {
   id: string;
   initialRole: string;
 };
 
-const OPTIONS = Object.values(Role);
+const OPTIONS = ROLES;
 
 export default function RoleSelect({ id, initialRole }: Props) {
   const [role, setRole] = useState(initialRole.toLowerCase());

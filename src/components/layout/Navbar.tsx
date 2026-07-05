@@ -2,33 +2,55 @@
 
 import Link from "next/link";
 import ThemeLogo from "@/components/Logo/ThemeLogo";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type { AdminUser } from "@/lib/schema/zod-schemas";
 import { ModeToggle } from "../Buttons/toggle-theme-button";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import authClient, { useSession } from "@/lib/client/auth-client";
 import { getNavbarCategories } from "@/lib/actions/category";
+import {
+  Search,
+  User,
+  LogIn,
+  LogOut,
+  UserPlus,
+  ShieldCheck,
+  Sparkles,
+  Menu,
+  X,
+} from "lucide-react";
 
 type NavCategory = { id: string; name: string };
 
+const navLinkBase =
+  "whitespace-nowrap text-base font-medium px-2 py-1 rounded-md transition-colors text-secondary-foreground hover:bg-white/10";
+
 export function Navbar(): React.ReactElement {
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session } = useSession();
   const isAuthenticated = !!session?.user;
+  const role = (session?.user as unknown as AdminUser)?.role;
+  const isAdmin = role === "admin";
+  const isEditor = role === "editor";
   const [mobileOpen, setMobileOpen] = useState(false);
   const [categories, setCategories] = useState<NavCategory[]>([]);
   // Sök-state
   const [searchQuery, setSearchQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement | null>(null);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
   const searchButtonRef = useRef<HTMLButtonElement | null>(null);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [subscriptions, setSubscription] = useState<Array<{ status?: string }>>(
@@ -42,6 +64,7 @@ export function Navbar(): React.ReactElement {
     if (!q) return;
     router.push(`/sok?q=${encodeURIComponent(q)}`);
     setSearchQuery("");
+    setSearchOpen(false);
     setMobileOpen(false);
   }
 
@@ -62,6 +85,12 @@ export function Navbar(): React.ReactElement {
 
     document.addEventListener("mousedown", onDocClick);
     return () => document.removeEventListener("mousedown", onDocClick);
+  }, [searchOpen]);
+
+  useEffect(() => {
+    if (searchOpen) {
+      searchInputRef.current?.focus();
+    }
   }, [searchOpen]);
 
   useEffect(() => {
@@ -109,27 +138,38 @@ export function Navbar(): React.ReactElement {
     <>
       <header className="shadow-md sticky top-0 z-50 bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10">
+          <div className="flex justify-between items-center py-3 md:justify-start md:gap-8">
             {/* Logo och Titel-sektion */}
-            <Link href="/" className="flex items-center space-x-3">
-              <span className="text-3xl font-semibold text-secondary-foreground">
+            <Link href="/" className="flex items-center gap-2 shrink-0">
+              <ThemeLogo
+                width={100}
+                height={100}
+                className="rounded shrink-0"
+                priority
+              />
+              <span className="text-lg sm:text-xl lg:text-2xl font-bold text-secondary-foreground whitespace-nowrap">
                 Dagens Dos
               </span>
-              <ThemeLogo width={100} height={60} className="rounded" priority />
             </Link>
 
             {/* Huvudnavigering (Desktop) - Startsida + Kategorier-dropdown */}
-            <nav className="hidden md:flex items-center space-x-6">
+            <nav className="hidden md:flex items-center gap-2">
               <Link
                 href="/"
-                className="whitespace-nowrap text-lg font-medium text-secondary-foreground"
+                className={cn(
+                  navLinkBase,
+                  pathname === "/" && "bg-white/10",
+                )}
               >
                 Startsida
               </Link>
 
               <Link
                 href="/redaktorens-val"
-                className="whitespace-nowrap text-lg font-medium text-secondary-foreground"
+                className={cn(
+                  navLinkBase,
+                  pathname === "/redaktorens-val" && "bg-white/10",
+                )}
               >
                 Redaktörens val
               </Link>
@@ -140,7 +180,11 @@ export function Navbar(): React.ReactElement {
                   <button
                     id="kategorier-dropdown-trigger"
                     type="button"
-                    className="whitespace-nowrap text-lg font-medium bg-transparent border-0 p-0 cursor-pointer text-secondary-foreground"
+                    className={cn(
+                      navLinkBase,
+                      "bg-transparent border-0 cursor-pointer",
+                      pathname?.startsWith("/kategori") && "bg-white/10",
+                    )}
                   >
                     Kategorier
                   </button>
@@ -166,120 +210,71 @@ export function Navbar(): React.ReactElement {
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
-
-              {(session?.user as unknown as AdminUser)?.role === "admin" && (
-                <Link
-                  href="/admin"
-                  className="whitespace-nowrap text-lg font-medium text-secondary-foreground"
-                >
-                  Admin
-                </Link>
-              )}
-              {(session?.user as unknown as AdminUser)?.role === "editor" && (
-                <Link
-                  href="/admin"
-                  className="whitespace-nowrap text-lg font-medium text-secondary-foreground"
-                >
-                  Editor&apos;s page
-                </Link>
-              )}
             </nav>
 
-            <div className="hidden md:flex items-center justify-end md:flex-1 gap-4">
-              {/* Desktop-sök: visa endast ikon, öppnar pop-out sökfält */}
-              <div className="hidden md:flex items-center gap-2 relative">
-                <Button variant="outline" size="icon" asChild>
+            <div className="hidden md:flex items-center justify-end md:flex-1 gap-2">
+              {/* Desktop-sök: expanderar mjukt intill ikonen */}
+              <div className="flex items-center relative" ref={searchRef}>
+                <form
+                  onSubmit={handleSearchSubmit}
+                  className="flex items-center"
+                >
+                  <label htmlFor="nav-search" className="sr-only">
+                    Sök
+                  </label>
+                  <input
+                    ref={searchInputRef}
+                    id="nav-search"
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Sök..."
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") setSearchOpen(false);
+                    }}
+                    className={cn(
+                      "rounded-md border border-white/20 bg-white/10 text-secondary-foreground placeholder:text-secondary-foreground/60 text-sm transition-all duration-300 ease-in-out focus:outline-none focus:border-white/40",
+                      searchOpen
+                        ? "w-40 lg:w-64 px-3 py-1.5 opacity-100 mr-1"
+                        : "w-0 border-transparent px-0 py-1.5 opacity-0 pointer-events-none",
+                    )}
+                  />
                   <button
                     ref={searchButtonRef}
                     type="button"
                     onClick={() => setSearchOpen((s) => !s)}
                     aria-expanded={searchOpen}
                     aria-label="Öppna sök"
+                    className="flex items-center justify-center h-8 w-8 rounded-md hover:bg-white/10 transition-colors"
                   >
-                    <svg
-                      className="h-[1.2rem] w-[1.2rem] text-muted-foreground"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M21 21l-4.35-4.35M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16z"
-                      />
-                    </svg>
-                    <span className="sr-only">Sök</span>
+                    <Search className="h-[1.1rem] w-[1.1rem] text-secondary-foreground" />
                   </button>
-                </Button>
-
-                {searchOpen && (
-                  <div
-                    ref={searchRef}
-                    className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-md p-3 shadow-lg z-50"
-                  >
-                    <form
-                      onSubmit={handleSearchSubmit}
-                      className="flex items-center gap-2"
-                    >
-                      <label htmlFor="nav-search" className="sr-only">
-                        Sök
-                      </label>
-                      <input
-                        id="nav-search"
-                        type="text"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Sök..."
-                        autoFocus
-                        onKeyDown={(e) => {
-                          if (e.key === "Escape") setSearchOpen(false);
-                        }}
-                        className="w-full border border-border text-foreground rounded-md px-3 py-2 text-sm bg-transparent"
-                      />
-                      <button
-                        type="submit"
-                        className="px-3 py-2 rounded-md bg-primary text-secondary-foreground text-sm"
-                      >
-                        Sök
-                      </button>
-                    </form>
-                  </div>
-                )}
+                </form>
               </div>
+
               <ModeToggle />
 
               {!isAuthenticated ? (
                 <>
                   <Link
                     href="/logga-in"
-                    className="whitespace-nowrap bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md inline-flex items-center justify-center min-w-20 h-8 text-sm font-semibold"
+                    className="whitespace-nowrap text-secondary-foreground hover:bg-white/10 py-1.5 px-3 rounded-md inline-flex items-center gap-1.5 justify-center text-sm font-medium transition-colors"
                   >
+                    <LogIn className="h-4 w-4" />
                     Logga in
                   </Link>
                   <Link
                     href="/registrera"
-                    className="whitespace-nowrap bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md inline-flex items-center justify-center min-w-20 h-8 text-sm font-semibold"
+                    className="whitespace-nowrap bg-primary text-primary-foreground hover:bg-primary/90 py-1.5 px-3 rounded-md inline-flex items-center gap-1.5 justify-center text-sm font-semibold"
                   >
+                    <UserPlus className="h-4 w-4" />
                     Registrera
                   </Link>
                 </>
               ) : (
                 <>
-                  <Link
-                    href="/mina-sidor"
-                    className="whitespace-nowrap bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md inline-flex items-center justify-center min-w-20 h-8 text-sm font-semibold"
-                  >
-                    Mina sidor
-                  </Link>
-                  {/*
-                    Om användaren inte har en aktiv prenumeration, visa "Prenumerera"-knappen
-                    Om användaren har en aktiv prenumeration, visa inget här
-                    om användaren är admin, visa inget här heller
-                    om användaren är vanlig användare utan prenumeration, visa knappen
-                  */}
-                  {activeSubscription?.status === "active" ? null : (
+                  {/* CTA sticker ut för sig, bara om användaren inte redan prenumererar */}
+                  {activeSubscription?.status !== "active" && (
                     <Button
                       size="sm"
                       onClick={async () => {
@@ -293,14 +288,66 @@ export function Navbar(): React.ReactElement {
                       Prenumerera
                     </Button>
                   )}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleLogout}
-                    className="min-w-20 h-8 text-sm"
-                  >
-                    Logga ut
-                  </Button>
+
+                  {/* Kontomeny: samlar Mina sidor / Admin / Prenumeration / Logga ut */}
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        type="button"
+                        aria-label="Kontomeny"
+                        className="flex items-center justify-center h-8 w-8 rounded-full hover:bg-white/10 transition-colors"
+                      >
+                        <User className="h-5 w-5 text-secondary-foreground" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      {session?.user?.name && (
+                        <DropdownMenuLabel className="truncate">
+                          {session.user.name}
+                        </DropdownMenuLabel>
+                      )}
+                      <DropdownMenuSeparator />
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem asChild>
+                          <Link
+                            href="/mina-sidor"
+                            className="flex items-center gap-2 w-full"
+                          >
+                            <User className="h-4 w-4" />
+                            Mina sidor
+                          </Link>
+                        </DropdownMenuItem>
+                        {(isAdmin || isEditor) && (
+                          <DropdownMenuItem asChild>
+                            <Link
+                              href="/admin"
+                              className="flex items-center gap-2 w-full"
+                            >
+                              <ShieldCheck className="h-4 w-4" />
+                              {isAdmin ? "Admin" : "Editor's page"}
+                            </Link>
+                          </DropdownMenuItem>
+                        )}
+                        <DropdownMenuItem asChild>
+                          <Link
+                            href="/prenumeration"
+                            className="flex items-center gap-2 w-full"
+                          >
+                            <Sparkles className="h-4 w-4" />
+                            Prenumeration
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={handleLogout}
+                          className="flex items-center gap-2 cursor-pointer"
+                        >
+                          <LogOut className="h-4 w-4" />
+                          Logga ut
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </>
               )}
             </div>
@@ -316,37 +363,9 @@ export function Navbar(): React.ReactElement {
                   className="flex items-center gap-3 p-2 rounded-md hover:bg-muted"
                 >
                   {mobileOpen ? (
-                    /* Stäng-ikon */
-                    <svg
-                      className="h-6 w-6 text-primary-foreground"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
+                    <X className="h-6 w-6 text-primary-foreground" />
                   ) : (
-                    /* Hamburgare-ikon */
-                    <svg
-                      className="h-6 w-6 text-primary-foreground"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M4 6h16M4 12h16M4 18h16"
-                      />
-                    </svg>
+                    <Menu className="h-6 w-6 text-primary-foreground" />
                   )}
                   <span className="sr-only">Öppna meny</span>
                 </button>
@@ -397,14 +416,14 @@ export function Navbar(): React.ReactElement {
                       >
                         Redaktörens val
                       </Link>
-                      {(session?.user as unknown as AdminUser)?.role ===
-                        "admin" && (
+                      {(isAdmin || isEditor) && (
                         <Link
                           href="/admin"
-                          className="block text-lg font-medium text-secondary-foreground"
+                          className="flex items-center gap-1.5 text-lg font-medium text-secondary-foreground"
                           onClick={() => setMobileOpen(false)}
                         >
-                          Admin
+                          <ShieldCheck className="h-4 w-4" />
+                          {isAdmin ? "Admin" : "Editor's page"}
                         </Link>
                       )}
                     </div>
@@ -417,32 +436,50 @@ export function Navbar(): React.ReactElement {
                         <>
                           <Link
                             href="/logga-in"
-                            className="block bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
+                            className="flex items-center justify-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
                             onClick={() => setMobileOpen(false)}
                           >
+                            <LogIn className="h-4 w-4" />
                             Logga in
                           </Link>
                           <Link
                             href="/registrera"
-                            className="block bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
+                            className="flex items-center justify-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
                             onClick={() => setMobileOpen(false)}
                           >
+                            <UserPlus className="h-4 w-4" />
                             Registrera
                           </Link>
                         </>
                       ) : (
                         <>
+                          {activeSubscription?.status !== "active" && (
+                            <Button
+                              size="sm"
+                              onClick={async () => {
+                                await authClient.subscription.upgrade({
+                                  plan: "Premium",
+                                  successUrl: "/",
+                                  cancelUrl: "/",
+                                });
+                              }}
+                            >
+                              Prenumerera
+                            </Button>
+                          )}
                           <Link
                             href="/mina-sidor"
-                            className="block bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
+                            className="flex items-center justify-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
                             onClick={() => setMobileOpen(false)}
                           >
+                            <User className="h-4 w-4" />
                             Mina sidor
                           </Link>
                           <button
                             onClick={handleLogout}
-                            className="block font-medium text-primary-foreground hover:text-primary min-w-20 h-8 text-sm"
+                            className="flex items-center gap-1.5 font-medium text-primary-foreground hover:text-primary min-w-20 h-8 text-sm"
                           >
+                            <LogOut className="h-4 w-4" />
                             Logga ut
                           </button>
                         </>
@@ -454,54 +491,6 @@ export function Navbar(): React.ReactElement {
             </div>
           </div>
         </div>
-        {/* Varningsraden under länkar och knappar
-        <div className="w-full overflow-hidden">
-          <div
-            role="status"
-            aria-live="polite"
-            className="marquee-bar"
-            style={{
-              backgroundColor: "var(--primary)",
-              color: "var(--accent-foreground)",
-              fontWeight: "bold",
-            }}
-          >
-            <div
-              className="marquee"
-              style={{
-                display: "inline-block",
-                paddingLeft: "100%",
-                whiteSpace: "nowrap",
-                animation: "marquee 40s linear infinite",
-              }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLDivElement).style.animationPlayState =
-                  "paused")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLDivElement).style.animationPlayState =
-                  "running")
-              }
-            >
-              VARNING TILL ALLMÄNHETEN — En man som identifierar sig som en
-              Kalkong springer runt med blöjja på södermalm, men va inte orolig
-              han är inte farlig även om det är mycket obehagligt!
-            </div>
-          </div>
-
-          <style>{`
-            @keyframes marquee {
-              0% { transform: translateX(100%); }
-              100% { transform: translateX(-100%); }
-            }
-            .marquee { animation-play-state: running; }
-            .marquee-bar { padding: 0.5rem 0; }
-            .marquee:hover { animation-play-state: paused; }
-            @media (prefers-reduced-motion: reduce) {
-              .marquee { animation: none !important; transform: none !important; }
-            }
-          `}</style> */}
-        {/* </div> */}
       </header>
     </>
   );
