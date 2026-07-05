@@ -1,19 +1,19 @@
-# 📰 Dagens Dos
+# Dagens Dos
 
 <p align="center">
   <img src="./public/mockup-dagensdos.jpg" alt="Mockup - Dagens Dos" width="700">
 </p>
 
-En modern nyhetsapplikation byggd med **Next.js 15 (App Router)** och **TypeScript**.  
+En modern nyhetsapplikation byggd med **Next.js (App Router)** och **TypeScript**.
 Projektet är utvecklat som ett grupparbete av **Josefine, Johan, Magui och Ahmed** på **Lexicon i Linköping**.
 
 ---
 
-## 📚 Innehållsförteckning
+## Innehållsförteckning
 
 - [Översikt](#översikt)
 - [Teknikstack](#teknikstack)
-- [Teammedlemmar och Bidrag](#teammedlemmar-och-bidrag)
+- [Teammedlemmar och bidrag](#teammedlemmar-och-bidrag)
 - [Förutsättningar](#förutsättningar)
 - [Installation](#installation)
 - [Miljövariabler](#miljövariabler)
@@ -27,21 +27,21 @@ Projektet är utvecklat som ett grupparbete av **Josefine, Johan, Magui och Ahme
 
 ---
 
-## 🧭 Översikt
+## Översikt
 
-**News Gamma** är en fullstack-nyhetsapplikation med fokus på **prestanda**, **typesäkerhet** och **skalbarhet**.  
+**Dagens Dos** är en fullstack-nyhetsapplikation med fokus på **prestanda**, **typsäkerhet** och **skalbarhet**.
 Projektet demonstrerar moderna webbutvecklingstekniker med **server-first arkitektur**, **AI-integration** och **användarhantering**.
 
-### 🔑 Huvudfunktioner
+### Huvudfunktioner
 
-- Responsiv design med Dark/Light mode
+- Responsiv design med dark/light mode
 - Säker autentisering med e-postverifiering
 - Rollbaserad åtkomstkontroll (Admin, Editor, User)
 - Prenumerationssystem med Stripe
 - AI-assisterad artikelgenerering
 - CRUD-funktionalitet för artiklar och kategorier
 - Dashboard med statistik och visualiseringar
-- Extern API-integration (Elpriser, Väderdata)
+- Extern API-integration (elpriser, väderdata)
 
 <p align="center">
   <img src="./public/screenshot-dark.png" alt="Dark mode" width="48%">
@@ -50,49 +50,49 @@ Projektet demonstrerar moderna webbutvecklingstekniker med **server-first arkite
 
 ---
 
-## ⚙️ Teknikstack
+## Teknikstack
 
 ### Frontend
 
-- **Next.js 15.5.4** (App Router, Turbopack)
-- **React 19.1.0** + **TypeScript 5**
+- **Next.js 16** (App Router, Turbopack)
+- **React 19** + **TypeScript 6**
 - **Tailwind CSS 4**
 - **Radix UI**, **Embla Carousel**, **Lucide React**
-- **Next Themes** (Dark/Light mode)
+- **next-themes** (dark/light mode)
 
-### Backend & Databas
+### Backend & databas
 
-- **Prisma 6.18.0** (PostgreSQL)
-- **Better Auth 1.3.27**
+- **Prisma 6** (PostgreSQL)
+- **Better Auth**
 - **Server Actions** (Next.js)
-- **Nodemailer 7.0.10**
-- **Zod 4.1.12**
+- **Nodemailer**
+- **Zod**
 
 ### Betalningar & AI
 
-- **Stripe 19.1.0**
-- **Better Auth Stripe Plugin**
-- **AI SDK (Vercel)**, **Google AI SDK (Gemini 2.5 Flash)**
-- **MDXEditor 3.48.0**
+- **Stripe**
+- **Better Auth Stripe-plugin**
+- **AI SDK (Vercel)**, **Google AI SDK (Gemini)**
+- **MDXEditor**
 
 ### Externa API:er
 
-- **Spotprices API** – Elpriser SE1–SE4
-- **SMHI API** – Väderdata
+- **Spotprices API** – elpriser SE1–SE4
+- **SMHI API** – väderdata
 
 ---
 
-## 👥 Teammedlemmar och Bidrag
+## Teammedlemmar och bidrag
 
-### **Magui – Backend & Betalningar**
+### Magui – Backend & betalningar
 
-- CRUD för artiklar & kategorier
+- CRUD för artiklar och kategorier
 - Stripe-integration
 - Dashboard-visualiseringar
 - Rollbaserad åtkomstkontroll
 - Cookie-banner (GDPR)
 
-### **Ahmed – AI & API**
+### Ahmed – AI & API
 
 - Elpris-API med visualisering
 - Gemini AI-integration
@@ -100,55 +100,57 @@ Projektet demonstrerar moderna webbutvecklingstekniker med **server-first arkite
 - MDX-editor
 - Zod-validering
 
-### **Johan – E-post & Verifiering**
+### Johan – E-post & verifiering
 
 - E-postverifiering (Better Auth + Nodemailer)
-- Kontaktformulär & templates
+- Kontaktformulär och mallar
 - SMTP-konfiguration
 
-### **Josefine – UX/UI & Autentisering**
+### Josefine – UX/UI & autentisering
 
 - Design, logotyp, UX-flöden
 - Better Auth-integration
 - Rollhantering (Admin/Editor/User)
-- Sökfunktion & SEO-sluggar
-- Article rendering-komponenter
+- Sökfunktion och SEO-sluggar
+- Artikelrenderingskomponenter
 - Projektledning
 
 ---
 
-## 🧩 Förutsättningar
+## Förutsättningar
 
-- **Node.js 18+**
-- **npm / pnpm / yarn**
-- **PostgreSQL**
-- **Stripe-konto**
-- (Valfritt) **Google AI API-nyckel**
+- Node.js 18+
+- npm, pnpm eller yarn
+- PostgreSQL
+- Stripe-konto
+- (Valfritt) Google AI API-nyckel
 
 ---
 
-## 🚀 Installation
+## Installation
 
-````bash
+```bash
 # 1. Klona repo
-git clone <repository-url>
+git clone https://github.com/Gr-25-13/news-gamma.git
 cd news-gamma
 
 # 2. Installera beroenden
 npm install
 
 # 3. Skapa miljöfil
-cp .env.example .env
+cp example.env .env
 
 # 4. Generera Prisma Client
 npx prisma generate
 
-# 5. Migrera databas
-npx prisma migrate dev
+# 5. Skapa/synka databasschema
+npx prisma db push
 
 # 6. Starta utvecklingsserver
 npm run dev
+```
 
+---
 
 ## Miljövariabler
 
@@ -176,9 +178,11 @@ EMAIL_PASS="smtp-password"
 
 # Google AI (Gemini)
 GOOGLE_GENERATIVE_AI_API_KEY="your-api-key"
-````
+```
 
-**Obs:** För produktion, använd plattformens secure environment variable storage.
+**Obs:** För produktion, använd plattformens säkra environment variable storage.
+
+---
 
 ## Utveckling
 
@@ -196,8 +200,10 @@ npm run lint     # Kör ESLint
 - Besök `http://localhost:3000/` för startsidan
 - Registrera en användare via `/registrera`
 - Logga in via `/logga-in`
-- Kontrollera databastabell efter migrationer
+- Kontrollera databastabellerna efter migrering
 - Verifiera prenumerationsflödet i Stripe testläge
+
+---
 
 ## Projektstruktur
 
@@ -212,7 +218,7 @@ news-gamma/
 │   │   │   ├── artiklar-ai/   # AI-artikelgenerering
 │   │   │   ├── anvandare/     # Användarhantering
 │   │   │   ├── kategorier/    # Kategorihantering
-│   │   │   └── dashboard/     # Statistik & visualisering
+│   │   │   └── dashboard/     # Statistik och visualisering
 │   │   ├── artiklar/          # Artikelvisning
 │   │   │   └── [slug]/        # Dynamisk artikelsida
 │   │   ├── el/                # Elprisinformation
@@ -225,27 +231,29 @@ news-gamma/
 │   │   ├── articles/          # Artikelkomponenter
 │   │   ├── dashboard/         # Dashboard-komponenter
 │   │   ├── Forms/             # Formulär (Login, Signup, Contact)
-│   │   ├── layout/            # Layout-komponenter
+│   │   ├── layout/             # Layout-komponenter
 │   │   └── ui/                # Återanvändbara UI-komponenter
 │   ├── lib/
-│   │   ├── actions/           # Server Actions
-│   │   ├── auth.ts            # Better Auth-konfiguration
-│   │   ├── server-auth.ts     # Server-side auth utilities
-│   │   ├── prisma.ts          # Prisma client
-│   │   └── schema/            # Zod-scheman
-│   └── types/                 # TypeScript-typdefinitioner
-├── public/                    # Statiska tillgångar
+│   │   ├── actions/            # Server Actions
+│   │   ├── auth.ts             # Better Auth-konfiguration
+│   │   ├── server-auth.ts      # Server-side auth utilities
+│   │   ├── prisma.ts           # Prisma client
+│   │   └── schema/             # Zod-scheman
+│   └── types/                  # TypeScript-typdefinitioner
+├── public/                     # Statiska tillgångar
 └── package.json
 ```
 
 ### Viktiga filer
 
-- `prisma/schema.prisma` - Databasschema med PostgreSQL provider
-- `src/lib/prisma.ts` - Prisma Client singleton-instans
-- `src/lib/auth.ts` - Better Auth server-konfiguration
-- `src/lib/client/auth-client.ts` - Better Auth client för React
-- `src/lib/server-auth.ts` - Server-side auth middleware
-- `src/lib/actions/` - Server Actions för backend-logik
+- `prisma/schema.prisma` – databasschema med PostgreSQL-provider
+- `src/lib/prisma.ts` – Prisma Client singleton-instans
+- `src/lib/auth.ts` – Better Auth server-konfiguration
+- `src/lib/client/auth-client.ts` – Better Auth-client för React
+- `src/lib/server-auth.ts` – Server-side auth middleware
+- `src/lib/actions/` – Server Actions för backend-logik
+
+---
 
 ## Arkitektur
 
@@ -259,19 +267,19 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
 
 **Exempel på Server Actions:**
 
-- `admin.ts` - Administratörsoperationer
-- `category.ts` - Kategorihantering
-- `comment.ts` - Kommentarsfunktionalitet
-- `contact-actions.ts` - Kontaktformulär
-- `email-actions.ts` - E-postverifiering
-- `mail.ts` - E-postutskick med Nodemailer
-- `profile.ts` - Användarprofilhantering
-- `weather.ts` - Väderdata
-- `weather-location.ts` - Lokaliseringsfunktioner
+- `admin.ts` – administratörsoperationer
+- `category.ts` – kategorihantering
+- `comment.ts` – kommentarsfunktionalitet
+- `contact-actions.ts` – kontaktformulär
+- `email-actions.ts` – e-postverifiering
+- `mail.ts` – e-postutskick med Nodemailer
+- `profile.ts` – användarprofilhantering
+- `weather.ts` – väderdata
+- `weather-location.ts` – lokaliseringsfunktioner
 
-### Autentisering & Auktorisering
+### Autentisering & auktorisering
 
-- **Better Auth** med custom plugin för Stripe
+- Better Auth med custom plugin för Stripe
 - E-postverifiering vid registrering
 - Rollbaserad åtkomstkontroll (Admin, Editor, User)
 - Sessionshantering med säker token-lagring
@@ -279,15 +287,17 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
 
 ### Databasmodeller (Prisma)
 
-```prisma
-- Article (med premium & editorsChoice flaggor)
-- Category (med showInNavbar konfiguration)
+```
+- Article (med premium- och editorsChoice-flaggor)
+- Category (med showInNavbar-konfiguration)
 - User (med roller, Stripe-integration, emailVerified)
 - Comment
 - Order & OrderItem
 - Session & Account
 - PasswordResetToken
 ```
+
+---
 
 ## Funktionalitet
 
@@ -299,89 +309,64 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
 - Prenumeration via Stripe
 - Kommentera artiklar
 - Sök artiklar
-- Dark/Light mode
+- Dark/light mode
 - Läsa premium-innehåll (kräver prenumeration)
 
-### Admin/Editor-funktioner
+### Admin-/editorfunktioner
 
 <p align="center">
-	<img src="./public/screenshot-adminartiklar.png" alt="Admin artiklar - screenshot" style="max-width:100%;height:auto;border-radius:6px;" />
+  <img src="./public/screenshot-adminartiklar.png" alt="Admin artiklar - screenshot" style="max-width:100%;height:auto;border-radius:6px;" />
 </p>
 
-- Skapa, redigera, ta bort artiklar
+- Skapa, redigera och ta bort artiklar
 - AI-assisterad artikelgenerering med Gemini
-- MDX-editor för rich text innehåll
+- MDX-editor för rich text-innehåll
 - Kategorihantering med navbar-visning
 - Användarhantering med rollfördelning
 - Statistik och dashboard med visualiseringar
 - Editor's Choice-markering
 - Premium content-flaggning
-- Användarbanhantering
+- Användarhantering
 
 ### Innehållspresentation
 
 <p align="center">
-	<img src="./public/screenshot-slug.png" alt="Artikelvy / slug - exempel" style="max-width:100%;height:auto;border-radius:6px;" />
+  <img src="./public/screenshot-slug.png" alt="Artikelvy / slug - exempel" style="max-width:100%;height:auto;border-radius:6px;" />
 </p>
 
 - Responsiva artikelkort
 - Karuseller för utvalt innehåll
 - Kategoribaserad navigering
-- SEO-optimerade URL:er med slugs
+- SEO-optimerade URL:er med sluggar
 - Markdown-formaterat innehåll
 - Artikelvyer och statistik
 
 ### Integrationer
 
-- **Stripe** - Prenumerationer och betalningar
-- **Gemini AI** - Innehållsgenerering med Google Search
-- **Spotprices API** - Elpriser för svenska elområden
-- **SMHI** - Väderdata för Sverige
-- **Nodemailer** - E-postkommunikation
+- **Stripe** – prenumerationer och betalningar
+- **Gemini AI** – innehållsgenerering med Google Search
+- **Spotprices API** – elpriser för svenska elområden
+- **SMHI** – väderdata för Sverige
+- **Nodemailer** – e-postkommunikation
 
-## Felsökning
-
-### Vanliga problem
-
-**Typfel efter schemaändringar**
-
-```bash
-npx prisma generate
-```
-
-**Autentiseringsfel**
-
-- Kontrollera att `BETTER_AUTH_SECRET` är korrekt angiven i `.env`
-- Verifiera att Stripe-nycklar matchar rätt miljö (test/production)
-
-**Lint-varningar**
-
-```bash
-npm run lint
-```
-
-**Databasanslutning**
-
-- Verifiera `DATABASE_URL` i `.env`
-- Kontrollera att PostgreSQL-servern kör
-- Testa anslutningen med `npx prisma db pull`
+---
 
 ## Distribution
 
 Projektet är kompatibelt med plattformar som:
 
-- **Vercel** - Rekommenderad för Next.js-projekt
-- **Railway** - Med PostgreSQL-databas
-- **Render** - Fullstack hosting
-- Andra plattformar med Next.js och PostgreSQL-stöd
+- **Vercel** – rekommenderad för Next.js-projekt
+- **Railway** – med PostgreSQL-databas
+- **Render** – fullstack hosting
+- Andra plattformar med stöd för Next.js och PostgreSQL
 
 ### Deployment-checklista
 
 1. Konfigurera alla miljövariabler i målmiljön
 2. Säkerställ att `BETTER_AUTH_SECRET` är unik och säker (minst 32 tecken)
 3. Uppdatera `BETTER_AUTH_URL` till produktions-URL
-4. Använd produktions-nycklar för Stripe
-5. Kör databasmigrationer i produktionsmiljön: `npx prisma migrate deploy`
+4. Använd produktionsnycklar för Stripe
+5. Kör databasmigreringar i produktionsmiljön: `npx prisma migrate deploy`
 6. Generera Prisma Client: `npx prisma generate`
 7. Testa autentisering, prenumerationsflöden och AI-funktionalitet
 8. Konfigurera SMTP för e-postleverans
@@ -401,6 +386,8 @@ vercel env add BETTER_AUTH_SECRET
 # ... och resten av variablerna
 ```
 
+---
+
 ## Felsökning
 
 ### Vanliga problem
@@ -415,14 +402,14 @@ npx prisma generate
 
 - Kontrollera att `BETTER_AUTH_SECRET` är korrekt angiven i `.env`
 - Verifiera att `BETTER_AUTH_URL` matchar din miljö
-- Kontrollera att Stripe-nycklar matchar rätt miljö (test/production)
+- Kontrollera att Stripe-nycklar matchar rätt miljö (test/produktion)
 
 **Databasanslutning**
 
 - Verifiera `DATABASE_URL` i `.env`
 - Kontrollera att PostgreSQL-servern kör
 - Testa anslutningen: `npx prisma db pull`
-- Kontrollera att migrationer är körda: `npx prisma migrate status`
+- Kontrollera att migreringar/schema är synkat: `npx prisma migrate status`
 
 **E-postleverans**
 
@@ -434,7 +421,7 @@ npx prisma generate
 
 - Kontrollera att `GOOGLE_GENERATIVE_AI_API_KEY` är korrekt
 - Verifiera API-nyckelns behörigheter och kvoter
-- Kontrollera nätverksanslutning till Google AI API
+- Kontrollera nätverksanslutningen till Google AI API
 
 **Build-fel**
 
@@ -450,16 +437,18 @@ npm run build
 npm run lint
 ```
 
+---
+
 ## Kontakt
 
 För frågor, samarbeten eller support, kontakta utvecklarna:
 
 **Utvecklingsteam:**
 
-- **Josefine** - UX/UI, Autentisering & Projektledning
-- **Johan** - E-postfunktionalitet & Verifiering
-- **Magui** - Backend & Betalningsintegration
-- **Ahmed** - AI-integration & Externa API
+- **Josefine** – UX/UI, autentisering och projektledning
+- **Johan** – e-postfunktionalitet och verifiering
+- **Magui** – backend och betalningsintegration
+- **Ahmed** – AI-integration och externa API:er
 
 **Institution:** Lexicon i Linköping
 
@@ -467,14 +456,14 @@ För frågor, samarbeten eller support, kontakta utvecklarna:
 
 ## Sammanfattning
 
-News Gamma demonstrerar moderna webbutvecklingstekniker med:
+Dagens Dos demonstrerar moderna webbutvecklingstekniker med:
 
 - **Server-first arkitektur** med Server Actions och Server Components
 - **Typsäkerhet** genom TypeScript och Zod-validering
-- **Skalbar autentisering** med Better Auth och rollbaserad access control
+- **Skalbar autentisering** med Better Auth och rollbaserad åtkomstkontroll
 - **AI-integration** för innehållsgenerering med Gemini
 - **Betalningshantering** med Stripe
 - **Optimerad användarupplevelse** med responsiv design och dark mode
 - **SEO-optimering** med dynamiska routes och metadata
 
-Tack för att du använder News Gamma!
+Tack för att du använder Dagens Dos.
