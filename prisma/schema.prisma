@@ -186,3 +186,23 @@ model Subscription {
 
   @@map("subscription")
 }
+
+// Better Auth's own rate limiter (rateLimit: { storage: "database" } in auth.ts)
+model RateLimit {
+  id          String @id @default(cuid())
+  key         String
+  count       Int
+  lastRequest BigInt
+
+  @@map("rateLimit")
+}
+
+// Rate limiting for server actions outside Better Auth (comments, contact form)
+model ActionRateLimit {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  count       Int      @default(1)
+  windowStart DateTime @default(now())
+
+  @@map("action_rate_limit")
+}

@@ -1,7 +1,9 @@
 "use server";
 // filepath: src/lib/actions/contact-actions.ts
 
+import { headers } from "next/headers";
 import { sendEmail } from "@/lib/actions/mail";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export type ContactFormData = {
   name: string;
@@ -20,6 +22,22 @@ export async function sendContactEmail(data: ContactFormData) {
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(data.email)) {
       return { success: false, error: "Ogiltig e-postadress" };
+    }
+
+    const hdrs = await headers();
+    const ip =
+      hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      hdrs.get("x-real-ip") ||
+      "unknown";
+    const allowed = await checkRateLimit(`contact:${ip}`, {
+      limit: 3,
+      windowMs: 10 * 60_000,
+    });
+    if (!allowed) {
+      return {
+        success: false,
+        error: "Du har skickat för många meddelanden. Försök igen senare.",
+      };
     }
 
     // Hämta mottagare från ENV (KRÄVS!)

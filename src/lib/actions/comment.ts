@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export type CommentWithUser = {
   id: string;
@@ -70,6 +71,17 @@ export async function createComment(
     const trimmedContent = content.trim();
     if (!trimmedContent) {
       return { success: false, error: "Kommentaren får inte vara tom" };
+    }
+
+    const allowed = await checkRateLimit(`comment:${session.user.id}`, {
+      limit: 5,
+      windowMs: 60_000,
+    });
+    if (!allowed) {
+      return {
+        success: false,
+        error: "Du kommenterar för snabbt. Vänta en stund och försök igen.",
+      };
     }
 
     const created = await prisma.comment.create({

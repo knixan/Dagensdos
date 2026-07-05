@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { prisma } from "@/lib/prisma";
@@ -22,7 +21,6 @@ export async function saveArticle(data: {
   }
 
   await prisma.article.create({
-    // cast to any until prisma client is regenerated
     data: {
       headline: data.headLine,
       summary: data.summary,
@@ -32,7 +30,7 @@ export async function saveArticle(data: {
       premium: data.premium ?? false,
       categoryId: data.category,
       authorId: session.user.id,
-    } as any,
+    },
   });
   // After creating via AI flow, navigate the admin back to the articles list
   redirect(`/admin/artiklar`);
