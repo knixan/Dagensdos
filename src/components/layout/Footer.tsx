@@ -103,7 +103,7 @@ export function Footer(): React.ReactElement {
         <div className="mt-10 pt-6 border-t border-accent/30 text-center">
           <p className="text-sm text-primary-foreground">
             &copy; 2025 Dagens Dos. Alla rättigheter reserverade. Utvecklat av
-            Josefine, Johan, Ahamed och Magui och en stor dos sarkasm.
+            Josefine, Johan, Ahamed och Magui och en stor dos sarkasm. Ingen av de nämnda personerna är ansvariga för vad som publiseras på denna sida. 
           </p>
         </div>
       </div>

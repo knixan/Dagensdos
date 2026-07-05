@@ -36,6 +36,9 @@ type NavCategory = { id: string; name: string };
 const navLinkBase =
   "whitespace-nowrap text-base font-medium px-2 py-1 rounded-md transition-colors text-secondary-foreground hover:bg-white/10";
 
+const mobileLinkClass =
+  "flex items-center gap-3 w-full px-3 py-2.5 rounded-md text-base font-medium text-secondary-foreground hover:bg-white/10 transition-colors";
+
 export function Navbar(): React.ReactElement {
   const router = useRouter();
   const pathname = usePathname();
@@ -142,8 +145,8 @@ export function Navbar(): React.ReactElement {
             {/* Logo och Titel-sektion */}
             <Link href="/" className="flex items-center gap-2 shrink-0">
               <ThemeLogo
-                width={100}
-                height={100}
+                width={130}
+                height={130}
                 className="rounded shrink-0"
                 priority
               />
@@ -354,140 +357,178 @@ export function Navbar(): React.ReactElement {
 
             {/* Mobil: statisk placerad meny som öppnas med state (undviker SSR/klient mismatch) */}
             <div className="md:hidden">
-              <div>
-                <button
-                  type="button"
-                  aria-expanded={mobileOpen}
-                  aria-controls="mobile-menu"
-                  onClick={() => setMobileOpen((s) => !s)}
-                  className="flex items-center gap-3 p-2 rounded-md hover:bg-muted"
-                >
-                  {mobileOpen ? (
-                    <X className="h-6 w-6 text-primary-foreground" />
-                  ) : (
-                    <Menu className="h-6 w-6 text-primary-foreground" />
-                  )}
-                  <span className="sr-only">Öppna meny</span>
-                </button>
+              <button
+                type="button"
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-menu"
+                onClick={() => setMobileOpen((s) => !s)}
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-muted"
+              >
+                {mobileOpen ? (
+                  <X className="h-6 w-6 text-primary-foreground" />
+                ) : (
+                  <Menu className="h-6 w-6 text-primary-foreground" />
+                )}
+                <span className="sr-only">Öppna meny</span>
+              </button>
 
-                {mobileOpen && (
-                  <nav
-                    id="mobile-menu"
-                    className="mt-2 rounded-md p-4 shadow-lg space-y-3 w-full max-h-[80vh] overflow-auto z-50 bg-secondary"
-                  >
-                    <div className="flex flex-col space-y-3">
-                      {/* Mobil-sök */}
-                      <form
-                        onSubmit={handleSearchSubmit}
-                        className="flex items-center gap-2"
-                      >
-                        <label htmlFor="mobile-nav-search" className="sr-only">
-                          Sök
-                        </label>
-                        <input
-                          id="mobile-nav-search"
-                          type="text"
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          placeholder="Sök..."
-                          className="w-full border border-border rounded-md px-3 py-2 text-sm bg-transparent"
-                        />
-                      </form>
-                      {loadingCategories ? (
-                        <div className="block text-lg font-medium text-foreground">
-                          Laddar...
-                        </div>
-                      ) : (
-                        categories.map((cat) => (
-                          <Link
-                            key={cat.id}
-                            href={`/kategori/${cat.id}`}
-                            className="block text-lg font-medium text-secondary-foreground"
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            {cat.name}
-                          </Link>
-                        ))
-                      )}
-                      <Link
-                        href="/redaktorens-val"
-                        className="block text-lg font-medium text-secondary-foreground"
-                        onClick={() => setMobileOpen(false)}
-                      >
-                        Redaktörens val
-                      </Link>
-                      {(isAdmin || isEditor) && (
+              {mobileOpen && (
+                <nav
+                  id="mobile-menu"
+                  className="absolute left-0 right-0 top-full w-full max-h-[calc(100vh-4rem)] overflow-auto shadow-lg z-50 bg-secondary"
+                >
+                  {/* Logga */}
+                  <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+                    <Link
+                      href="/"
+                      className="flex items-center gap-2"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      <ThemeLogo width={32} height={32} className="rounded" />
+                      <span className="text-lg font-bold text-secondary-foreground">
+                        Dagens Dos
+                      </span>
+                    </Link>
+                    <button
+                      type="button"
+                      aria-label="Stäng meny"
+                      onClick={() => setMobileOpen(false)}
+                      className="p-1.5 rounded-md hover:bg-white/10"
+                    >
+                      <X className="h-5 w-5 text-secondary-foreground" />
+                    </button>
+                  </div>
+
+                  <div className="flex flex-col p-2">
+                    {/* Sök */}
+                    <form
+                      onSubmit={handleSearchSubmit}
+                      className="flex items-center gap-2 px-3 py-2"
+                    >
+                      <Search className="h-4 w-4 text-secondary-foreground/70 shrink-0" />
+                      <label htmlFor="mobile-nav-search" className="sr-only">
+                        Sök
+                      </label>
+                      <input
+                        id="mobile-nav-search"
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Sök..."
+                        className="w-full border-0 border-b border-white/20 bg-transparent px-1 py-1 text-sm text-secondary-foreground placeholder:text-secondary-foreground/60 focus:outline-none focus:border-white/40"
+                      />
+                    </form>
+
+                    {/* Startsida */}
+                    <Link
+                      href="/"
+                      className={mobileLinkClass}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      Startsida
+                    </Link>
+
+                    {/* Redaktörens val */}
+                    <Link
+                      href="/redaktorens-val"
+                      className={mobileLinkClass}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      Redaktörens val
+                    </Link>
+
+                    {/* Kategorier */}
+                    {loadingCategories ? (
+                      <div className="px-3 py-2.5 text-sm text-secondary-foreground/70">
+                        Laddar kategorier...
+                      </div>
+                    ) : (
+                      categories.map((cat) => (
                         <Link
-                          href="/admin"
-                          className="flex items-center gap-1.5 text-lg font-medium text-secondary-foreground"
+                          key={cat.id}
+                          href={`/kategori/${cat.id}`}
+                          className={mobileLinkClass}
                           onClick={() => setMobileOpen(false)}
                         >
-                          <ShieldCheck className="h-4 w-4" />
-                          {isAdmin ? "Admin" : "Editor's page"}
+                          {cat.name}
                         </Link>
-                      )}
-                    </div>
+                      ))
+                    )}
 
-                    <div className="pt-2 border-t border-muted-foreground/20 flex flex-col gap-3">
-                      <div className="pt-2">
-                        <ModeToggle />
-                      </div>
-                      {!isAuthenticated ? (
-                        <>
-                          <Link
-                            href="/logga-in"
-                            className="flex items-center justify-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            <LogIn className="h-4 w-4" />
-                            Logga in
-                          </Link>
-                          <Link
-                            href="/registrera"
-                            className="flex items-center justify-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            <UserPlus className="h-4 w-4" />
-                            Registrera
-                          </Link>
-                        </>
-                      ) : (
-                        <>
-                          {activeSubscription?.status !== "active" && (
-                            <Button
-                              size="sm"
-                              onClick={async () => {
-                                await authClient.subscription.upgrade({
-                                  plan: "Premium",
-                                  successUrl: "/",
-                                  cancelUrl: "/",
-                                });
-                              }}
-                            >
-                              Prenumerera
-                            </Button>
-                          )}
-                          <Link
-                            href="/mina-sidor"
-                            className="flex items-center justify-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 py-1 px-2 rounded-md min-w-20 h-8 text-sm font-semibold text-center"
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            <User className="h-4 w-4" />
-                            Mina sidor
-                          </Link>
-                          <button
-                            onClick={handleLogout}
-                            className="flex items-center gap-1.5 font-medium text-primary-foreground hover:text-primary min-w-20 h-8 text-sm"
-                          >
-                            <LogOut className="h-4 w-4" />
-                            Logga ut
-                          </button>
-                        </>
-                      )}
+                    {/* Prenumerera */}
+                    <Link
+                      href="/prenumeration"
+                      className={mobileLinkClass}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      Prenumerera
+                    </Link>
+
+                    {/* Mina sidor */}
+                    {isAuthenticated && (
+                      <Link
+                        href="/mina-sidor"
+                        className={mobileLinkClass}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        <User className="h-4 w-4" />
+                        Mina sidor
+                      </Link>
+                    )}
+
+                    {/* Admin */}
+                    {(isAdmin || isEditor) && (
+                      <Link
+                        href="/admin"
+                        className={mobileLinkClass}
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        <ShieldCheck className="h-4 w-4" />
+                        {isAdmin ? "Admin" : "Editor's page"}
+                      </Link>
+                    )}
+
+                    {/* Logga in / Logga ut */}
+                    {!isAuthenticated ? (
+                      <>
+                        <Link
+                          href="/logga-in"
+                          className={mobileLinkClass}
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          <LogIn className="h-4 w-4" />
+                          Logga in
+                        </Link>
+                        <Link
+                          href="/registrera"
+                          className={mobileLinkClass}
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          <UserPlus className="h-4 w-4" />
+                          Registrera
+                        </Link>
+                      </>
+                    ) : (
+                      <button
+                        onClick={handleLogout}
+                        className={cn(mobileLinkClass, "text-left")}
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Logga ut
+                      </button>
+                    )}
+
+                    {/* Färgtema */}
+                    <div className="flex items-center justify-between px-3 py-2.5 mt-1 border-t border-white/10">
+                      <span className="text-base font-medium text-secondary-foreground">
+                        Färgtema
+                      </span>
+                      <ModeToggle />
                     </div>
-                  </nav>
-                )}
-              </div>
+                  </div>
+                </nav>
+              )}
             </div>
           </div>
         </div>
