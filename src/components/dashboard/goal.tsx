@@ -17,7 +17,6 @@ export default function GoalDataCard(props: GoalProps) {
         <section className="flex justify-between gap-3">
           <div className="w-full rounded-full">
             <Progress value={props.bar} className="border border-border h-2" />
-
           </div>
         </section>
         <div className="flex justify-between text-sm opacity-50 pt-3">

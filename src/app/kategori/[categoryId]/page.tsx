@@ -93,14 +93,14 @@ export default async function CategoryPage({ params }: Props) {
             </div>
 
             {/* Aside — samma struktur som på huvudsidan */}
-            <aside className="lg:col-span-1">
-              <div className="sticky top-20 space-y-8">
+            <div className="lg:col-span-1">
+              <div className="lg:sticky lg:top-20 space-y-4">
                 <Link href="/" className="text-primary hover:underline">
                   ← Tillbaka
                 </Link>
                 <Aside popularItems={popularItems} />
               </div>
-            </aside>
+            </div>
           </div>
         </div>
       </main>

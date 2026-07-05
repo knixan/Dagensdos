@@ -2,6 +2,7 @@ import React from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import SignUpForm from "@/components/Forms/SignUpForm";
+import ResendVerificationEmail from "@/components/Forms/ResendVerificationEmail";
 import Aside from "@/components/layout/aside/aside";
 import { prisma } from "@/lib/prisma";
 
@@ -39,6 +40,10 @@ export default async function RegisterPage(): Promise<React.ReactElement> {
                 </p>
                 <SignUpForm />
               </section>
+
+              <div className="mt-6">
+                <ResendVerificationEmail />
+              </div>
             </div>
 
             <Aside popularItems={popularItems} />

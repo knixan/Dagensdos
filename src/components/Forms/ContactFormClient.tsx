@@ -91,7 +91,9 @@ export default function ContactFormClient({
           disabled={isSubmitting}
         />
         {errors.email && (
-          <p className="text-sm text-destructive mt-1">{errors.email.message}</p>
+          <p className="text-sm text-destructive mt-1">
+            {errors.email.message}
+          </p>
         )}
       </div>
 
@@ -106,7 +108,9 @@ export default function ContactFormClient({
           disabled={isSubmitting}
         />
         {errors.message && (
-          <p className="text-sm text-destructive mt-1">{errors.message.message}</p>
+          <p className="text-sm text-destructive mt-1">
+            {errors.message.message}
+          </p>
         )}
       </div>
 

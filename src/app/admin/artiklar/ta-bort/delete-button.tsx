@@ -31,11 +31,7 @@ export default function DeleteButton({ id }: { id: string }) {
   };
 
   return (
-    <Button
-      variant="destructive"
-      disabled={isPending}
-      onClick={handleDelete}
-    >
+    <Button variant="destructive" disabled={isPending} onClick={handleDelete}>
       {isPending ? "Tar bort..." : "Ta bort"}
     </Button>
   );

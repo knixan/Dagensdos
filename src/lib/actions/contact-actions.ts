@@ -41,10 +41,10 @@ export async function sendContactEmail(data: ContactFormData) {
     }
 
     // Hämta mottagare från ENV (KRÄVS!)
-    const contactEmail = process.env.CONTACT_EMAIL;
+    const contactEmail = process.env.CONTACT_TO;
 
     if (!contactEmail) {
-      console.error("[ContactForm] CONTACT_EMAIL not configured");
+      console.error("[ContactForm] CONTACT_TO not configured");
       return {
         success: false,
         error:
@@ -66,7 +66,7 @@ Meddelande:
 ${data.message}
 
 ---
-Detta meddelande skickades från News Gamma kontaktformulär.
+Detta meddelande skickades från Dagens Dos kontaktformulär.
       `,
       html: `
         <div style="font-family: sans-serif; max-width: 600px;">
@@ -78,7 +78,7 @@ Detta meddelande skickades från News Gamma kontaktformulär.
           <p style="white-space: pre-wrap;">${data.message}</p>
           <hr>
           <p style="color: #666; font-size: 12px;">
-            Detta meddelande skickades från News Gamma kontaktformulär.
+            Detta meddelande skickades från Dagens Dos kontaktformulär.
           </p>
         </div>
       `,

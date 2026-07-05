@@ -26,9 +26,9 @@ export default async function SpotPricePage() {
             </div>
           </main>
 
-          <aside className="hidden lg:block lg:col-span-1">
+          <div className="lg:col-span-1">
             <Aside />
-          </aside>
+          </div>
         </div>
 
         <Footer />

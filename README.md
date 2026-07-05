@@ -175,10 +175,11 @@ STRIPE_SECRET_KEY="sk_test_..."
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
 
 # E-post (Nodemailer)
-EMAIL_HOST="smtp.example.com"
-EMAIL_PORT="587"
-EMAIL_USER="smtp-user@example.com"
-EMAIL_PASS="smtp-password"
+SMTP_HOST="smtp.example.com"
+SMTP_PORT="587"
+SMTP_USER="smtp-user@example.com"
+SMTP_PASS="smtp-password"
+CONTACT_TO="contact@example.com"
 
 # Google AI (Gemini)
 GOOGLE_GENERATIVE_AI_API_KEY="your-api-key"
@@ -418,7 +419,7 @@ npx prisma generate
 **E-postleverans**
 
 - Testa SMTP-uppgifter med ett verktyg som Ethereal Email
-- Kontrollera att `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_USER`, `EMAIL_PASS` är korrekta
+- Kontrollera att `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` och `CONTACT_TO` är korrekta
 - Verifiera att brandväggen tillåter utgående SMTP-trafik
 
 **AI-generering fungerar inte**

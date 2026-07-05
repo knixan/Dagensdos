@@ -1,7 +1,7 @@
 "use server";
 // filepath: src/lib/actions/email-actions.ts
 
-import { sendEmail } from "@/lib/actions/mail";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function resendVerificationEmail(email: string) {
@@ -32,41 +32,9 @@ export async function resendVerificationEmail(email: string) {
       };
     }
 
-    // Skapa verification URL
-    // Better Auth hanterar token generation automatiskt via /api/auth/verify-email
-    const verificationUrl = `${
-      process.env.BETTER_AUTH_URL
-    }/api/auth/verify-email?email=${encodeURIComponent(email)}`;
-
-    // Skicka mail
-    await sendEmail({
-      to: email,
-      subject: "Verifiera din e-postadress - News Gamma",
-      text: `Hej ${
-        user.name || ""
-      }!\n\nKlicka här för att verifiera din e-postadress: ${verificationUrl}\n\nOm du inte registrerade dig på News Gamma, ignorera detta mail.`,
-      html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h1 style="color: #333;">Verifiera din e-postadress</h1>
-          <p>Hej ${user.name || ""}!</p>
-          <p>Klicka på knappen nedan för att verifiera din e-postadress:</p>
-          <div style="margin: 30px 0;">
-            <a href="${verificationUrl}" 
-               style="display: inline-block; padding: 12px 24px; background: #0066cc; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
-              Verifiera e-postadress
-            </a>
-          </div>
-          <p style="color: #666; font-size: 14px;">
-            Eller kopiera denna länk till din webbläsare:<br>
-            <a href="${verificationUrl}" style="color: #0066cc;">${verificationUrl}</a>
-          </p>
-          <hr style="margin: 30px 0; border: none; border-top: 1px solid #ddd;">
-          <p style="color: #999; font-size: 12px;">
-            Om du inte registrerade dig på News Gamma, ignorera detta mail.
-          </p>
-        </div>
-      `,
-    });
+    // Låt Better Auth generera en signerad token och skicka mailet via
+    // emailVerification.sendVerificationEmail-callbacken i auth.ts.
+    await auth.api.sendVerificationEmail({ body: { email } });
 
     console.log("[ResendVerification] Email sent to:", email);
     return { success: true };
