@@ -90,25 +90,21 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
 **Backend & Betalningsintegration**
 
 - **CRUD-funktionalitet** för artiklar och kategorier
-
   - Skapa, redigera, ta bort artiklar via admin-panel
   - Kategorihantering med dynamisk navbar-visning
   - Server Actions för alla CRUD-operationer
 
 - **Prenumerationsstatistik och Dashboard**
-
   - Implementerat admin-dashboard med datavisualisering
   - Komponenter: BarChart, LineGraph, DashboardCard, GoalDataCard
   - Statistik över användare, artiklar och prenumerationer
 
 - **Stripe-integration**
-
   - Better Auth Stripe-plugin för prenumerationshantering
   - Betalflödeshantering och subscription-status
   - Webhook-hantering för betalningsbekräftelser
 
 - **Cookie Banner**
-
   - GDPR-kompatibel cookie-consent komponent
   - LocalStorage-hantering för användarpreferenser
   - Anpassningsbara varianter (default, small, mini)
@@ -125,14 +121,12 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
 **AI-integration & Externt API-arbete**
 
 - **Elpris-API Integration**
-
   - Server-side funktionalitet för att hämta spotpriser från lexlink.se
   - Datavisualisering för alla svenska elområden (SE1-SE4)
   - SpotChart-komponent med Recharts
   - Typsäker implementation med custom TypeScript-typer
 
 - **Gemini AI för Artikelgenerering**
-
   - Integration med Google AI SDK (Gemini 2.5 Flash)
   - AI-driven artikelgenerering via `/admin/artiklar-ai`
   - Automatisk generering av rubrik, sammanfattning och innehåll
@@ -152,7 +146,6 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
 **E-postfunktionalitet & Verifiering**
 
 - **Better Auth E-postverifiering**
-
   - Implementerat e-postverifiering vid registrering
   - Integrating med Nodemailer för e-postutskick
   - Custom email templates för verifieringslänkar
@@ -160,7 +153,6 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
   - Återskicka verifieringsmail-funktionalitet
 
 - **Kontaktformulär med Nodemailer**
-
   - Server Action för kontaktformulär (`contact-actions.ts`)
   - E-postutskick till administratörer
   - Zod-validering av formulärdata
@@ -181,7 +173,6 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
 **UX/UI, Autentisering & Innehållspresentation**
 
 - **UX/UI Design & Branding**
-
   - Logotypdesign och visuell identitet
   - Responsiv layout-design med Tailwind CSS
   - Dark/Light mode-implementation med Next Themes
@@ -190,7 +181,6 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
   - UI-komponentbibliotek (shadcn/ui)
 
 - **Better Auth-implementation**
-
   - Konfiguration av Better Auth med Prisma-adapter
   - Admin-plugin setup
   - Auth client och server-side auth utilities
@@ -198,48 +188,41 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
   - Zod-scheman för autentiseringsvalidering
 
 - **Rollhantering**
-
   - User role-system (Admin, Editor, User)
   - Server-side middleware (`requireAdmin`, `requireAdminOrEditor`)
   - Conditional rendering baserat på användarroll
   - Admin/Editor-specifika routes och komponenter
 
 - **Mina Sidor**
-
   - SettingsForm för användarprofilhantering
   - Lösenordsändring med Better Auth
   - E-post och namnuppdateringar
   - SubscriptionManager för prenumerationsstatus
 
 - **Användarhantering (Admin)**
-
   - Användarlistning i admin-panel
   - Rollfördelning via RoleSelect-komponent
   - Användarstatistik i dashboard
 
 - **Premium-flagga på Artiklar**
-
   - Premium article-funktionalitet i databasmodell
   - Conditional rendering av premium-innehåll
   - Åtkomstkontroll för premium-artiklar
   - Visuell indikation för premium-status
 
 - **Sökfunktioner**
-
   - SearchForm-komponent med React Hook Form
   - Server-side sökning med Prisma
   - Sökresultat med artikelförhandsvisning
   - Dynamisk slug-generering för SEO
 
 - **SLUG-system för Artiklar**
-
   - SEO-vänliga URL:er med slugify-funktionalitet
   - Dynamic routes med `[slug]` parameter
   - ID-extraktion från slug för databasqueries
   - URL-sanitering och formatering
 
 - **Article Rendering & Komponenter**
-
   - ArticleHero - Hero-sektion för artikelsidor
   - ArticleContent - Markdown-rendering med react-markdown
   - ArticleCard - Återanvändbart artikelkort

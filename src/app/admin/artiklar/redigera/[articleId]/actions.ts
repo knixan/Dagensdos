@@ -5,7 +5,6 @@ import { ArticleEditSchema, ArticleEditValues } from "./schema";
 import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export async function editArticle(values: ArticleEditValues) {
-
   await requireAdminOrEditor();
   const data = await ArticleEditSchema.parseAsync(values);
 

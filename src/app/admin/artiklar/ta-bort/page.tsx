@@ -5,9 +5,10 @@ import { Footer } from "@/components/layout/Footer";
 import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export default async function AdminDeleteArticlesPage() {
-
   await requireAdminOrEditor();
-  const articles = await prisma.article.findMany({ include: { category: true } });
+  const articles = await prisma.article.findMany({
+    include: { category: true },
+  });
   return (
     <>
       <Navbar />
@@ -19,7 +20,11 @@ export default async function AdminDeleteArticlesPage() {
               <li key={a.id} className="flex items-center justify-between">
                 <div>
                   <div className="font-semibold">{a.headline}</div>
-                  <div className="text-sm text-muted-foreground">{Array.isArray(a.category) ? a.category.map((c) => c.name).join(', ') : ''}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {Array.isArray(a.category)
+                      ? a.category.map((c) => c.name).join(", ")
+                      : ""}
+                  </div>
                 </div>
                 <DeleteButton id={a.id} />
               </li>

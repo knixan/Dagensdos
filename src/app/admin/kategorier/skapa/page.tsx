@@ -4,7 +4,6 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 
 export default async function AdminSkapaKategoriPage() {
-
   await requireAdminOrEditor();
   return (
     <>

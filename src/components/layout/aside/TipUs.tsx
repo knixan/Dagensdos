@@ -10,10 +10,10 @@ export default function TipUs() {
       <h3 className="text-xl font-bold mb-4 border-b pb-2">Tipsa oss</h3>
 
       <div className="current-card flex items-center gap-4 p-3 bg-card rounded-lg border border-border shadow-sm mb-4">
-    
-
         <div className="flex flex-col">
-          <div className="text-primary text-base font-bold">Har du sett något helgalet?</div>
+          <div className="text-primary text-base font-bold">
+            Har du sett något helgalet?
+          </div>
           <div className="text-foreground text-sm opacity-90 leading-snug mt-1">
             Tipsa oss! Vi tar emot allt från politiska avslöjanden till ‘katten
             fastnade i brevlådan’. Belöning kan utgå – beroende på nyhetsvärde,

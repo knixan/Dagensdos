@@ -4,7 +4,6 @@
   <img src="./public/mockup-dagensdos.jpg" alt="Mockup - Dagens Dos" width="700">
 </p>
 
-
 En modern nyhetsapplikation byggd med **Next.js 15 (App Router)** och **TypeScript**.  
 Projektet är utvecklat som ett grupparbete av **Josefine, Johan, Magui och Ahmed** på **Lexicon i Linköping**.
 
@@ -35,13 +34,13 @@ Projektet demonstrerar moderna webbutvecklingstekniker med **server-first arkite
 
 ### 🔑 Huvudfunktioner
 
-- Responsiv design med Dark/Light mode  
-- Säker autentisering med e-postverifiering  
-- Rollbaserad åtkomstkontroll (Admin, Editor, User)  
-- Prenumerationssystem med Stripe  
-- AI-assisterad artikelgenerering  
-- CRUD-funktionalitet för artiklar och kategorier  
-- Dashboard med statistik och visualiseringar  
+- Responsiv design med Dark/Light mode
+- Säker autentisering med e-postverifiering
+- Rollbaserad åtkomstkontroll (Admin, Editor, User)
+- Prenumerationssystem med Stripe
+- AI-assisterad artikelgenerering
+- CRUD-funktionalitet för artiklar och kategorier
+- Dashboard med statistik och visualiseringar
 - Extern API-integration (Elpriser, Väderdata)
 
 <p align="center">
@@ -54,6 +53,7 @@ Projektet demonstrerar moderna webbutvecklingstekniker med **server-first arkite
 ## ⚙️ Teknikstack
 
 ### Frontend
+
 - **Next.js 15.5.4** (App Router, Turbopack)
 - **React 19.1.0** + **TypeScript 5**
 - **Tailwind CSS 4**
@@ -61,6 +61,7 @@ Projektet demonstrerar moderna webbutvecklingstekniker med **server-first arkite
 - **Next Themes** (Dark/Light mode)
 
 ### Backend & Databas
+
 - **Prisma 6.18.0** (PostgreSQL)
 - **Better Auth 1.3.27**
 - **Server Actions** (Next.js)
@@ -68,13 +69,15 @@ Projektet demonstrerar moderna webbutvecklingstekniker med **server-first arkite
 - **Zod 4.1.12**
 
 ### Betalningar & AI
+
 - **Stripe 19.1.0**
 - **Better Auth Stripe Plugin**
 - **AI SDK (Vercel)**, **Google AI SDK (Gemini 2.5 Flash)**
 - **MDXEditor 3.48.0**
 
 ### Externa API:er
-- **Spotprices API** – Elpriser SE1–SE4  
+
+- **Spotprices API** – Elpriser SE1–SE4
 - **SMHI API** – Väderdata
 
 ---
@@ -82,30 +85,34 @@ Projektet demonstrerar moderna webbutvecklingstekniker med **server-first arkite
 ## 👥 Teammedlemmar och Bidrag
 
 ### **Magui – Backend & Betalningar**
-- CRUD för artiklar & kategorier  
-- Stripe-integration  
-- Dashboard-visualiseringar  
-- Rollbaserad åtkomstkontroll  
+
+- CRUD för artiklar & kategorier
+- Stripe-integration
+- Dashboard-visualiseringar
+- Rollbaserad åtkomstkontroll
 - Cookie-banner (GDPR)
 
 ### **Ahmed – AI & API**
-- Elpris-API med visualisering  
-- Gemini AI-integration  
-- Google Search-koppling  
-- MDX-editor  
+
+- Elpris-API med visualisering
+- Gemini AI-integration
+- Google Search-koppling
+- MDX-editor
 - Zod-validering
 
 ### **Johan – E-post & Verifiering**
-- E-postverifiering (Better Auth + Nodemailer)  
-- Kontaktformulär & templates  
+
+- E-postverifiering (Better Auth + Nodemailer)
+- Kontaktformulär & templates
 - SMTP-konfiguration
 
 ### **Josefine – UX/UI & Autentisering**
-- Design, logotyp, UX-flöden  
-- Better Auth-integration  
-- Rollhantering (Admin/Editor/User)  
-- Sökfunktion & SEO-sluggar  
-- Article rendering-komponenter  
+
+- Design, logotyp, UX-flöden
+- Better Auth-integration
+- Rollhantering (Admin/Editor/User)
+- Sökfunktion & SEO-sluggar
+- Article rendering-komponenter
 - Projektledning
 
 ---
@@ -122,7 +129,7 @@ Projektet demonstrerar moderna webbutvecklingstekniker med **server-first arkite
 
 ## 🚀 Installation
 
-```bash
+````bash
 # 1. Klona repo
 git clone <repository-url>
 cd news-gamma
@@ -169,7 +176,7 @@ EMAIL_PASS="smtp-password"
 
 # Google AI (Gemini)
 GOOGLE_GENERATIVE_AI_API_KEY="your-api-key"
-```
+````
 
 **Obs:** För produktion, använd plattformens secure environment variable storage.
 

@@ -50,11 +50,14 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
       <main className="flex grow pt-8 pb-16">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold mb-6">Sökresultat</h1>
-          
+
           {query ? (
             <>
               <p className="text-muted-foreground mb-8">
-                Sökning efter: <span className="font-semibold text-foreground">&quot;{query}&quot;</span>
+                Sökning efter:{" "}
+                <span className="font-semibold text-foreground">
+                  &quot;{query}&quot;
+                </span>
               </p>
 
               {articles.length > 0 ? (
@@ -85,7 +88,9 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                           </p>
                         )}
                         <p className="text-xs text-muted-foreground mt-3">
-                          {new Date(article.createdAt).toLocaleDateString("sv-SE")}
+                          {new Date(article.createdAt).toLocaleDateString(
+                            "sv-SE",
+                          )}
                         </p>
                       </div>
                     </Link>

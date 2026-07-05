@@ -6,13 +6,18 @@ import { requireAdminOrEditor } from "@/lib/server-auth";
 import EditForm from "../form";
 import type { Category } from "@/generated/prisma";
 
-export default async function AdminEditCategoryPage({ params }: { params: { categoryId: string } }) {
-
+export default async function AdminEditCategoryPage({
+  params,
+}: {
+  params: { categoryId: string };
+}) {
   await requireAdminOrEditor();
   const categoryId = params.categoryId;
   if (!categoryId) return notFound();
 
-  const category: Category | null = await prisma.category.findUnique({ where: { id: categoryId } });
+  const category: Category | null = await prisma.category.findUnique({
+    where: { id: categoryId },
+  });
   if (!category) return notFound();
 
   return (

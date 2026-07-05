@@ -32,7 +32,7 @@ export function Navbar(): React.ReactElement {
   const searchButtonRef = useRef<HTMLButtonElement | null>(null);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [subscriptions, setSubscription] = useState<Array<{ status?: string }>>(
-    []
+    [],
   );
 
   // Hantera sök-submit
@@ -74,7 +74,7 @@ export function Navbar(): React.ReactElement {
     fetchSubscriptions();
   }, [session?.user.id]);
   const activeSubscription = subscriptions.find(
-    (sub) => sub.status === "active" || sub.status === "trialing"
+    (sub) => sub.status === "active" || sub.status === "trialing",
   );
 
   async function handleLogout() {

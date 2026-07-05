@@ -29,7 +29,7 @@ export default function SearchForm({
 
   function onSubmit(values: { q: string }) {
     const params = new URLSearchParams(
-      Array.from(searchParams?.entries() ?? [])
+      Array.from(searchParams?.entries() ?? []),
     );
     if (values.q) {
       params.set(paramName, values.q);

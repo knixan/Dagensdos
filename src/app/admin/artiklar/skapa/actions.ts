@@ -6,7 +6,6 @@ import { prisma } from "@/lib/prisma";
 import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export async function createArticle(values: ArticleCreateValues) {
-
   const session = await requireAdminOrEditor();
   const data = await ArticleCreateSchema.parseAsync(values);
 

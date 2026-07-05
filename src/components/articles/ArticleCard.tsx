@@ -27,7 +27,7 @@ export function ArticleCard({
         "hover:shadow-2xl hover:scale-105",
         compact ? "p-3" : "p-6",
         "grid grid-cols-1  gap-4",
-        className
+        className,
       )}
     >
       {/* kategori */}

@@ -151,7 +151,7 @@ export const checkoutOrderSchema = z.object({
       movieId: z.string().min(1),
       quantity: z.coerce.number().int().min(1),
       price: z.coerce.number().nonnegative(),
-    })
+    }),
   ),
   totalAmount: z.coerce.number().nonnegative(),
 });

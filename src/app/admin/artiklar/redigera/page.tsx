@@ -11,7 +11,6 @@ export default async function AdminRedigeraArtikelPage({
 }: {
   searchParams?: { q?: string };
 }) {
-
   await requireAdminOrEditor();
   const q = searchParams?.q ?? "";
   const articles = await prisma.article.findMany({

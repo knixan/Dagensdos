@@ -21,7 +21,7 @@ type Props = {
 
 export function EditorChoiceCarousel({ articles }: Props) {
   const plugin = React.useRef(
-    Autoplay({ delay: 2700, stopOnInteraction: false })
+    Autoplay({ delay: 2700, stopOnInteraction: false }),
   );
 
   const handleMouseEnter = () => {

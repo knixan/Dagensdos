@@ -11,7 +11,7 @@ export default function DeleteButton({ id }: { id: string }) {
 
   const handleDelete = () => {
     if (!confirm("Är du säker på att du vill ta bort artikeln?")) return;
-    
+
     startTransition(async () => {
       try {
         const result = await deleteArticle(id);
@@ -21,9 +21,7 @@ export default function DeleteButton({ id }: { id: string }) {
           router.refresh();
           router.push("/admin/artiklar");
         } else {
-          toast.error(
-            "Kunde inte ta bort: " + (result?.error ?? "okänt fel")
-          );
+          toast.error("Kunde inte ta bort: " + (result?.error ?? "okänt fel"));
         }
       } catch (err) {
         console.error(err);

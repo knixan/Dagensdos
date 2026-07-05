@@ -51,7 +51,7 @@ export default function WeatherAside({ weather }: Props) {
   };
 
   const [geoWeather, setGeoWeather] = React.useState<WeatherData | undefined>(
-    undefined
+    undefined,
   );
 
   React.useEffect(() => {
@@ -101,7 +101,7 @@ export default function WeatherAside({ weather }: Props) {
         }
       },
       () => {},
-      { maximumAge: 60_000, timeout: 10_000 }
+      { maximumAge: 60_000, timeout: 10_000 },
     );
 
     return () => {
@@ -115,8 +115,8 @@ export default function WeatherAside({ weather }: Props) {
     effectiveWeather?.timeseries && effectiveWeather.timeseries[0]
       ? effectiveWeather.timeseries[0]
       : typeof effectiveWeather?.tempC === "number"
-      ? { temp: effectiveWeather.tempC, summary: effectiveWeather?.condition }
-      : undefined;
+        ? { temp: effectiveWeather.tempC, summary: effectiveWeather?.condition }
+        : undefined;
 
   return (
     <section className="rounded-xl border bg-card text-card-foreground p-6 shadow">

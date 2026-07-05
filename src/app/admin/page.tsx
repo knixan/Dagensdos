@@ -5,7 +5,6 @@ import { Footer } from "@/components/layout/Footer";
 import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export default async function AdminPage() {
-
   const session = await requireAdminOrEditor();
 
   return (

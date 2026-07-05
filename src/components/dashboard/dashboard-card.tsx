@@ -29,14 +29,14 @@ export const DashboardCard = ({
 };
 
 export function DashboardCardContent(
-  props: React.HTMLAttributes<HTMLDivElement>
+  props: React.HTMLAttributes<HTMLDivElement>,
 ) {
   return (
     <div
       {...props}
       className={cn(
         "flex w-full flex-col gap-3 rounded-[6px] p-5 shadow bg-slate-100/40",
-        props.className
+        props.className,
       )}
     />
   );

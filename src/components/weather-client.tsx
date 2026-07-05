@@ -58,7 +58,7 @@ function getCloudCoverIcon(cloudCover?: number) {
 
 export default function ClientGeoWeather() {
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "ready">(
-    "idle"
+    "idle",
   );
   const [weather, setWeather] = useState<WeatherType | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -95,7 +95,7 @@ export default function ClientGeoWeather() {
         setError(err?.message ?? "Kunde inte hämta plats");
         setStatus("error");
       },
-      { timeout: 15000 }
+      { timeout: 15000 },
     );
   }, []);
 
@@ -143,7 +143,7 @@ export default function ClientGeoWeather() {
         now.getDate() + i,
         12,
         0,
-        0
+        0,
       );
 
       const sameDay = timeseries.filter((s: Series) => {
@@ -177,7 +177,7 @@ export default function ClientGeoWeather() {
 
   // exclude today: request 11 days and drop the first entry
   const tenDayMidday = getNextDaysMidday(weather?.timeseries ?? [], 11).slice(
-    1
+    1,
   );
 
   return (

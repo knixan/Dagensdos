@@ -223,7 +223,6 @@ export default function AboutPage(): React.ReactElement {
                     <li>Article rendering-komponenter</li>
                     <li>Editor&apos;s Choice Carousel</li>
                     <li>Projektledning</li>
-                
                   </ul>
                 </div>
               </div>

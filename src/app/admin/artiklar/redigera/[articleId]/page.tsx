@@ -11,7 +11,6 @@ export default async function AdminEditArticlePage({
 }: {
   params: { articleId: string };
 }) {
-
   await requireAdminOrEditor();
   const articleId = params.articleId;
   if (!articleId) return notFound();

@@ -24,7 +24,7 @@ export default function AdminArticleSearch({
   function onSubmit(values: { q: string }) {
     const q = values.q ?? "";
     const params = new URLSearchParams(
-      Array.from(searchParams?.entries() ?? [])
+      Array.from(searchParams?.entries() ?? []),
     );
     if (q) params.set("q", q);
     else params.delete("q");

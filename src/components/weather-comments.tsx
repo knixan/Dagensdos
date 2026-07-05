@@ -34,7 +34,7 @@ function pickComment(temp?: number | null, summary?: string): string {
         "🌩️ Storm: perfekt tid att låtsas du är med i en katastroffilm.",
         "🌬️ Vind + åska = gratis frisyrförstörelse.",
       ],
-      seed
+      seed,
     );
   }
 
@@ -51,7 +51,7 @@ function pickComment(temp?: number | null, summary?: string): string {
         "⛵ Så mycket vatten att du borde överväga sjöfartsutbildning.",
         "🌊 Hällregn: naturens sätt att säga 'stanna hemma, din optimist'.",
       ],
-      seed
+      seed,
     );
   }
 
@@ -67,7 +67,7 @@ function pickComment(temp?: number | null, summary?: string): string {
         "☔ Lätt regn: som att naturen nysar på dig.",
         "🌧️ Duggregn — perfekt väder för att ifrågasätta livsval och frisyr.",
       ],
-      seed
+      seed,
     );
   }
 
@@ -85,7 +85,7 @@ function pickComment(temp?: number | null, summary?: string): string {
         "🥶 Vitt och kallt — precis som ditt leende på måndagar.",
         "🧤 Snö: dags att leka 'var är mina vantar?'-leken.",
       ],
-      seed
+      seed,
     );
   }
 
@@ -97,7 +97,7 @@ function pickComment(temp?: number | null, summary?: string): string {
         "⚒️ Hagel: vädret tränar för gladiatorspel.",
         "🧊 Hagelstorm: som snö, men argare.",
       ],
-      seed
+      seed,
     );
   }
 
@@ -109,7 +109,7 @@ function pickComment(temp?: number | null, summary?: string): string {
         "🌁 Dis: som ett dåligt Snapchat-filter på världen.",
         "🌀 Dimma: världen på ‘mystiskt läge’.",
       ],
-      seed
+      seed,
     );
   }
 
@@ -123,7 +123,7 @@ function pickComment(temp?: number | null, summary?: string): string {
             "🥵 Solen vill dig personligen illa.",
             "🍦 Allt smälter – inklusive din motivation.",
           ],
-          seed
+          seed,
         );
       if (temp >= 25)
         return pickDeterministic(
@@ -131,7 +131,7 @@ function pickComment(temp?: number | null, summary?: string): string {
             "🌞 Soligt: dags att låtsas njuta medan du kokar.",
             "😅 Perfekt väder för att svettas på nya ställen.",
           ],
-          seed
+          seed,
         );
       if (temp >= 20)
         return pickDeterministic(
@@ -139,7 +139,7 @@ function pickComment(temp?: number | null, summary?: string): string {
             "🧺 Perfekt väder för en picknick du inte kommer planera.",
             "🌤️ Sol och lagom värme — nästan så du får dåligt samvete om du stannar inne.",
           ],
-          seed
+          seed,
         );
       if (temp >= 15)
         return pickDeterministic(
@@ -147,7 +147,7 @@ function pickComment(temp?: number | null, summary?: string): string {
             "🙂 Perfekt väder för att gå ut och låtsas vara frisk.",
             "🧥 Sådär lagom — som din entusiasm.",
           ],
-          seed
+          seed,
         );
       if (temp >= 10)
         return pickDeterministic(
@@ -155,14 +155,14 @@ function pickComment(temp?: number | null, summary?: string): string {
             "🍃 Krispigt men soligt: naturen försöker vara trevlig.",
             "☀️ Frisk luft — ta med en extra tröja och lite hopp.",
           ],
-          seed
+          seed,
         );
       return pickDeterministic(
         [
           "☀️ Soligt men kallt: ljus i tunneln, men frost på själen.",
           "❄️ Sol — bara för syns skull.",
         ],
-        seed
+        seed,
       );
     }
     return "☀️ Soligt: njut eller låtsas göra det, valet är ditt.";
@@ -176,7 +176,7 @@ function pickComment(temp?: number | null, summary?: string): string {
         "🌥️ Molnigt: solen är på obestämd semester.",
         "☁️ Grått, trist och perfekt matchning till din kalender.",
       ],
-      seed
+      seed,
     );
   }
 
@@ -188,7 +188,7 @@ function pickComment(temp?: number | null, summary?: string): string {
         "🌀 Vind: håll i hatten, eller låt den flytta hemifrån.",
         "💨 Vinden: gratis ansiktspeeling. Grov version.",
       ],
-      seed
+      seed,
     );
   }
 
@@ -200,7 +200,7 @@ function pickComment(temp?: number | null, summary?: string): string {
         "🧊 Minusgrader: för den som älskar smärta i ansiktet.",
         "❄️ Kallt nog att ifrågasätta varför du bor här.",
       ],
-      seed
+      seed,
     );
   }
 
@@ -211,7 +211,7 @@ function pickComment(temp?: number | null, summary?: string): string {
       "😐 Varken kul eller katastrof — precis som livet ibland.",
       "🌤️ Mediokert väder: passa på att vara medioker själv.",
     ],
-    seed
+    seed,
   );
 }
 

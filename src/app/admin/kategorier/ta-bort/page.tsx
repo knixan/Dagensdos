@@ -6,7 +6,6 @@ import type { Category } from "@/generated/prisma";
 import { requireAdminOrEditor } from "@/lib/server-auth";
 
 export default async function AdminTaBortKategoriPage() {
-
   await requireAdminOrEditor();
   const categories: Category[] = await prisma.category.findMany();
   return (

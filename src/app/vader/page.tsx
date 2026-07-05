@@ -144,7 +144,7 @@ function getNextDaysMidday(timeseries: Series[] = [], days = 10): Series[] {
       now.getDate() + i,
       12,
       0,
-      0
+      0,
     );
 
     const sameDay = timeseries.filter((s) => {

@@ -284,8 +284,8 @@ export default function CreateArticleForm({
                     onChange={(e) =>
                       field.onChange(
                         Array.from(e.currentTarget.selectedOptions).map(
-                          (o) => o.value
-                        )
+                          (o) => o.value,
+                        ),
                       )
                     }
                     className="w-full border border-input rounded-md px-4 py-3 h-48 text-base bg-background focus:outline-none focus:ring-2 focus:ring-primary"

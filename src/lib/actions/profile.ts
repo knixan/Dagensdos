@@ -8,7 +8,9 @@ type HeadersRecord = Record<string, string> | undefined;
 
 async function getSessionFromHeaders(headersObj?: HeadersRecord) {
   if (headersObj) {
-    return await auth.api.getSession({ headers: headersObj as unknown as Record<string, string> });
+    return await auth.api.getSession({
+      headers: headersObj as unknown as Record<string, string>,
+    });
   }
 
   // server-action or server environment: use next/headers()
@@ -19,10 +21,15 @@ async function getSessionFromHeaders(headersObj?: HeadersRecord) {
     if (v !== null) headerEntries[key] = v;
   }
 
-  return await auth.api.getSession({ headers: headerEntries as unknown as Record<string, string> });
+  return await auth.api.getSession({
+    headers: headerEntries as unknown as Record<string, string>,
+  });
 }
 
-export async function updateEmail(newEmail: string, headersObj?: HeadersRecord) {
+export async function updateEmail(
+  newEmail: string,
+  headersObj?: HeadersRecord,
+) {
   if (!newEmail) throw new Error("Email required");
 
   const session = await getSessionFromHeaders(headersObj);

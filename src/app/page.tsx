@@ -63,7 +63,7 @@ export default async function HomePage(): Promise<React.ReactElement> {
         ? new Date(a.createdAt).toISOString().slice(0, 10)
         : undefined,
       premium: (a as unknown as { premium?: boolean }).premium ?? false,
-    })
+    }),
   );
 
   return (

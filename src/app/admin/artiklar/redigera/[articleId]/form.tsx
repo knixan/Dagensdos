@@ -60,8 +60,8 @@ export default function ArticleEditForm({
       categoryIds: Array.isArray(article.category)
         ? (article.category as Category[]).map((c) => c.id)
         : article.category && (article.category as Category).id
-        ? [(article.category as Category).id]
-        : [],
+          ? [(article.category as Category).id]
+          : [],
     },
   });
 
@@ -209,8 +209,8 @@ export default function ArticleEditForm({
                   onChange={(e) =>
                     field.onChange(
                       Array.from(e.currentTarget.selectedOptions).map(
-                        (o) => o.value
-                      )
+                        (o) => o.value,
+                      ),
                     )
                   }
                   className="w-full border rounded p-2"

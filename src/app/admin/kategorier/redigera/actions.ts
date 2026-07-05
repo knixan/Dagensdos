@@ -6,7 +6,6 @@ import { requireAdminOrEditor } from "@/lib/server-auth";
 // importera typen Category från Prisma Client
 // import type { Category } from "@prisma/client";
 export async function editCategory(values: CategoryValues) {
-
   await requireAdminOrEditor();
   const data = await CategorySchema.parseAsync(values);
   await prisma.category.update({

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -13,6 +13,14 @@ import { Mail } from "lucide-react";
 import { toast } from "sonner";
 
 export default function LoginPage(): React.JSX.Element {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
+  );
+}
+
+function LoginPageContent(): React.JSX.Element {
   const searchParams = useSearchParams();
   const message = searchParams?.get("message");
   const userEmail = searchParams?.get("email");
@@ -28,9 +36,8 @@ export default function LoginPage(): React.JSX.Element {
 
     try {
       // Anropa Server Action via dynamisk import
-      const { resendVerificationEmail } = await import(
-        "@/lib/actions/email-actions"
-      );
+      const { resendVerificationEmail } =
+        await import("@/lib/actions/email-actions");
       const result = await resendVerificationEmail(userEmail);
 
       if (result.success) {
@@ -98,7 +105,7 @@ export default function LoginPage(): React.JSX.Element {
                     href={`/registrera${
                       searchParams?.get("next")
                         ? `?next=${encodeURIComponent(
-                            searchParams.get("next") || ""
+                            searchParams.get("next") || "",
                           )}`
                         : ""
                     }`}

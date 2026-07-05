@@ -41,7 +41,7 @@ export default function CreateArticle({
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>(
-    categories?.[0]?.id ?? ""
+    categories?.[0]?.id ?? "",
   );
   const [isEditorsChoice, setIsEditorsChoice] = useState<boolean>(false);
   const [isPremium, setIsPremium] = useState<boolean>(false);

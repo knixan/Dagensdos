@@ -16,7 +16,7 @@ export function ArticleHero({ article, className = "" }: Props) {
     <article
       className={cn(
         "bg-card p-6 rounded-xl shadow-lg border border-border",
-        className
+        className,
       )}
     >
       <h2 className="text-2xl font-bold text-foreground mb-4 border-b border-border pb-2">

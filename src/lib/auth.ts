@@ -45,7 +45,7 @@ export {
 // Kontrollera att secret finns (körs bara på server)
 if (!process.env.BETTER_AUTH_SECRET) {
   throw new Error(
-    "Missing BETTER_AUTH_SECRET environment variable for better-auth."
+    "Missing BETTER_AUTH_SECRET environment variable for better-auth.",
   );
 }
 
@@ -58,7 +58,7 @@ import { stripe } from "@better-auth/stripe";
 import Stripe from "stripe";
 
 const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-09-30.clover", // Latest API version as of Stripe SDK v19
+  apiVersion: "2026-06-24.dahlia",
 });
 
 export const auth = betterAuth({
@@ -80,7 +80,7 @@ export const auth = betterAuth({
         return;
       }
       console.log(
-        `[BetterAuth] Password reset requested for ${user.email}. Link: ${url}`
+        `[BetterAuth] Password reset requested for ${user.email}. Link: ${url}`,
       );
       try {
         await sendEmail({

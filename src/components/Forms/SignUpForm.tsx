@@ -61,7 +61,7 @@ export default function SignUpForm({ onSuccess }: { onSuccess?: () => void }) {
           res.error.message?.toLowerCase().includes("already exists")
         ) {
           setError(
-            "Denna e-postadress används redan. Vänligen använd en annan e-postadress eller logga in om du redan har ett konto."
+            "Denna e-postadress används redan. Vänligen använd en annan e-postadress eller logga in om du redan har ett konto.",
           );
         } else {
           setError(res.error?.message || "Kunde inte skapa konto");
@@ -77,13 +77,13 @@ export default function SignUpForm({ onSuccess }: { onSuccess?: () => void }) {
           duration: 8000, // Visa i 8 sekunder (längre än standard)
           description:
             "Ett verifieringsmail har skickats till din e-postadress.",
-        }
+        },
       );
       // Lägg till email-parametern så användaren ser sin email på login-sidan
       router.push(
         `/logga-in?message=check-email&email=${encodeURIComponent(
-          values.email
-        )}`
+          values.email,
+        )}`,
       );
       onSuccess?.();
     } catch (err) {

@@ -16,7 +16,7 @@ export type CommentWithUser = {
 };
 
 export async function getComments(
-  articleId: string
+  articleId: string,
 ): Promise<CommentWithUser[]> {
   try {
     const comments = await prisma.comment.findMany({
@@ -34,7 +34,7 @@ export async function getComments(
 
 export async function createComment(
   articleId: string,
-  content: string
+  content: string,
 ): Promise<{ success: boolean; comment?: CommentWithUser; error?: string }> {
   try {
     const hdrs = await headers();

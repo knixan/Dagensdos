@@ -24,7 +24,7 @@ export default function SubscriptionManager(): React.ReactElement {
         const subs = res?.data || [];
         const active = subs.find(
           (s: { status?: string }) =>
-            s.status === "active" || s.status === "trialing"
+            s.status === "active" || s.status === "trialing",
         );
         if (mounted) setIsSubscriber(Boolean(active));
       } catch (err) {

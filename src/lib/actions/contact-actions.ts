@@ -68,7 +68,7 @@ Detta meddelande skickades från News Gamma kontaktformulär.
 
     console.log(
       `[ContactForm] Email sent to ${contactEmail} from:`,
-      data.email
+      data.email,
     );
     return { success: true };
   } catch (error) {

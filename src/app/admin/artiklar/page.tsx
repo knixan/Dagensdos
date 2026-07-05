@@ -13,15 +13,14 @@ export default async function AdminArtiklarPage({
 }: {
   searchParams?: Promise<{ q?: string }>;
 }) {
-
   await requireAdminOrEditor();
 
   const params = await searchParams;
   const q = params?.q ?? "";
   const where = q
     ? {
-      OR: [{ headline: { contains: q } }, { summary: { contains: q } }],
-    }
+        OR: [{ headline: { contains: q } }, { summary: { contains: q } }],
+      }
     : undefined;
 
   const articles = await prisma.article.findMany({

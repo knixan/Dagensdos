@@ -3,19 +3,19 @@
 import { WeatherType } from "../../types/weather-types";
 
 export async function getWeatherByLocation(
-  location: string
+  location: string,
 ): Promise<WeatherType | null> {
   if (!location) return null;
   try {
     const respone = await fetch(
-      `https://weather.lexlink.se/forecast/location/${location}`
+      `https://weather.lexlink.se/forecast/location/${location}`,
     );
     if (!respone.ok) {
       const txt = await respone.text();
       console.log(
         "getWeatherByLocation: non-ok response",
         respone.status,
-        txt.slice?.(0, 300) ?? txt
+        txt.slice?.(0, 300) ?? txt,
       );
       return null;
     }
@@ -29,7 +29,7 @@ export async function getWeatherByLocation(
       } catch {
         console.log(
           "getWeatherByLocation: expected JSON but got:",
-          txt.slice?.(0, 500) ?? txt
+          txt.slice?.(0, 500) ?? txt,
         );
         return null;
       }

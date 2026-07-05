@@ -15,7 +15,7 @@ export default function ElectricityPrices() {
 
       {/* Compact card similar to WeatherAside's current-card */}
       <div className="current-card flex items-center gap-4 p-3 bg-card rounded-lg border border-border shadow-sm mb-4">
-  <div className="shrink-0">
+        <div className="shrink-0">
           <Image
             src="/images/elpulsen.png"
             alt="Elpulsen"
@@ -26,10 +26,16 @@ export default function ElectricityPrices() {
         </div>
 
         <div className="flex flex-col">
-          <div style={{ fontSize: 18, fontWeight: 700 }} className="text-primary">
+          <div
+            style={{ fontSize: 18, fontWeight: 700 }}
+            className="text-primary"
+          >
             Spotpriser för el
           </div>
-          <div style={{ fontSize: 13, opacity: 0.85 }} className="text-foreground">
+          <div
+            style={{ fontSize: 13, opacity: 0.85 }}
+            className="text-foreground"
+          >
             Se timmpriser för hela Sverige
           </div>
         </div>
