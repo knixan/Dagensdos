@@ -32,14 +32,14 @@ function getThunderRiskLevel(probability: number): {
   if (probability < 20)
     return {
       text: "Låg",
-      textClass: "text-destructive/90 text-green-600",
-      bgClass: "bg-destructive/10",
+      textClass: "text-green-600",
+      bgClass: "bg-green-600/10",
     };
   if (probability < 50)
     return {
       text: "Medel",
-      textClass: "text-secondary-foreground text-amber-600",
-      bgClass: "bg-secondary/10",
+      textClass: "text-amber-600",
+      bgClass: "bg-amber-500/10",
     };
   return {
     text: "Hög",

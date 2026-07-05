@@ -8,7 +8,7 @@ export type GoalProps = {
 };
 export default function GoalDataCard(props: GoalProps) {
   return (
-    <div className="bg-slate-100/70 rounded-[6px] p-5">
+    <div className="bg-muted rounded-[6px] p-5">
       <section className="flex justify-between gap-2 pb-2">
         <p>Progress</p>
         <Target className="h-4 w-4" />
@@ -16,10 +16,8 @@ export default function GoalDataCard(props: GoalProps) {
       <div className="gap-3 pt-2">
         <section className="flex justify-between gap-3">
           <div className="w-full rounded-full">
-            <Progress
-              value={props.bar}
-              className="border border-black/10 bg-slate-100/20 h-2"
-            ></Progress>
+            <Progress value={props.bar} className="border border-border h-2" />
+
           </div>
         </section>
         <div className="flex justify-between text-sm opacity-50 pt-3">

@@ -99,7 +99,7 @@ export default function CreateArticle({
               id="header"
               value={headLine}
               onChange={(e) => setHeadLine(e.target.value)}
-              className="bg-surface border border-muted text-foreground"
+              className="bg-card border border-muted text-foreground"
             />
           </div>
 
@@ -113,7 +113,7 @@ export default function CreateArticle({
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
               placeholder="https://example.com/image.jpg"
-              className="bg-surface border border-muted text-foreground"
+              className="bg-card border border-muted text-foreground"
             />
           </div>
 
@@ -162,7 +162,7 @@ export default function CreateArticle({
             <label className="text-sm text-muted-foreground">
               Samanfattning
             </label>
-            <div className="text-white rounded-md border border-muted p-2 bg-surface">
+            <div className="text-foreground rounded-md border border-muted p-2 bg-card">
               <MDXEditor
                 ref={refSummary}
                 markdown={summary}
@@ -195,7 +195,7 @@ export default function CreateArticle({
 
           <div className="space-y-2">
             <label className="text-sm text-muted-foreground">Innehåll</label>
-            <div className="rounded-md border border-muted p-2 bg-surface">
+            <div className="rounded-md border border-muted p-2 bg-card">
               <MDXEditor
                 ref={refContent}
                 markdown={content}

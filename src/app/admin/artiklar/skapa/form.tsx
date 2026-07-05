@@ -108,7 +108,7 @@ export default function CreateArticleForm({
                   Sammanfattning
                 </FormLabel>
                 <FormControl>
-                  <div className="text-white rounded-md border border-muted p-2 bg-surface">
+                  <div className="text-foreground rounded-md border border-muted p-2 bg-card">
                     <MDXEditor
                       ref={refSummary}
                       markdown={field.value ?? ""}
@@ -151,7 +151,7 @@ export default function CreateArticleForm({
                   Innehåll
                 </FormLabel>
                 <FormControl>
-                  <div className="rounded-md border border-muted p-2 bg-surface">
+                  <div className="rounded-md border border-muted p-2 bg-card">
                     <MDXEditor
                       ref={refContent}
                       markdown={field.value ?? ""}

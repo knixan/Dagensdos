@@ -65,12 +65,12 @@ function LoginPageContent(): React.JSX.Element {
             <div className="lg:col-span-2 space-y-8">
               {/* Email Verification Alert */}
               {message === "check-email" && userEmail && (
-                <Alert className="border-2 border-primary/50 bg-primary/10 dark:bg-primary-950 dark:border-primary-800 shadow-lg">
-                  <Mail className="h-5 w-5 text-primary dark:text-primary-300" />
-                  <AlertTitle className="text-primary font-semibold text-lg dark:text-primary-100">
+                <Alert className="border-2 border-primary/50 bg-primary/10 dark:bg-primary/20 dark:border-primary/60 shadow-lg">
+                  <Mail className="h-5 w-5 text-primary dark:text-primary-foreground" />
+                  <AlertTitle className="text-primary font-semibold text-lg dark:text-primary-foreground">
                     Bekräfta din e-postadress
                   </AlertTitle>
-                  <AlertDescription className="text-primary dark:text-primary-200 text-base space-y-2">
+                  <AlertDescription className="text-primary dark:text-primary-foreground text-base space-y-2">
                     <p>
                       Vänligen bekräfta din e-postadress genom att klicka på
                       länken vi har skickat till <strong>{userEmail}</strong>.
@@ -81,14 +81,14 @@ function LoginPageContent(): React.JSX.Element {
                       e-postadressen.
                     </p>
 
-                    <div className="mt-4 pt-3 border-t border-primary/20 dark:border-primary-700">
+                    <div className="mt-4 pt-3 border-t border-primary/20 dark:border-primary/40">
                       <p className="text-sm mb-2">Fick du inget mail?</p>
                       <Button
                         onClick={handleResendEmail}
                         disabled={isResending}
                         variant="outline"
                         size="sm"
-                        className="border-primary/30 hover:bg-primary/5 dark:border-primary-600 dark:hover:bg-primary-900/20"
+                        className="border-primary/30 hover:bg-primary/5 dark:border-primary/50 dark:hover:bg-primary/20"
                       >
                         {isResending ? "Skickar..." : "Skicka mail igen"}
                       </Button>

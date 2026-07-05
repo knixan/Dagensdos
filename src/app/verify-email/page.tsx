@@ -62,10 +62,12 @@ function VerifyEmailContent() {
         )}
         {status === "error" && (
           <div>
-            <p className="text-red-600">Kunde inte verifiera e-postadressen</p>
+            <p className="text-destructive">
+              Kunde inte verifiera e-postadressen
+            </p>
             <button
               onClick={() => router.push("/logga-in")}
-              className="mt-4 px-4 py-2 bg-primary text-white rounded"
+              className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded"
             >
               Gå till inloggning
             </button>

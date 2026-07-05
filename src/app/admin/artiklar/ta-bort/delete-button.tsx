@@ -32,7 +32,7 @@ export default function DeleteButton({ id }: { id: string }) {
 
   return (
     <Button
-      className="bg-red-600 p-2 rounded-lg text-white"
+      variant="destructive"
       disabled={isPending}
       onClick={handleDelete}
     >

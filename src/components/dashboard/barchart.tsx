@@ -15,7 +15,7 @@ export type BarChartProps = {
 
 export default function BarChart({ data }: BarChartProps) {
   return (
-    <div className="shadow w-full flex flex-col gap-3 rounded-[6px] p-5 bg-slate-100/40">
+    <div className="shadow w-full flex flex-col gap-3 rounded-[6px] p-5 bg-muted">
       <section className="flex justify-between gap-2 pb-2">
         <p>Nya användare</p>
         <User className="h-4 w-4" />
@@ -41,8 +41,8 @@ export default function BarChart({ data }: BarChartProps) {
           <Bar
             dataKey={"total"}
             radius={[5, 5, 0, 0]}
-            stroke="black"
-            fill="black"
+            stroke="var(--chart-1)"
+            fill="var(--chart-1)"
           />
         </BarGraph>
       </ResponsiveContainer>
