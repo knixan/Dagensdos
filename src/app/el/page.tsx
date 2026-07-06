@@ -11,28 +11,50 @@ export default async function SpotPricePage() {
   return (
     <>
       <Navbar />
-      <div className="font-sans  p-8 sm:p-20 bg-muted">
-        <div className="mx-auto w-full max-w-7xl grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <main className="flex flex-col items-center w-full lg:col-span-2 border rounded-lg p-6  shadow">
-            <h1 className="text-3xl font-bold text-primary mb-8">
-              💡 Spotpriser för el i Sverige ({todayLocal})
-            </h1>
+      <main className="flex grow pt-8 pb-16 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 bg-card border border-border rounded-xl p-6 shadow-sm">
+             
+              <h1 className="text-3xl font-bold text-foreground mb-8 text-center">
+                 Spotpriser för el i Sverige ({todayLocal})
+              </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-              <SpotChart key="1" data={data.SE1} title="SE1" />
-              <SpotChart key="2" data={data.SE2} title="SE2" />
-              <SpotChart key="3" data={data.SE3} title="SE3" />
-              <SpotChart key="4" data={data.SE4} title="SE4" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+                <SpotChart
+                  key="1"
+                  data={data.SE1}
+                  title="SE1"
+                  color="var(--chart-1)"
+                />
+                <SpotChart
+                  key="2"
+                  data={data.SE2}
+                  title="SE2"
+                  color="var(--chart-3)"
+                />
+                <SpotChart
+                  key="3"
+                  data={data.SE3}
+                  title="SE3"
+                  color="var(--chart-4)"
+                />
+                <SpotChart
+                  key="4"
+                  data={data.SE4}
+                  title="SE4"
+                  color="var(--chart-5)"
+                />
+              </div>
             </div>
-          </main>
 
-          <div className="lg:col-span-1">
-            <Aside />
+            <div className="lg:col-span-1">
+              <Aside />
+            </div>
           </div>
         </div>
-
-        <Footer />
-      </div>
+      </main>
+      <Footer />
     </>
   );
 }
