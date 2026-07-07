@@ -59,8 +59,10 @@ export default function Aside({ weather, popularItems }: AsideProps) {
         <AsideContent weather={weather} popularItems={popularItems} />
       </aside>
 
-      {/* Mobile: tucked away in a Sheet instead of stacking inline */}
-      <div className="lg:hidden">
+      {/* Mobile: tucked away in a Sheet instead of stacking inline.
+          order-first so the trigger shows at the top of the mobile stack
+          instead of after all the main content (grid just follows DOM order). */}
+      <div className="lg:hidden order-first lg:order-0">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" className="w-full justify-start gap-2">

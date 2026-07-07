@@ -16,7 +16,7 @@ export default function AboutPage(): React.ReactElement {
             </h1>
 
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              News Gamma är en modern nyhetsapplikation utvecklad som ett
+              Dagens Dos är en modern nyhetsapplikation utvecklad som ett
               grupprojekt på Lexicon i Linköping. Projektet demonstrerar
               fullstack-utveckling med fokus på skalbarhet, typsäkerhet och
               användarvänlighet.
@@ -45,10 +45,10 @@ export default function AboutPage(): React.ReactElement {
                     Frontend
                   </h3>
                   <ul className="text-sm text-muted-foreground space-y-1">
-                    <li>Next.js 15 (App Router)</li>
-                    <li>React 19 med TypeScript</li>
+                    <li>Next.js 16 (App Router, Turbopack)</li>
+                    <li>React 19 med TypeScript 6</li>
                     <li>Tailwind CSS 4</li>
-                    <li>Radix UI komponenter</li>
+                    <li>Radix UI, Embla Carousel, Lucide React</li>
                     <li>Next Themes (Dark/Light mode)</li>
                   </ul>
                 </div>
@@ -59,10 +59,10 @@ export default function AboutPage(): React.ReactElement {
                   </h3>
                   <ul className="text-sm text-muted-foreground space-y-1">
                     <li>Next.js Server Actions</li>
-                    <li>Prisma ORM</li>
-                    <li>PostgreSQL databas</li>
+                    <li>Prisma ORM 6 (PostgreSQL)</li>
                     <li>Better Auth</li>
                     <li>Zod validering</li>
+                    <li>Databaslagrad rate limiting</li>
                   </ul>
                 </div>
 
@@ -73,9 +73,10 @@ export default function AboutPage(): React.ReactElement {
                   <ul className="text-sm text-muted-foreground space-y-1">
                     <li>Stripe betalningar</li>
                     <li>Gemini AI (Google)</li>
+                    <li>UploadThing bilduppladdning</li>
                     <li>Nodemailer e-post</li>
                     <li>MDX Editor</li>
-                    <li>Spotprices API</li>
+                    <li>Spotprices API &amp; SMHI väderdata</li>
                   </ul>
                 </div>
               </div>
@@ -114,7 +115,7 @@ export default function AboutPage(): React.ReactElement {
                     <li>Rollbaserad åtkomstkontroll (Admin, Editor, User)</li>
                     <li>Prenumerationssystem med Stripe</li>
                     <li>Premium innehåll med åtkomstkontroll</li>
-                    <li>Kommentarsfunktion på artiklar</li>
+                    <li>Kommentera, redigera och ta bort egna kommentarer</li>
                     <li>Sökfunktion med dynamiska slugs</li>
                     <li>Responsiv design med dark mode</li>
                   </ul>
@@ -126,11 +127,16 @@ export default function AboutPage(): React.ReactElement {
                   </h3>
                   <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-5">
                     <li>CRUD-operationer för artiklar och kategorier</li>
-                    <li>AI-assisterad artikelgenerering med Gemini</li>
+                    <li>
+                      Valfri AI-assisterad artikelgenerering med Gemini, direkt
+                      i samma formulär som manuell skapelse
+                    </li>
+                    <li>Bilduppladdning via UploadThing (max 4MB)</li>
                     <li>MDX-editor för rich text innehåll</li>
                     <li>Användarhantering och rollfördelning</li>
                     <li>Statistik-dashboard med visualiseringar</li>
                     <li>Premium- och Editor&apos;s Choice-markering</li>
+                    <li>Genomgående adminmeny (Sheet på mobil)</li>
                   </ul>
                 </div>
 
@@ -166,7 +172,7 @@ export default function AboutPage(): React.ReactElement {
                   </p>
                   <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-5">
                     <li>CRUD-funktionalitet för artiklar och kategorier</li>
-                    <li>Prenumerationsstatistik och Dashboard</li>
+                    <li>Dashboard-visualiseringar</li>
                     <li>Stripe-integration och betalflöde</li>
                     <li>GDPR-kompatibel Cookie Banner</li>
                     <li>Rollbaserad åtkomstkontroll i Admin</li>
@@ -194,14 +200,14 @@ export default function AboutPage(): React.ReactElement {
                     Johan
                   </h3>
                   <p className="text-sm text-muted-foreground font-medium mb-2">
-                    E-postfunktionalitet och Verifiering
+                    Autentisering, e-post och Stripe-konfiguration
                   </p>
                   <ul className="text-sm text-muted-foreground space-y-1 list-disc pl-5">
-                    <li>Better Auth e-postverifiering</li>
-                    <li>Nodemailer-integration och SMTP-konfiguration</li>
-                    <li>Kontaktformulär med e-postutskick</li>
-                    <li>Custom email templates</li>
-                    <li>Token-generering och säker validering</li>
+                    <li>Inloggning och registrering (formulär och sidor)</li>
+                    <li>Better Auth e-postverifiering med Nodemailer</li>
+                    <li>Kontaktformulär, mallar och server actions</li>
+                    <li>Stripe-konfiguration i Better Auth</li>
+                    <li>SMTP-konfiguration</li>
                   </ul>
                 </div>
 
@@ -217,6 +223,7 @@ export default function AboutPage(): React.ReactElement {
                     <li>Better Auth-implementation med Prisma</li>
                     <li>Rollhantering (Admin, Editor, User)</li>
                     <li>Mina Sidor och användarprofilhantering</li>
+                    <li>Väderfunktion och kommentarssystem</li>
                     <li>Premium-flagga på artiklar</li>
                     <li>Sökfunktion och SLUG-system för SEO</li>
                     <li>Article rendering-komponenter</li>

@@ -123,47 +123,40 @@ export default function WeatherAside({ weather }: Props) {
       <h3 className="text-xl font-bold mb-4 border-b pb-2">Lokalt Väder</h3>
 
       {current ? (
-        <div className="current-card flex items-center gap-4 p-3 bg-card rounded-lg border border-border shadow-sm">
-          <div style={{ fontSize: 48, lineHeight: 1 }}>
-            {getWeatherEmoji(current?.summary)}
-          </div>
-
-          <div className="temp-col flex flex-col">
-            <div
-              style={{ fontSize: 24, fontWeight: 700, marginBottom: 4 }}
-              className="text-primary"
-            >
-              {typeof current?.temp === "number" ? `${current.temp}°C` : "—"}
+        <div className="current-card flex flex-col gap-3 p-3 bg-card rounded-lg border border-border shadow-sm">
+          <div className="flex items-center gap-3">
+            <div style={{ fontSize: 40, lineHeight: 1 }} className="shrink-0">
+              {getWeatherEmoji(current?.summary)}
             </div>
-            <div
-              style={{ fontSize: 14, opacity: 0.8 }}
-              className="text-foreground"
-            >
-              {translateSummary(current?.summary)}
+
+            <div className="temp-col flex flex-col min-w-0 flex-1">
+              <div
+                style={{ fontSize: 24, fontWeight: 700, marginBottom: 4 }}
+                className="text-primary"
+              >
+                {typeof current?.temp === "number" ? `${current.temp}°C` : "—"}
+              </div>
+              <div
+                style={{ fontSize: 14, opacity: 0.8 }}
+                className="text-foreground truncate"
+              >
+                {translateSummary(current?.summary)}
+              </div>
             </div>
           </div>
 
           <div
-            className="temp-right"
-            style={{ marginLeft: "auto", textAlign: "right" }}
+            style={{ fontSize: 12, opacity: 0.7 }}
+            className="text-foreground"
           >
-            <div
-              style={{ fontSize: 12, opacity: 0.7 }}
-              className="text-foreground"
-            >
-              Känns som
-            </div>
-            <div
-              style={{ fontSize: 14, fontWeight: 600 }}
-              className="text-foreground"
-            >
-              {typeof current?.temp === "number" ? `${current.temp}°C` : "—"}
-            </div>
-            <WeatherComment
-              temp={current?.temp ?? null}
-              summary={translateSummary(current?.summary)}
-            />
+            Känns som{" "}
+            {typeof current?.temp === "number" ? `${current.temp}°C` : "—"}
           </div>
+
+          <WeatherComment
+            temp={current?.temp ?? null}
+            summary={translateSummary(current?.summary)}
+          />
         </div>
       ) : (
         <div

@@ -40,6 +40,7 @@ Projektet demonstrerar moderna webbutvecklingstekniker med **server-first arkite
 - Prenumerationssystem med Stripe
 - AI-assisterad artikelgenerering
 - CRUD-funktionalitet för artiklar och kategorier
+- Kommentarer med redigering och borttagning
 - Dashboard med statistik och visualiseringar
 - Extern API-integration (elpriser, väderdata)
 
@@ -124,7 +125,7 @@ Projektet demonstrerar moderna webbutvecklingstekniker med **server-first arkite
 
 ## Förutsättningar
 
-- Node.js 18+
+- Node.js 20.9+ (krävs av Next.js 16)
 - npm, pnpm eller yarn
 - PostgreSQL
 - Stripe-konto
@@ -323,7 +324,7 @@ Projektet använder genomgående **Server Actions** för all backend-logik:
 - Inloggning/utloggning
 - Profilhantering (namn, e-post, lösenord)
 - Prenumeration via Stripe
-- Kommentera artiklar
+- Kommentera, redigera och ta bort egna kommentarer
 - Sök artiklar
 - Dark/light mode
 - Läsa premium-innehåll (kräver prenumeration)

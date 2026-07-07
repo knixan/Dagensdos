@@ -275,18 +275,20 @@ export function Navbar(): React.ReactElement {
                 <>
                   {/* CTA sticker ut för sig, bara om användaren inte redan prenumererar */}
                   {activeSubscription?.status !== "active" && (
-                    <Button
-                      size="sm"
-                      onClick={async () => {
-                        await authClient.subscription.upgrade({
-                          plan: "Premium",
-                          successUrl: "/",
-                          cancelUrl: "/",
-                        });
-                      }}
-                    >
-                      Prenumerera
-                    </Button>
+                 <Button
+  size="sm"
+  variant="secondary"
+  className="bg-background text-forground"
+  onClick={async () => {
+    await authClient.subscription.upgrade({
+      plan: "Premium",
+      successUrl: "/",
+      cancelUrl: "/",
+    });
+  }}
+>
+  Prenumerera
+</Button>
                   )}
 
                   {/* Kontomeny: samlar Mina sidor / Admin / Prenumeration / Logga ut */}
