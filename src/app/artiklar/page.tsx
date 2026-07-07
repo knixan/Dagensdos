@@ -44,11 +44,12 @@ export default async function ArticlesIndexPage() {
   const popularArticles = await prisma.article.findMany({
     orderBy: { createdAt: "desc" },
     take: 3,
-    select: { id: true, headline: true },
+    select: { id: true, headline: true, category: { select: { name: true } } },
   });
 
   const popularItems = popularArticles.map((article) => ({
     title: article.headline ?? "Untitled",
+    category: article.category?.name,
     href: `/artiklar/${(article.headline || "")
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
@@ -70,7 +71,7 @@ export default async function ArticlesIndexPage() {
                       key={article.id}
                       className="bg-card border border-border rounded-lg p-4 hover:shadow transition"
                     >
-                      <h3 className="text-xl font-bold mb-1">
+                      <h3 className="text-xl font-bold mb-1 text-primary">
                         <Link
                           href={`/artiklar/${article.slug}`}
                           className="hover:underline"
@@ -78,7 +79,7 @@ export default async function ArticlesIndexPage() {
                           {article.title}
                         </Link>
                       </h3>
-                      <p className="text-sm text-muted-foreground mb-2">
+                      <p className="text-sm text-foreground mb-2">
                         {article.excerpt}
                       </p>
                       <Link

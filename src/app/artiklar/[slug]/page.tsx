@@ -12,7 +12,7 @@ import { getSession } from "@/lib/server-auth";
 import CommentsSection from "@/components/articles/CommentsSection";
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export default async function ArticlePage({
@@ -73,9 +73,11 @@ export default async function ArticlePage({
           <Navbar />
           <main className="flex grow pt-8 pb-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="prose prose-invert dark:prose-invert">
-                <h1 className="text-3xl font-bold">Premiuminnehåll</h1>
-                <p className="text-lg">
+              <div className="prose dark:prose-invert">
+                <h1 className="text-3xl font-bold text-foreground">
+                  Premiuminnehåll
+                </h1>
+                <p className="text-lg text-muted-foreground">
                   Den här artikeln är endast tillgänglig för prenumeranter.
                 </p>
                 <div className="mt-6">
@@ -117,7 +119,7 @@ export default async function ArticlePage({
   const popularArticles = await prisma.article.findMany({
     orderBy: { createdAt: "desc" },
     take: 3,
-    select: { id: true, headline: true },
+    select: { id: true, headline: true, category: { select: { name: true } } },
   });
 
   const popularItems = popularArticles.map((article) => {
@@ -128,6 +130,7 @@ export default async function ArticlePage({
       .slice(0, 50);
     return {
       title: article.headline ?? "Untitled",
+      category: article.category?.name,
       href: `/artiklar/${slugPart}-${String(article.id).slice(0, 6)}`,
     };
   });
@@ -140,16 +143,19 @@ export default async function ArticlePage({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             <div className="lg:col-span-2">
-              <article className="prose prose-invert dark:prose-invert">
+              <article className="prose dark:prose-invert">
                 <Link href="/" className="text-sm text-primary hover:underline">
                   ← Tillbaka
                 </Link>
 
-                <h1 className="mt-4 text-3xl text-foreground font-extrabold">
+                <h1 className="mt-4 text-3xl text-primary font-extrabold">
                   {article!.title}
                 </h1>
                 <p className="text-sm text-muted-foreground mb-6">
-                  {article!.date} • {article!.category}
+                  {article!.date} •{" "}
+                  <span className="text-accent-foreground">
+                    {article!.category}
+                  </span>
                 </p>
 
                 {article!.image && (
@@ -166,7 +172,7 @@ export default async function ArticlePage({
 
                 <ArticleContent
                   markdown={article.content}
-                  className="text-base text-muted-foreground leading-7 prose prose-slate dark:prose-invert max-w-none"
+                  className="text-base text-foreground leading-7 prose prose-slate dark:prose-invert max-w-none"
                 />
 
                 <div className="mt-8">

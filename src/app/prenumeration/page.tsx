@@ -76,7 +76,7 @@ export default function PrenumerationLanding(): React.ReactElement {
                     return (
                       <div className="flex justify-center">
                         <div className="w-full max-w-xl">
-                          <div className="p-8 rounded-2xl border border-border bg-forground from-card/80 to-card shadow-lg">
+                          <div className="p-8 rounded-2xl border border-border bg-linear-to-b from-card/80 to-card shadow-lg">
                             <div className="flex items-start justify-between gap-6">
                               <div>
                                 <h3 className="text-2xl font-extrabold mb-1">

@@ -37,7 +37,7 @@ export function EditorChoiceCarousel({ articles }: Props) {
 
   return (
     <div className="bg-card p-6 rounded-xl shadow-lg border border-border">
-      <h2 className="text-2xl font-bold text-foreground mb-4 border-b border-border pb-2">
+      <h2 className="text-2xl font-bold  text-accent-foreground mb-4 border-b border-border pb-2">
         Redaktörens val
       </h2>
 
@@ -61,7 +61,7 @@ export function EditorChoiceCarousel({ articles }: Props) {
                   aria-label={article.title}
                 >
                   {article.premium ? (
-                    <div className="absolute left-3 top-3 bg-foreground/70 text-secondary-foreground shadow px-2 py-0.5 rounded-md text-xs font-semibold">
+                    <div className="absolute left-3 top-3 bg-secondary/70 text-secondary-foreground shadow px-2 py-0.5 rounded-md text-xs font-semibold">
                       Premium Artikel
                     </div>
                   ) : null}
@@ -75,18 +75,18 @@ export function EditorChoiceCarousel({ articles }: Props) {
                 </Link>
 
                 <div className="md:w-1/2">
-                  <p className="text-sm font-semibold text-primary uppercase">
+                  <p className="text-sm font-semibold text-accent-foreground uppercase">
                     {article.category}
                   </p>
                   <Link
                     href={`/artiklar/${article.slug}`}
                     className="mt-2 block"
                   >
-                    <h3 className="text-3xl font-extrabold text-foreground leading-tight hover:text-primary cursor-pointer">
+                    <h3 className="text-3xl font-extrabold text-primary leading-tight hover:text-primary cursor-pointer">
                       {article.title}
                     </h3>
                   </Link>
-                  <div className="mt-4 text-muted-foreground line-clamp-6 prose prose-md max-w-none">
+                  <div className="mt-4 text-foreground  line-clamp-6 prose prose-md dark:prose-invert max-w-none">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {article.excerpt}
                     </ReactMarkdown>

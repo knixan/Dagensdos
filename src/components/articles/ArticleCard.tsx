@@ -32,7 +32,7 @@ export function ArticleCard({
     >
       {/* kategori */}
       <div className="col-span-full">
-        <p className="text-xs font-semibold text-accent uppercase">
+        <p className="text-xs font-semibold text-accent-foreground uppercase">
           {article.category}
         </p>
       </div>
@@ -40,7 +40,7 @@ export function ArticleCard({
       {/* innehåll: rubrik först */}
       <div className="col-span-full">
         <Link href={`/artiklar/${article.slug}`} className="mt-1 block">
-          <h4 className="mt-1 text-xl font-bold text-foreground hover:text-accent cursor-pointer line-clamp-2">
+          <h4 className="mt-1 text-xl font-bold text-primary hover:text-accent-foreground cursor-pointer line-clamp-2">
             {article.title}
           </h4>
         </Link>
@@ -49,7 +49,7 @@ export function ArticleCard({
       {/* bild (nu under rubriken och över excerpt) */}
       <div className="col-span-full w-full h-40 md:h-48 rounded-md overflow-hidden bg-muted relative">
         {article.premium ? (
-          <div className="absolute left-2 top-2 bg-foreground/70 text-secondary-foreground px-2 py-0.5 rounded-md text-xs font-semibold">
+          <div className="absolute left-2 top-2 bg-secondary/70 text-secondary-foreground px-2 py-0.5 rounded-md text-xs font-semibold">
             Premium Artikel
           </div>
         ) : null}
@@ -65,7 +65,7 @@ export function ArticleCard({
 
       {/* excerpt + Läs mer */}
       <div className="col-span-full">
-        <div className="mt-2 text-sm text-muted-foreground line-clamp-6 prose prose-sm max-w-none">
+        <div className="mt-2 text-sm text-foreground line-clamp-6 prose prose-sm dark:prose-invert max-w-none">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {article.excerpt}
           </ReactMarkdown>

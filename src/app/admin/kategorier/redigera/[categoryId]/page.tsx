@@ -10,10 +10,10 @@ import AdminNav from "@/components/Admin/AdminNav";
 export default async function AdminEditCategoryPage({
   params,
 }: {
-  params: { categoryId: string };
+  params: Promise<{ categoryId: string }>;
 }) {
   await requireAdminOrEditor();
-  const categoryId = params.categoryId;
+  const { categoryId } = await params;
   if (!categoryId) return notFound();
 
   const category: Category | null = await prisma.category.findUnique({

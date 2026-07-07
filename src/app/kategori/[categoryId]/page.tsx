@@ -7,7 +7,7 @@ import type { Article } from "@/types/articles";
 import Link from "next/link";
 import Aside from "@/components/layout/aside/aside";
 
-type Props = { params: { categoryId: string } };
+type Props = { params: Promise<{ categoryId: string }> };
 
 function slugifyTitle(title: string, id: string) {
   const slug = title
@@ -19,7 +19,7 @@ function slugifyTitle(title: string, id: string) {
 }
 
 export default async function CategoryPage({ params }: Props) {
-  const { categoryId } = params;
+  const { categoryId } = await params;
 
   const category = await prisma.category.findUnique({
     where: { id: categoryId },
@@ -58,7 +58,7 @@ export default async function CategoryPage({ params }: Props) {
   const popularArticles = await prisma.article.findMany({
     orderBy: { createdAt: "desc" },
     take: 3,
-    select: { id: true, headline: true },
+    select: { id: true, headline: true, category: { select: { name: true } } },
   });
 
   const popularItems = popularArticles.map((article) => {
@@ -69,6 +69,7 @@ export default async function CategoryPage({ params }: Props) {
       .slice(0, 50);
     return {
       title: article.headline ?? "Untitled",
+      category: article.category?.name,
       href: `/artiklar/${slug}-${String(article.id).slice(0, 6)}`,
     };
   });

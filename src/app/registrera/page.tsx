@@ -11,11 +11,12 @@ export default async function RegisterPage(): Promise<React.ReactElement> {
   const popularArticles = await prisma.article.findMany({
     orderBy: { createdAt: "desc" },
     take: 3,
-    select: { id: true, headline: true },
+    select: { id: true, headline: true, category: { select: { name: true } } },
   });
 
   const popularItems = popularArticles.map((article) => ({
     title: article.headline ?? "Untitled",
+    category: article.category?.name,
     href: `/artiklar/${(article.headline || "")
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")

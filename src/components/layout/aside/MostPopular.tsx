@@ -5,6 +5,7 @@ import * as React from "react";
 
 interface PopularItem {
   title: string;
+  category?: string;
   href?: string;
 }
 
@@ -18,18 +19,23 @@ export default function MostPopular({ popular }: Props) {
 
   return (
     <section className="rounded-xl border bg-card text-card-foreground p-6 shadow">
-      <h3 className="text-xl text-secondary font-bold mb-1 border-b pb-1">
-        Mest Populärt
-      </h3>
+      <h3 className="text-xl font-bold mb-1 border-b pb-1">Mest Populärt</h3>
       <ul className="space-y-4">
+        
         {popular.map((item, i) => {
           const numberColor =
-            i === 0 ? "text-primary" : "text-muted-foreground";
-          const borderColor = i === 0 ? "border-primary/60" : "border-muted";
+            i === 0 ? "text-primary" : "text-card-foreground";
+          const borderColor = i === 0 ? "border-secondary" : "border-muted";
           const content = (
             <>
+                {item.category && (
+                <span className="block text-xs font-semibold text-accent-foreground uppercase mt-0.5">
+                  {item.category}
+                </span>
+              )}
               <span className={`font-bold mr-2 ${numberColor}`}>{i + 1}.</span>
-              {item.title}
+              <span className="text-primary">{item.title}</span>
+          
             </>
           );
           return (
@@ -38,10 +44,10 @@ export default function MostPopular({ popular }: Props) {
               // (which caused the console warning), so append the index as a simple
               // fallback. Prefer a stable unique id if available from the data.
               key={`${item.title}-${i}`}
-              className={`text-sm md:text-base leading-snug cursor-pointer border-l-4 ${borderColor} pl-3 hover:text-primary transition-colors`}
+              className={`text-sm md:text-base leading-snug cursor-pointer border-l-4 ${borderColor} pl-3 transition-colors`}
             >
               {item.href ? (
-                <Link href={item.href} className="block">
+                <Link href={item.href} className="block hover:underline">
                   {content}
                 </Link>
               ) : (

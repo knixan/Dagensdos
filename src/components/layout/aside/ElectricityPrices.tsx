@@ -28,7 +28,7 @@ export default function ElectricityPrices() {
         <div className="flex flex-col">
           <div
             style={{ fontSize: 18, fontWeight: 700 }}
-            className="text-forground"
+            className="text-foreground"
           >
             Spotpriser för el
           </div>

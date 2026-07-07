@@ -30,6 +30,7 @@ interface WeatherData {
 
 interface PopularItem {
   title: string;
+  category?: string;
   href?: string;
 }
 

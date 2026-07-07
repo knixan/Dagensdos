@@ -54,7 +54,7 @@
 
 :root {
   --background: #eff2f5;
-  --foreground: #003366;
+  --foreground: #1c2127;
 
   --card: #ffffff;
   --card-foreground: #003366;
@@ -132,14 +132,14 @@ h6,
   --popover: #11253d;
   --popover-foreground: #f8fafc;
 
-  --primary: #003366;
+  --primary: #b6c7d9;
   --primary-foreground: #ffffff;
 
   --secondary: #03478b;
   --secondary-foreground: #ffffff;
 
   --accent: #4b140c;
-  --accent-foreground: #ffd7cf;
+  --accent-foreground: #f8684e;
 
   --muted: #18314d;
   --muted-foreground: #b6c7d9;
@@ -174,4 +174,16 @@ h6,
 
   --sidebar-border: #2b4867;
   --sidebar-ring: #ef2300;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
 }

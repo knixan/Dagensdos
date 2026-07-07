@@ -11,7 +11,7 @@ export default function UserPurchaseCard(props: UserPurchaseProps) {
   return (
     <div className="flex flex-wrap justify-between gap-3">
       <section className="flex justify-between gap-3">
-        <div className="h-12 w-12rounded-full">
+        <div className="h-12 w-12 rounded-full">
           <Image
             width={300}
             height={300}

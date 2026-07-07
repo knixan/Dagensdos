@@ -10,10 +10,10 @@ import AdminNav from "@/components/Admin/AdminNav";
 export default async function AdminEditArticlePage({
   params,
 }: {
-  params: { articleId: string };
+  params: Promise<{ articleId: string }>;
 }) {
   await requireAdminOrEditor();
-  const articleId = params.articleId;
+  const { articleId } = await params;
   if (!articleId) return notFound();
 
   const article = await prisma.article.findUnique({

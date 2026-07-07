@@ -231,14 +231,18 @@ export default function WeatherComment({ temp, summary }: Props) {
           <div
             className="wc-bubble"
             style={{
-              background: "primary",
+              background: "var(--primary)",
               padding: "8px 12px",
               borderRadius: 8,
             }}
           >
             <p
               className="wc-text"
-              style={{ margin: 0, fontSize: 13, color: "forground" }}
+              style={{
+                margin: 0,
+                fontSize: 13,
+                color: "var(--primary-foreground)",
+              }}
             >
               {pickComment(temp, summary)}
             </p>

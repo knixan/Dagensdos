@@ -126,7 +126,9 @@ export default function CreateArticleForm({
         </div>
 
         <form
-          onSubmit={form.handleSubmit(onSubmit, (er) => console.error(er))}
+          onSubmit={form.handleSubmit(onSubmit, () => {
+            toast.error("Kontrollera fälten markerade med fel innan du sparar");
+          })}
           className="w-full max-w-none space-y-8 bg-card p-8 md:p-10 rounded-xl shadow-lg border border-border"
         >
           <FormField

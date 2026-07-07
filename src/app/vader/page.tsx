@@ -325,7 +325,7 @@ export default async function Page({
             <ClientGeoWeather />
           ) : !weather ? (
             <div
-              className="text-center bg-card-forground rounded-md border-2 border-secondary"
+              className="text-center bg-card rounded-md border-2 border-secondary"
               style={{ padding: "64px 24px" }}
             >
               <div style={{ fontSize: "48px", marginBottom: "16px" }}>❌</div>
