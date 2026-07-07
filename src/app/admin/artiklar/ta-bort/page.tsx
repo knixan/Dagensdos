@@ -23,9 +23,7 @@ export default async function AdminDeleteArticlesPage() {
                 <div>
                   <div className="font-semibold">{a.headline}</div>
                   <div className="text-sm text-muted-foreground">
-                    {Array.isArray(a.category)
-                      ? a.category.map((c) => c.name).join(", ")
-                      : ""}
+                    {a.category?.name ?? ""}
                   </div>
                 </div>
                 <DeleteButton id={a.id} />

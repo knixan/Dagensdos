@@ -91,6 +91,8 @@ export async function deleteArticle(articleId: string) {
 
     revalidatePath("/admin/artiklar");
     revalidatePath("/artiklar");
+    revalidatePath("/");
+    revalidatePath("/kategori/[categoryId]", "layout");
     return { ok: true };
   } catch (error) {
     console.error("Failed to delete article", error);
@@ -112,7 +114,8 @@ export async function deleteCategory(categoryId: string) {
     await prisma.category.delete({ where: { id: categoryId } });
 
     revalidatePath("/admin/kategorier");
-    revalidatePath("/kategori");
+    revalidatePath("/kategori/[categoryId]", "layout");
+    revalidatePath("/");
     return { ok: true };
   } catch (error) {
     console.error("Failed to delete category", error);

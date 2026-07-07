@@ -4,6 +4,7 @@
 import { ArticleCreateSchema, ArticleCreateValues } from "./schema";
 import { prisma } from "@/lib/prisma";
 import { requireAdminOrEditor } from "@/lib/server-auth";
+import { revalidatePath } from "next/cache";
 
 export async function createArticle(values: ArticleCreateValues) {
   const session = await requireAdminOrEditor();
@@ -22,6 +23,10 @@ export async function createArticle(values: ArticleCreateValues) {
       authorId: session.user.id, // Använd den inloggade användarens ID
     } as any,
   });
+
+  revalidatePath("/");
+  revalidatePath("/artiklar");
+  revalidatePath("/kategori/[categoryId]", "layout");
 
   // Return created article so the client can stay on the page and refresh state
   return { id: article.id, headline: article.headline };

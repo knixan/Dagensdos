@@ -1,6 +1,7 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { ArticleEditSchema, ArticleEditValues } from "./schema";
 import { requireAdminOrEditor } from "@/lib/server-auth";
 import { deleteUploadedImage } from "@/lib/actions/uploadthing";
@@ -33,6 +34,10 @@ export async function editArticle(values: ArticleEditValues) {
   if (existing?.image_url && existing.image_url !== data.image_url) {
     await deleteUploadedImage(existing.image_url);
   }
+
+  revalidatePath("/");
+  revalidatePath("/artiklar");
+  revalidatePath("/kategori/[categoryId]", "layout");
 
   // Efter uppdatering, omdirigera till admin artikelsidan
   redirect(`/admin/artiklar`);

@@ -1,5 +1,4 @@
 import LinkButton from "@/components/Buttons/LinkButton";
-import type { Category } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -53,9 +52,7 @@ export default async function AdminArtiklarPage({
                 <div>
                   <div className="font-semibold">{a.headline}</div>
                   <div className="text-sm text-muted-foreground">
-                    {Array.isArray(a.category)
-                      ? (a.category as Category[]).map((c) => c.name).join(", ")
-                      : ""}
+                    {a.category?.name ?? ""}
                   </div>
                 </div>
                 <div className="flex gap-2">
